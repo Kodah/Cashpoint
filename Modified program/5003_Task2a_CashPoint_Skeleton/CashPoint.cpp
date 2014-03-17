@@ -171,6 +171,17 @@ void CashPoint::m4_produceStatement() const {
 	theUI_.showStatementOnScreen( p_theActiveAccount_->prepareFormattedStatement());
 }
 
+void CashPoint::m5_showAllDepositsTransactions() const {
+	//1: noTransaction:= isEmptyTransactionList(): boolean
+	bool noTransaction = p_theActiveAccount_->isEmptyTransactionList();
+	//2: [~noTransaction] produceAllDepositTransactions(): string x double
+	string str;
+	double total = 0.0;
+
+	if (!noTransaction)
+		p_theActiveAccount_->produceAllDepositTransactions( str, total);
+	theUI_.showAllDepositsOnScreen( noTransaction, str, total);
+}
 //------private file functions
 
 bool CashPoint::canOpenFile( const string& st) const {
