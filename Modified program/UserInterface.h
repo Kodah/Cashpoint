@@ -7,7 +7,8 @@
 //---------------------------------------------------------------------------
 //UserInterface: class declaration
 //---------------------------------------------------------------------------
-
+#include "Time.h"
+#include "Date.h"
 #include "constants.h"
 
 #include <iomanip>

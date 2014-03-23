@@ -170,9 +170,15 @@ void UserInterface::showStatementOnScreen( const string& statement) const {
 }
 
 void UserInterface::showAllDepositsOnScreen(bool noTransaction, string str, double total) const {
-	
+	Time time;
+	Date date;
+
+	cout << "ALL DEPOSIT TRANSACTIONS REQUESTED AT ";
+	cout << time.currentTime();
+	cout << " ON ";
+	cout << date.currentDate() << "\n";
 	cout << str;
-	cout << total;
+	cout << "Total: \234" <<total;
 
 	//if (!noTransaction)
 	//{
