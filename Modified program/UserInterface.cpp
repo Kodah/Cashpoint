@@ -49,8 +49,8 @@ void UserInterface::showAccountProcessingMenu() const {
 	cout << "\n       2                Withdraw from account";
 	cout << "\n       3                 Deposit into account";
 	cout << "\n       4                       Show statement";
-	cout << "\n       5                    Show all deposits  //TO BE IMPLEMENTED IN TUTORIAL";
-	cout << "\n       6                  Show mini statement  //TO BE IMPLEMENTED FOR ASS 2";
+	cout << "\n       5                    Show all deposits  //Implemented";
+	cout << "\n       6                  Show mini statement  //Implemented";
 	cout << "\n       7    Show all transations above amount  //TO BE IMPLEMENTED FOR ASS 2";
 	cout << "\n       8    Clear all transactions up to date  //TO BE IMPLEMENTED FOR ASS 2";
 	cout << "\n       9          Transfer to another account  //TO BE IMPLEMENTED FOR ASS 2";
@@ -170,7 +170,7 @@ void UserInterface::showStatementOnScreen( const string& statement) const {
 }
 
 void UserInterface::showAllDepositsOnScreen(bool noTransaction, string str, double total) const {
-	Time time;
+	Time time; // making these date times like this is probably wrong 
 	Date date;
 
 	cout << "ALL DEPOSIT TRANSACTIONS REQUESTED AT ";
@@ -186,6 +186,17 @@ void UserInterface::showAllDepositsOnScreen(bool noTransaction, string str, doub
 	//}
 }
 
+void UserInterface::showMiniStatementOnScreen(bool noTransaction, string str, double total) const {
+	Time time;
+	Date date;
+
+	cout << "RECENT TRANSACTIONS REQUESTED AT ";
+	cout << time.currentTime();
+	cout << " ON ";
+	cout << date.currentDate() << "\n";
+	cout << str;
+	cout << "Total: \234" <<total;
+}
 
 //---------------------------------------------------------------------------
 //private support member functions

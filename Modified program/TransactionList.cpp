@@ -35,6 +35,7 @@ int TransactionList::size() const {
 }
 
 TransactionList TransactionList::getAllDepositTransactions() const{
+	//Returns Transaction list of deposits
 	TransactionList tempList (*this);
 	TransactionList newList;
 	while ( ! ( tempList.size() == 0))
@@ -50,6 +51,7 @@ TransactionList TransactionList::getAllDepositTransactions() const{
 }
 
 double TransactionList::getTotalTransactions() const {
+	//Returns count of transactions
 	TransactionList tempList (*this);
 	double total = 0.0;
 
@@ -64,6 +66,20 @@ double TransactionList::getTotalTransactions() const {
 		}
 	return ( total);
 }
+
+TransactionList TransactionList::getMostRecentTransactions(int trans)const{
+	//Returns Transaction list of user defined length
+	TransactionList tempList (*this);
+	TransactionList newList;
+
+	for (int i = 0; i < trans; i++)
+	{
+		newList.addNewTransaction(tempList.newestTransaction());
+		tempList.deleteFirstTransaction();
+	}
+	return ( newList);
+}
+
 
 const string TransactionList::toFormattedString() const {
 //return transaction list as a (formatted) string

@@ -141,6 +141,13 @@ void BankAccount::produceAllDepositTransactions(string& str, double& total) cons
 	str = trl.toFormattedString();
 }
 
+void BankAccount::produceNMostRecentTransactions(int noOfTran, string& str, double& total) const{
+	TransactionList trl (transactions_.getMostRecentTransactions(noOfTran));
+
+	total = trl.getTotalTransactions();
+	str = trl.toFormattedString();
+}
+
 //---------------------------------------------------------------------------
 //private support member functions
 //---------------------------------------------------------------------------

@@ -195,12 +195,13 @@ void CashPoint::m5_showAllDepositsTransactions(){
 //---option 6
 void CashPoint::m6_showMiniStatement(){
 	bool noTransaction = p_theActiveAccount_->isEmptyTransactionList();
+	string str;
+	double total = 0.0;
+	int noOfTran = theUI_.readInNumberOfTransactions();
 
 	if (!noTransaction)
-	{
-		theUI_.readInNumberOfTransactions();
-		//p_theActiveAccount_->produceNMostRecentTransactions(integer);
-	}
+		p_theActiveAccount_->produceNMostRecentTransactions(noOfTran, str, total);
+	theUI_.showMiniStatementOnScreen(noTransaction, str, total);
 }
 //---option 7
 void CashPoint::m7_searchTransactions(){

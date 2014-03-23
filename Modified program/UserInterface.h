@@ -42,6 +42,7 @@ public:
     void	showWithdrawalOnScreen( bool auth, double withdrawal) const;
     void	showStatementOnScreen( const string&) const;
 	void	showAllDepositsOnScreen(bool noTransaction, string str, double total) const;
+	void	showMiniStatementOnScreen(bool noTransaction, string str, double total) const;
 
 private:
     //support functions
