@@ -34,11 +34,13 @@ public:
 
     double	readInWithdrawalAmount() const;
     double	readInDepositAmount() const;
+	int		readInNumberOfTransactions() const; //not sure if this is in the right group of functions	
 
     void	showProduceBalanceOnScreen( double bal) const;
     void	showDepositOnScreen( bool auth, double deposit) const;
     void	showWithdrawalOnScreen( bool auth, double withdrawal) const;
     void	showStatementOnScreen( const string&) const;
+	void	showAllDepositsOnScreen(bool noTransaction, string str, double total) const;
 
 private:
     //support functions

@@ -134,6 +134,12 @@ double UserInterface::readInDepositAmount() const {
     cout << "\nAMOUNT TO DEPOSIT: \234" ;
 	return ( readInPositiveAmount());
 }
+
+int UserInterface::readInNumberOfTransactions() const {
+	cout << "\nAMOUNT OF TRANSACTIONS: ";
+	return ( static_cast<int>(readInPositiveAmount()));
+}
+
 //output functions
 
 void UserInterface::showProduceBalanceOnScreen( double balance) const {
@@ -162,6 +168,18 @@ void UserInterface::showStatementOnScreen( const string& statement) const {
 	cout << statement;
     cout << "\n________ END ACCOUNT STATEMENT _____";
 }
+
+void UserInterface::showAllDepositsOnScreen(bool noTransaction, string str, double total) const {
+	
+	cout << str;
+	cout << total;
+
+	//if (!noTransaction)
+	//{
+	//		
+	//}
+}
+
 
 //---------------------------------------------------------------------------
 //private support member functions
@@ -192,3 +210,4 @@ double UserInterface::readInPositiveAmount() const {
 	}
     return amount;
 }
+

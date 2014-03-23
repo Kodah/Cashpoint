@@ -24,6 +24,9 @@ public:
     void   deleteGivenTransaction( const Transaction&);
 	int    size() const;
 
+	TransactionList getAllDepositTransactions() const;
+	double getTotalTransactions() const;
+
 	const string toFormattedString() const;		//return transactionlist as a (formatted) string
 	ostream& putDataInStream( ostream& os) const;	//send TransactionList info into an output stream
 	istream& getDataFromStream( istream& is);	//receive TransactionList info from an input stream

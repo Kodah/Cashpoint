@@ -141,7 +141,7 @@ void CashPoint::performAccountProcessingCommand( int option) {
 				break;
 		case 4:	m4_produceStatement();
 				break;
-				// new VVV
+				// new below
 		case 5: m5_showAllDepositsTransactions();
 				break;
 		case 6: m6_showMiniStatement();
@@ -183,11 +183,24 @@ void CashPoint::m4_produceStatement() const {
 }
 //---option 5
 void CashPoint::m5_showAllDepositsTransactions(){
+	bool noTransaction = p_theActiveAccount_->isEmptyTransactionList();
+	string str;
+	double total = 0.0;
+
+	if (!noTransaction)
+		p_theActiveAccount_->produceAllDepositTransactions(str, total);
+	theUI_.showAllDepositsOnScreen( noTransaction, str, total);
 
 }
 //---option 6
 void CashPoint::m6_showMiniStatement(){
+	bool noTransaction = p_theActiveAccount_->isEmptyTransactionList();
 
+	if (!noTransaction)
+	{
+		theUI_.readInNumberOfTransactions();
+		//p_theActiveAccount_->produceNMostRecentTransactions(integer);
+	}
 }
 //---option 7
 void CashPoint::m7_searchTransactions(){

@@ -49,6 +49,7 @@ public:
 
 	void readInBankAccountFromFile( const string& fileName);
 	void storeBankAccountInFile( const string& fileName) const;
+	void produceAllDepositTransactions(string& str, double& total) const;
 
 private:
     //data items

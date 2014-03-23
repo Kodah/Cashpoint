@@ -134,6 +134,13 @@ istream& BankAccount::getDataFromStream( istream& is) {
 	return is;
 }
 
+void BankAccount::produceAllDepositTransactions(string& str, double& total) const{
+	TransactionList trl (transactions_.getAllDepositTransactions());
+
+	total = trl.getTotalTransactions();
+	str = trl.toFormattedString();
+}
+
 //---------------------------------------------------------------------------
 //private support member functions
 //---------------------------------------------------------------------------

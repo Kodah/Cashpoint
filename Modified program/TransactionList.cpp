@@ -34,6 +34,37 @@ int TransactionList::size() const {
     return (listOfTransactions_.length());
 }
 
+TransactionList TransactionList::getAllDepositTransactions() const{
+	TransactionList tempList (*this);
+	TransactionList newList;
+	while ( ! ( tempList.size() == 0))
+	{
+		if (tempList.newestTransaction().getAmount() > 0)
+		{
+			newList.addNewTransaction(tempList.newestTransaction());
+		}
+		tempList.deleteFirstTransaction();
+	}
+
+	return ( newList);
+}
+
+double TransactionList::getTotalTransactions() const {
+	TransactionList tempList (*this);
+	double total = 0.0;
+
+	while ( ! ( tempList.size() == 0))
+		{
+			if (tempList.newestTransaction().getAmount() > 0)
+			{
+				total += tempList.newestTransaction().getAmount();
+				
+			}
+			tempList.deleteFirstTransaction();
+		}
+	return ( total);
+}
+
 const string TransactionList::toFormattedString() const {
 //return transaction list as a (formatted) string
 	ostringstream os_transactionlist;
