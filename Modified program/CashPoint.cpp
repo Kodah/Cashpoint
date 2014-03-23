@@ -141,6 +141,17 @@ void CashPoint::performAccountProcessingCommand( int option) {
 				break;
 		case 4:	m4_produceStatement();
 				break;
+				// new VVV
+		case 5: m5_showAllDepositsTransactions();
+				break;
+		case 6: m6_showMiniStatement();
+				break;
+		case 7: m7_searchTransactions();
+				break;
+		case 8: m8_clearTransactionsUpToDate();
+				break;
+		case 9: m9_transferCashToAnotherAccount();
+				break;
 		default:theUI_.showErrorInvalidCommand();
 	}
 }
@@ -169,6 +180,27 @@ void CashPoint::m3_depositToBankAccount() {
 //---option 4
 void CashPoint::m4_produceStatement() const {
 	theUI_.showStatementOnScreen( p_theActiveAccount_->prepareFormattedStatement());
+}
+//---option 5
+void CashPoint::m5_showAllDepositsTransactions(){
+
+}
+//---option 6
+void CashPoint::m6_showMiniStatement(){
+
+}
+//---option 7
+void CashPoint::m7_searchTransactions(){
+
+}
+//---option 8
+void CashPoint::m8_clearTransactionsUpToDate(){
+
+}
+
+//---option 9
+void CashPoint::m9_transferCashToAnotherAccount(){
+
 }
 
 //------private file functions

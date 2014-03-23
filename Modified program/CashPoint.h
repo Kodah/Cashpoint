@@ -46,6 +46,16 @@ private:
     void m3_depositToBankAccount();
     //option 4
     void m4_produceStatement() const;
+	//option 5
+	void m5_showAllDepositsTransactions();
+	//option 6
+	void m6_showMiniStatement();
+	//option 7
+	void m7_searchTransactions();
+	//option 8
+	void m8_clearTransactionsUpToDate();
+	//option 9
+	void m9_transferCashToAnotherAccount();
 
     //support file handling functions & creation of dynamic objects
     bool canOpenFile( const string&) const;

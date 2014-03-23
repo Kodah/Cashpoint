@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="docs">
+      <UniqueIdentifier>{7ffbcf64-d57d-40ed-8c02-4c952d1772b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="5003_Ass2_Main.cpp">
@@ -94,5 +97,10 @@
     <Text Include="data\card_01.txt">
       <Filter>Resource Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\spec.doc">
+      <Filter>docs</Filter>
+    </None>
   </ItemGroup>
 </Project>
