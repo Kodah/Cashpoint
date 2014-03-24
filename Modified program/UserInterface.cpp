@@ -173,29 +173,39 @@ void UserInterface::showAllDepositsOnScreen(bool noTransaction, string str, doub
 	Time time; // making these date times like this is probably wrong 
 	Date date;
 
-	cout << "ALL DEPOSIT TRANSACTIONS REQUESTED AT ";
-	cout << time.currentTime();
-	cout << " ON ";
-	cout << date.currentDate() << "\n";
-	cout << str;
-	cout << "Total: \234" <<total;
-
-	//if (!noTransaction)
-	//{
-	//		
-	//}
+	if (noTransaction)
+	{
+		cout << "ALL DEPOSIT TRANSACTIONS REQUESTED AT ";
+		cout << time.currentTime();
+		cout << " ON ";
+		cout << date.currentDate() << "\n";
+		cout << str;
+		cout << "Total: \234" <<total;
+	} 
+	else
+	{
+		cout << "NO TRANSACTIONS IN BANK ACCOUNT";
+	}
 }
 
 void UserInterface::showMiniStatementOnScreen(bool noTransaction, string str, double total) const {
 	Time time;
 	Date date;
 
-	cout << "RECENT TRANSACTIONS REQUESTED AT ";
-	cout << time.currentTime();
-	cout << " ON ";
-	cout << date.currentDate() << "\n";
-	cout << str;
-	cout << "Total: \234" <<total;
+	if (noTransaction)
+	{
+		cout << "RECENT TRANSACTIONS REQUESTED AT ";
+		cout << time.currentTime();
+		cout << " ON ";
+		cout << date.currentDate() << "\n";
+		cout << str;
+		cout << "Total: \234" <<total;
+	}
+	
+	else
+	{
+		cout << "NO TRANSACTIONS IN BANK ACCOUNT";
+	}
 }
 
 //---------------------------------------------------------------------------
