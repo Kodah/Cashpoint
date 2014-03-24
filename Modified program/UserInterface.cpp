@@ -173,7 +173,7 @@ void UserInterface::showAllDepositsOnScreen(bool noTransaction, string str, doub
 	Time time; // making these date times like this is probably wrong 
 	Date date;
 
-	if (noTransaction)
+	if (!noTransaction)
 	{
 		cout << "ALL DEPOSIT TRANSACTIONS REQUESTED AT ";
 		cout << time.currentTime();
@@ -192,7 +192,7 @@ void UserInterface::showMiniStatementOnScreen(bool noTransaction, string str, do
 	Time time;
 	Date date;
 
-	if (noTransaction)
+	if (!noTransaction)
 	{
 		cout << "RECENT TRANSACTIONS REQUESTED AT ";
 		cout << time.currentTime();
