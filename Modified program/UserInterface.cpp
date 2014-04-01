@@ -219,6 +219,12 @@ void UserInterface::showMiniStatementOnScreen(bool noTransaction, string str, do
 	}
 }
 
+
+void UserInterface::showNoTransactionsOnScreen() const{
+	cout << "\n\n\n There are no transactions.";
+}
+
+
 //---------------------------------------------------------------------------
 //private support member functions
 //---------------------------------------------------------------------------

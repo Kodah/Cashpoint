@@ -44,6 +44,7 @@ public:
     void	showStatementOnScreen( const string&) const;
 	void	showAllDepositsOnScreen(bool noTransaction, string str, double total) const;
 	void	showMiniStatementOnScreen(bool noTransaction, string str, double total) const;
+	void	showNoTransactionsOnScreen() const;
 
 private:
     //support functions

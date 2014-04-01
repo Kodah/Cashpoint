@@ -209,7 +209,7 @@ void CashPoint::m7_searchTransactions(){
 
 	if (noTransaction)
 	{
-		//showNoTransactionsOnScreen()
+		theUI_.showNoTransactionsOnScreen();
 	} else {
 
 		int option;
@@ -219,13 +219,13 @@ void CashPoint::m7_searchTransactions(){
 		switch (option)
 		{
 		case 1: //amount
-			m7a_showTransactionsForAmount()
+			//m7a_showTransactionsForAmount()
 			break;
 		case 2: //title
-			m7b_showTransactionsForTitle() 
+			//m7b_showTransactionsForTitle() 
 			break;
 		case 3: //date
-			m7c_showTransactionsForDate() 
+			//m7c_showTransactionsForDate() 
 			break;
 		default:
 			break;
