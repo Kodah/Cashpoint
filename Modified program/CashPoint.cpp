@@ -205,28 +205,31 @@ void CashPoint::m6_showMiniStatement(){
 }
 //---option 7
 void CashPoint::m7_searchTransactions(){
-	int option;
+	bool noTransaction = p_theActiveAccount_->isEmptyTransactionList();
 
-	option = theUI_.readInTransactionSearchCommand();
-
-	switch (option)
+	if (noTransaction)
 	{
-	case 1: //amount
+		//showNoTransactionsOnScreen()
+	} else {
 
-		break;
-	case 2: //title
+		int option;
 
-		break;
+		option = theUI_.readInTransactionSearchCommand();
 
-	case 3: //date
-
-		break;
-
-	case 4: //exit
-
-		break;
-	default:
-		break;
+		switch (option)
+		{
+		case 1: //amount
+			m7a_showTransactionsForAmount()
+			break;
+		case 2: //title
+			m7b_showTransactionsForTitle() 
+			break;
+		case 3: //date
+			m7c_showTransactionsForDate() 
+			break;
+		default:
+			break;
+		}
 	}
 }
 //---option 8
