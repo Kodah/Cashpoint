@@ -205,7 +205,29 @@ void CashPoint::m6_showMiniStatement(){
 }
 //---option 7
 void CashPoint::m7_searchTransactions(){
+	int option;
 
+	option = theUI_.readInTransactionSearchCommand();
+
+	switch (option)
+	{
+	case 1: //amount
+
+		break;
+	case 2: //title
+
+		break;
+
+	case 3: //date
+
+		break;
+
+	case 4: //exit
+
+		break;
+	default:
+		break;
+	}
 }
 //---option 8
 void CashPoint::m8_clearTransactionsUpToDate(){

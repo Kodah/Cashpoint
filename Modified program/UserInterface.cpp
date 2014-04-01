@@ -57,6 +57,21 @@ void UserInterface::showAccountProcessingMenu() const {
 	cout << "\n         ________________________________________";
 }
 
+int UserInterface::readInTransactionSearchCommand() const {
+	showTransactionSearchMenu();
+	return ( readInCommand());
+}
+void UserInterface::showTransactionSearchMenu() const {
+	cout << "\n\n\n ________________________________________";
+	cout << "\n		________TRANSACTION SEARCH MENU________";
+	cout << "\n		________________________________________";
+	cout << "\n		1 Search by amount";
+	cout << "\n		2 Search by title";
+	cout << "\n		3 Search by date";
+	cout << "\n		4 Exit without search";
+	cout << "\n		________________________________________";
+}
+
 const string UserInterface::readInCardToBeProcessed( string& aCardNumber) const {
 	cout << "\n SELECT THE CARD ...\n";
 	cout << "   CARD NUMBER:  ";         //ask for card number

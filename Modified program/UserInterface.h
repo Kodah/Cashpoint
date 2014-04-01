@@ -24,6 +24,7 @@ public:
 
 	int		readInCardIdentificationCommand() const;
 	int		readInAccountProcessingCommand() const;
+	int		readInTransactionSearchCommand() const;
 
 	void	showErrorInvalidCommand() const;
     void	wait() const;
@@ -48,6 +49,7 @@ private:
     //support functions
 	void	showCardIdentificationMenu() const;
 	void	showAccountProcessingMenu() const;
+	void	showTransactionSearchMenu() const;
     int		readInCommand() const;
     double	readInPositiveAmount() const;
 };
