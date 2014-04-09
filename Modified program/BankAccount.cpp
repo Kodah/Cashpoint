@@ -85,7 +85,7 @@ const string BankAccount::prepareFormattedStatement() const {
 	//account details
 	os << prepareFormattedAccountDetails();
 	//list of transactions (or message if empty)
-	if ( ! transactions_.size() == 0)
+	if ( transactions_.size() > 0)
 		os << "\n\nLIST OF TRANSACTIONS \n"	<< transactions_.toFormattedString();	//one per line
 	else
 		os << "\n\nNO TRANSACTIONS IN BANK ACCOUNT!";
