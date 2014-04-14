@@ -161,6 +161,7 @@ void CashPoint::m1_produceBalance() const {
 	double balance( p_theActiveAccount_->getBalance());
 	theUI_.showProduceBalanceOnScreen( balance);
 }
+
 //---option 2
 void CashPoint::m2_withdrawFromBankAccount() {
     double amountToWithdraw( theUI_.readInWithdrawalAmount());

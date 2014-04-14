@@ -14,6 +14,6 @@ int main() {
 	theCashPoint.activateCashPoint();
 	//destroy it
 	//destructor called here
+
     return 0;
-	//lukehere
 }

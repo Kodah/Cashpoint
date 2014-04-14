@@ -102,7 +102,10 @@
     <None Include="..\spec.doc">
       <Filter>docs</Filter>
     </None>
-    <None Include="..\..\..\Answers.docx">
+    <None Include="..\..\..\..\..\..\..\Downloads\Microsoft.SkypeApp_kzf8qxf38zg5c!App\Questions.doc">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="Answers.docx">
       <Filter>docs</Filter>
     </None>
   </ItemGroup>
