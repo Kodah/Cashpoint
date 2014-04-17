@@ -108,8 +108,8 @@ void BankAccount::transferMoney( double amount, BankAccount &toAccount )
 				updateBalance( -amount );
 				toAccount.updateBalance( amount );
 				
-				recordTransfer( -amount, "Transfer to " + toAccount.accountNumber_ + " " + toAccount.sortCode_ );
-				toAccount.recordTransfer( amount, "Transfer from " + accountNumber_ + " " + sortCode_ );
+				recordTransfer( -amount, "Transfer_to_" + toAccount.accountNumber_ + "_" + toAccount.sortCode_ );
+				toAccount.recordTransfer( amount, "Transfer_from_" + accountNumber_ + "_" + sortCode_ );
 				
 				storeBankAccountInFile( FILEPATH + "account_" + accountNumber_ + "_" + sortCode_ + ".txt" );
 				toAccount.storeBankAccountInFile( FILEPATH + "account_" + toAccount.accountNumber_ + "_" + toAccount.sortCode_ + ".txt" );

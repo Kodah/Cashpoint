@@ -95,7 +95,7 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="data\account_002_00-44.txt">
-      <Filter>Header Files</Filter>
+      <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
