@@ -11,6 +11,7 @@
 //#include "Date.h"
 //#include "Transaction.h"
 #include "TransactionList.h"
+#include "Constants.h"
 
 #include <fstream>
 using namespace std;
@@ -42,10 +43,12 @@ public:
 	const string prepareFormattedStatement() const;
 
     void recordDeposit( double amount);
+	void recordTransfer( const double amount, const string transaction );
 
 	double borrowable() const;
 	bool canWithdraw( double amount) const;
     void recordWithdrawal( double amount);
+	void transferMoney( double amount, BankAccount &toAccount );
 
 	void readInBankAccountFromFile( const string& fileName);
 	void storeBankAccountInFile( const string& fileName) const;
@@ -64,6 +67,7 @@ private:
 	//support functions
 	void updateBalance( double amount);
 	const string prepareFormattedAccountDetails() const;
+
 };
 
 //---------------------------------------------------------------------------

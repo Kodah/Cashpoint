@@ -239,8 +239,26 @@ void CashPoint::m8_clearTransactionsUpToDate(){
 }
 
 //---option 9
-void CashPoint::m9_transferCashToAnotherAccount(){
+void CashPoint::m9_transferCashToAnotherAccount()
+{
+	BankAccount toAccount;
+	string toAccNo = "", toSrtCode = "";
 
+	displayAssociatedAccounts();
+	cout << endl << "SELECT ACCOUNT TO TRANSFER TO..." << endl;
+
+	string fileName = theUI_.readInAccountToBeProcessed( toAccNo, toSrtCode );
+
+	if( validateAccount( fileName ) == VALID_ACCOUNT )
+	{		
+		toAccount.readInBankAccountFromFile( fileName );
+
+		cout << endl << "ENTER AMOUNT TO TRANSFER: \x9C";
+		double transferAmount = theUI_.readInPositiveAmount();
+		p_theActiveAccount_->transferMoney( transferAmount, toAccount );
+	}
+	else
+		cout << "INVALID ACCOUNT" << endl;
 }
 
 //------private file functions
@@ -322,3 +340,24 @@ BankAccount* CashPoint::releaseBankAccount( BankAccount* p_BA, string aBAFileNam
 	return nullptr;
 }
 
+void CashPoint::displayAssociatedAccounts( void ) const
+{
+	List <string> accountList = p_theCashCard_->getAccountsList();
+	string activeAccNo = p_theActiveAccount_->getAccountNumber();
+	string activeSrtCode = p_theActiveAccount_->getSortCode();
+
+	while( !accountList.isEmpty() )
+	{
+		string temp = accountList.first();
+
+		if( temp.substr( 0, 3 ).c_str() != activeAccNo ||
+			temp.substr( 4, 5 ).c_str() != activeSrtCode )
+		{
+			printf( "ACCOUNT NO: %s\tSORT CODE: %s\n",
+				temp.substr( 0, 3 ).c_str(),
+				temp.substr( 4, 5 ).c_str() );
+		}
+
+		accountList.deleteFirst();
+	}
+}

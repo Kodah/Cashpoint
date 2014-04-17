@@ -14,6 +14,13 @@
 
 #include <fstream>
 #include <string>
+#include <list>
+
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+
+#include <Windows.h>
 using namespace std;
 
 class CashPoint {
@@ -67,6 +74,8 @@ private:
 
     void activateCashCard( const string&);
 	void releaseCashCard();
+
+	void displayAssociatedAccounts( void ) const;
 };
 
 #endif

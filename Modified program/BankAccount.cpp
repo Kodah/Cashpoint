@@ -63,6 +63,11 @@ void BankAccount::recordDeposit( double amountToDeposit) {
     updateBalance( amountToDeposit);			//increase balance_
 }
 
+void BankAccount::recordTransfer( const double amount, const string transaction )
+{
+	transactions_.addNewTransaction( Transaction( transaction, amount ) );   
+}
+
 double BankAccount::borrowable() const {
 //return borrowable amount
     return balance_;
@@ -78,6 +83,45 @@ void BankAccount::recordWithdrawal( double amountToWithdraw) {
     //update active bankaccount
     transactions_.addNewTransaction( aTransaction);		//update transactions_
     updateBalance( -amountToWithdraw);			//decrease balance_
+}
+
+void BankAccount::transferMoney( double amount, BankAccount &toAccount )
+{
+	char answer = ' ';
+	double balance = getBalance();
+
+	bool operator !=( BankAccount bA1, BankAccount bA2 );
+
+	if( *this != toAccount )
+	{
+		printf( "ACCOUNT BALANCE: \x9C%.2f\n", balance );
+
+		if( (balance - amount) >= 0 )
+		{
+			printf( "Are you sure you wish to transfer %.2f to %s %s (Y/N): ",
+				amount, toAccount.getAccountNumber().c_str(), toAccount.getSortCode().c_str() );
+			
+			cin >> answer;
+
+			if( answer == 'Y' || answer == 'y' )
+			{
+				updateBalance( -amount );
+				toAccount.updateBalance( amount );
+				
+				recordTransfer( -amount, "Transfer to " + toAccount.accountNumber_ + " " + toAccount.sortCode_ );
+				toAccount.recordTransfer( amount, "Transfer from " + accountNumber_ + " " + sortCode_ );
+				
+				storeBankAccountInFile( FILEPATH + "account_" + accountNumber_ + "_" + sortCode_ + ".txt" );
+				toAccount.storeBankAccountInFile( FILEPATH + "account_" + toAccount.accountNumber_ + "_" + toAccount.sortCode_ + ".txt" );
+				
+				cout << "Transfer success" << endl;
+			}
+			else
+				cout << "The transfer did not take place" << endl;
+		}
+		else
+			printf( "INSUFFICIENT FUNDS TO TRANSFER \x9C%.2f\n", amount );
+	}
 }
 
 const string BankAccount::prepareFormattedStatement() const {
@@ -179,4 +223,26 @@ ostream& operator<<( ostream& os, const BankAccount& aBankAccount) {
 istream& operator>>( istream& is, BankAccount& aBankAccount) {
 //get BankAccount details from stream
 	return ( aBankAccount.getDataFromStream( is));
+}
+
+bool operator ==( BankAccount bA1, BankAccount bA2 )
+{
+	if( bA1.getAccountNumber() != bA2.getAccountNumber() )
+		return false;
+
+	if( bA1.getSortCode() != bA2.getSortCode() )
+		return false;
+
+	return true;
+}
+
+bool operator !=( BankAccount bA1, BankAccount bA2 )
+{
+	if( bA1.getAccountNumber() != bA2.getAccountNumber() )
+		return true;
+
+	if( bA1.getSortCode() != bA2.getSortCode() )
+		return true;
+
+	return false;
 }

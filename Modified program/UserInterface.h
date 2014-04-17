@@ -38,6 +38,8 @@ public:
     double	readInDepositAmount() const;
 	int		readInNumberOfTransactions() const; //not sure if this is in the right group of functions	
 
+	double	readInPositiveAmount() const;
+
     void	showProduceBalanceOnScreen( double bal) const;
     void	showDepositOnScreen( bool auth, double deposit) const;
     void	showWithdrawalOnScreen( bool auth, double withdrawal) const;
@@ -52,7 +54,6 @@ private:
 	void	showAccountProcessingMenu() const;
 	void	showTransactionSearchMenu() const;
     int		readInCommand() const;
-    double	readInPositiveAmount() const;
 };
 
 #endif

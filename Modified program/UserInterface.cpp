@@ -51,9 +51,9 @@ void UserInterface::showAccountProcessingMenu() const {
 	cout << "\n       4                       Show statement";
 	cout << "\n       5                    Show all deposits  //Implemented";
 	cout << "\n       6                  Show mini statement  //Implemented";
-	cout << "\n       7    Show all transations above amount  //TO BE IMPLEMENTED FOR ASS 2";
+	cout << "\n       7           Show transations by search  //TO BE IMPLEMENTED FOR ASS 2";
 	cout << "\n       8    Clear all transactions up to date  //TO BE IMPLEMENTED FOR ASS 2";
-	cout << "\n       9          Transfer to another account  //TO BE IMPLEMENTED FOR ASS 2";
+	cout << "\n       9          Transfer to another account  //Implemented";
 	cout << "\n         ________________________________________";
 }
 
