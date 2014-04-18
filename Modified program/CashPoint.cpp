@@ -92,7 +92,7 @@ int CashPoint::validateAccount( const string& bankAccountFileName) const {
 	else
 	  	//unaccessible account (exist but not listed on card)
 		if ( ! p_theCashCard_->onCard( bankAccountFileName))     
-    		validBankCode = UNACCESSIBLE_ACCOUNT;
+    		validBankCode = INACCESSIBLE_ACCOUNT;
 		else
 			//account valid (exists and accessible)
        		validBankCode = VALID_ACCOUNT;
@@ -241,24 +241,44 @@ void CashPoint::m8_clearTransactionsUpToDate(){
 //---option 9
 void CashPoint::m9_transferCashToAnotherAccount()
 {
+	// instance declarations
 	BankAccount toAccount;
 	string toAccNo = "", toSrtCode = "";
 
+	// Display accounts available to receive a transfer
 	displayAssociatedAccounts();
-	cout << endl << "SELECT ACCOUNT TO TRANSFER TO..." << endl;
-
+	printf( "\nSELECT ACCOUNT TO TRANSFER TO...\n" );
+	//Get the account from the user, and receive relevant file name
 	string fileName = theUI_.readInAccountToBeProcessed( toAccNo, toSrtCode );
+	//Get validation status of account
+	const DWORD validation = validateAccount( fileName );
 
-	if( validateAccount( fileName ) == VALID_ACCOUNT )
+	if( validation == VALID_ACCOUNT )
 	{		
 		toAccount.readInBankAccountFromFile( fileName );
 
+		//Check if the account we are transferring to is the same as the active account
+		if( *p_theActiveAccount_ == toAccount )
+		{
+			printf( "THE ACCOUNT (NUMBER: %s CODE: %s) IS ALREADY OPEN!\n",
+				toAccNo, toSrtCode );
+
+			return; //Go back to menu
+		}	
+		//If we reach here, everything is good so far
+		printf( "THE ACCOUNT (NUMBER: %s CODE: %s) IS NOW OPEN!\n",
+			toAccNo, toSrtCode );
+		//Get amount to transfer
 		cout << endl << "ENTER AMOUNT TO TRANSFER: \x9C";
 		double transferAmount = theUI_.readInPositiveAmount();
-		p_theActiveAccount_->transferMoney( transferAmount, toAccount );
+		p_theActiveAccount_->transferMoney( transferAmount, toAccount ); //Transfer it
 	}
-	else
-		cout << "INVALID ACCOUNT" << endl;
+	else if( validation == UNKNOWN_ACCOUNT ) //The account does not exist
+		printf( "THE ACCOUNT (NUMBER: %s CODE: %s) DOES NOT EXIST!\n",
+			toAccNo, toSrtCode );
+	else if( validation == INACCESSIBLE_ACCOUNT ) //The current card does not have access to the account.
+		printf( "THE ACCOUNT (NUMBER: %s CODE: %s) IS NOT ACCESSIBLE WITH THIS CARD!\n",
+			toAccNo, toSrtCode );
 }
 
 //------private file functions

@@ -74,7 +74,9 @@ private:
 //non-member operator functions
 //---------------------------------------------------------------------------
 
-ostream& operator<<( ostream&, const BankAccount&);	//output operator
-istream& operator>>( istream&, BankAccount&);	    //input operator
+ostream& operator<<( ostream&, const BankAccount&);		//output operator
+istream& operator>>( istream&, BankAccount&);			//input operator
+bool operator !=( BankAccount bA1, BankAccount bA2 );	//Not equal comparison operator
+bool operator ==( BankAccount bA1, BankAccount bA2 );	//Equal comparison operator
 
 #endif

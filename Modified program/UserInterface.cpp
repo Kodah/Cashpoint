@@ -129,7 +129,7 @@ void UserInterface::showValidateAccountOnScreen( int validCode, const string& ac
                  << "\nTHE ACCOUNT (NUMBER: " << accNum
                  << " CODE: " << srtCode << ") DOES NOT EXIST!";
             break;
-    	case UNACCESSIBLE_ACCOUNT:		//account exists but is not accessible with that card
+    	case INACCESSIBLE_ACCOUNT:		//account exists but is not accessible with that card
         	cout << "\nERROR: INVALID ACCOUNT"
              	 << "\nTHE ACCOUNT (NUMBER: " << accNum
              	 << " CODE: " << srtCode << ") IS NOT ACCESSIBLE WITH THIS CARD!";

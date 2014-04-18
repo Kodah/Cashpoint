@@ -87,31 +87,30 @@ void BankAccount::recordWithdrawal( double amountToWithdraw) {
 
 void BankAccount::transferMoney( double amount, BankAccount &toAccount )
 {
-	char answer = ' ';
-	double balance = getBalance();
+	char answer = ' '; //For use with checking if the user wishes to continue
+	double balance = getBalance(); //Store the current balance of the account
 
-	bool operator !=( BankAccount bA1, BankAccount bA2 );
-
-	if( *this != toAccount )
+	if( *this != toAccount ) //Check again that the two accounts are not the same
 	{
-		printf( "ACCOUNT BALANCE: \x9C%.2f\n", balance );
+		printf( "ACCOUNT BALANCE: \x9C%.2f\n", balance ); //Let the customer know their balance.
 
-		if( (balance - amount) >= 0 )
+		if( (balance - amount) >= 0 ) //If the transfer does not leave us in negative digits
 		{
+			printf( "The transfer can be granted.\n" );
 			printf( "Are you sure you wish to transfer %.2f to %s %s (Y/N): ",
 				amount, toAccount.getAccountNumber().c_str(), toAccount.getSortCode().c_str() );
 			
 			cin >> answer;
 
-			if( answer == 'Y' || answer == 'y' )
+			if( answer == 'Y' || answer == 'y' ) //Check if the user still wishes to proceed
 			{
-				updateBalance( -amount );
+				updateBalance( -amount ); //Change each account's balance
 				toAccount.updateBalance( amount );
 				
-				recordTransfer( -amount, "Transfer_to_" + toAccount.accountNumber_ + "_" + toAccount.sortCode_ );
+				recordTransfer( -amount, "Transfer_to_" + toAccount.accountNumber_ + "_" + toAccount.sortCode_ ); //Record the transfer
 				toAccount.recordTransfer( amount, "Transfer_from_" + accountNumber_ + "_" + sortCode_ );
 				
-				storeBankAccountInFile( FILEPATH + "account_" + accountNumber_ + "_" + sortCode_ + ".txt" );
+				storeBankAccountInFile( FILEPATH + "account_" + accountNumber_ + "_" + sortCode_ + ".txt" ); //Save the accounts' current state
 				toAccount.storeBankAccountInFile( FILEPATH + "account_" + toAccount.accountNumber_ + "_" + toAccount.sortCode_ + ".txt" );
 				
 				cout << "Transfer success" << endl;
@@ -228,21 +227,21 @@ istream& operator>>( istream& is, BankAccount& aBankAccount) {
 bool operator ==( BankAccount bA1, BankAccount bA2 )
 {
 	if( bA1.getAccountNumber() != bA2.getAccountNumber() )
-		return false;
+		return false; //Account numbers are different; dealing with different accounts
 
 	if( bA1.getSortCode() != bA2.getSortCode() )
-		return false;
+		return false; //Sort codes are different; dealing with different accounts
 
-	return true;
+	return true; //Accounts are the same
 }
 
 bool operator !=( BankAccount bA1, BankAccount bA2 )
 {
 	if( bA1.getAccountNumber() != bA2.getAccountNumber() )
-		return true;
+		return true; //Account numbers are different; dealing with different accounts
 
 	if( bA1.getSortCode() != bA2.getSortCode() )
-		return true;
+		return true; //Sort codes are different; dealing with different accounts
 
-	return false;
+	return false; //Accounts are the same
 }

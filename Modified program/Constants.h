@@ -14,14 +14,20 @@ const int QUIT_COMMAND( 0);
 const int BANKACCOUNT_TYPE( 0); 
 
 //card state
-const int VALID_CARD( 0);
-const int UNKNOWN_CARD( 1);
-const int EMPTY_CARD( 2);
+enum CardState
+{
+	VALID_CARD,
+	UNKNOWN_CARD,
+	EMPTY_CARD
+};
 
 //account state
-const int VALID_ACCOUNT( 0);
-const int UNKNOWN_ACCOUNT( 1);
-const int UNACCESSIBLE_ACCOUNT( 2);
+enum AccountState
+{
+	VALID_ACCOUNT,
+	UNKNOWN_ACCOUNT,
+	INACCESSIBLE_ACCOUNT
+};
 
 //ressource path
 const string FILEPATH( "data\\");
