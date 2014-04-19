@@ -9,7 +9,11 @@
 //---------------------------------------------------------------------------
 
 #include "CashCard.h"
-#include "BankAccount.h"
+
+#include "CurrentAccount.h"
+#include "ChildAccount.h"
+#include "ISAAccount.h"
+
 #include "UserInterface.h"
 
 #include <fstream>
@@ -68,6 +72,8 @@ private:
     bool canOpenFile( const string&) const;
 	int checkAccountType( const string&) const;
 	bool linkedCard( string cashCardFileName) const;
+
+	void attemptTransfer( BankAccount *pToAccount );
 
 	BankAccount* activateBankAccount( const string&);
 	BankAccount* releaseBankAccount( BankAccount*, string);

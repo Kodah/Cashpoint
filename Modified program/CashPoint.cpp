@@ -241,44 +241,41 @@ void CashPoint::m8_clearTransactionsUpToDate(){
 //---option 9
 void CashPoint::m9_transferCashToAnotherAccount()
 {
-	// instance declarations
-	BankAccount toAccount;
+	//Instance declarations
+	BankAccount *pToAccount;
 	string toAccNo = "", toSrtCode = "";
 
-	// Display accounts available to receive a transfer
+	//Display accounts available to receive a transfer
 	displayAssociatedAccounts();
 	printf( "\nSELECT ACCOUNT TO TRANSFER TO...\n" );
 	//Get the account from the user, and receive relevant file name
 	string fileName = theUI_.readInAccountToBeProcessed( toAccNo, toSrtCode );
 	//Get validation status of account
 	const DWORD validation = validateAccount( fileName );
-
+	
 	if( validation == VALID_ACCOUNT )
-	{		
-		toAccount.readInBankAccountFromFile( fileName );
+	{	//Get a new instance of the correct account
+		pToAccount = activateBankAccount( fileName );
 
-		//Check if the account we are transferring to is the same as the active account
-		if( *p_theActiveAccount_ == toAccount )
+			//Check if the account we are transferring to is the same as the active account
+		if( *p_theActiveAccount_ == *pToAccount )
 		{
-			printf( "THE ACCOUNT (NUMBER: %s CODE: %s) IS ALREADY OPEN!\n",
-				toAccNo, toSrtCode );
-
-			return; //Go back to menu
-		}	
-		//If we reach here, everything is good so far
-		printf( "THE ACCOUNT (NUMBER: %s CODE: %s) IS NOW OPEN!\n",
-			toAccNo, toSrtCode );
-		//Get amount to transfer
-		cout << endl << "ENTER AMOUNT TO TRANSFER: \x9C";
-		double transferAmount = theUI_.readInPositiveAmount();
-		p_theActiveAccount_->transferMoney( transferAmount, toAccount ); //Transfer it
+			printf( "\nTHE ACCOUNT (NUMBER: %s CODE: %s) IS ALREADY OPEN!\n",
+				toAccNo.c_str(), toSrtCode.c_str() );
+		}
+		else
+		{
+			//Display validation text		
+			theUI_.showValidateAccountOnScreen( validation, toAccNo, toSrtCode );
+			attemptTransfer( pToAccount );
+		}
 	}
-	else if( validation == UNKNOWN_ACCOUNT ) //The account does not exist
-		printf( "THE ACCOUNT (NUMBER: %s CODE: %s) DOES NOT EXIST!\n",
-			toAccNo, toSrtCode );
-	else if( validation == INACCESSIBLE_ACCOUNT ) //The current card does not have access to the account.
-		printf( "THE ACCOUNT (NUMBER: %s CODE: %s) IS NOT ACCESSIBLE WITH THIS CARD!\n",
-			toAccNo, toSrtCode );
+	else //Display validation text		
+		theUI_.showValidateAccountOnScreen( validation, toAccNo, toSrtCode );
+
+	//Destroy the pointer to prevent leaks and store bank account state
+	releaseBankAccount( pToAccount, fileName );
+
 }
 
 //------private file functions
@@ -315,6 +312,15 @@ bool CashPoint::linkedCard( string cashCardFileName) const {
 	return linked;
 }
 
+void CashPoint::attemptTransfer( BankAccount *pToAccount )
+{
+	//Get amount to transfer
+	cout << endl << "ENTER AMOUNT TO TRANSFER: \x9C";
+	double transferAmount = theUI_.readInPositiveAmount();
+	//Transfer the money
+	p_theActiveAccount_->transferMoney( transferAmount, pToAccount );
+}
+
 void CashPoint::activateCashCard( const string& aCCFileName) {
 //dynamically create a cash card to store data from file
     //effectively create the cash card instance with the data
@@ -331,7 +337,7 @@ void CashPoint::releaseCashCard() {
 int CashPoint::checkAccountType( const string& aBAFileName) const {
     //(simply) identify type/class of account from the account number
     //start with 0 for bank account, 1 for current account, 2 for saving account, etc.
-	return( atoi( aBAFileName.substr( 8, 1).c_str()));
+	return( atoi( aBAFileName.substr( 13, 1).c_str()));
 }
 
 BankAccount* CashPoint::activateBankAccount(  const string& aBAFileName) {
@@ -342,10 +348,28 @@ BankAccount* CashPoint::activateBankAccount(  const string& aBAFileName) {
 	BankAccount* p_BA( nullptr);
 	switch( accType)
     {
-     	case BANKACCOUNT_TYPE:	//NOT NEEDED WITH ABSTRACT CLASSES
+     	case BANK:	//NOT NEEDED WITH ABSTRACT CLASSES
         	cout << "\n-------BANK-------\n";
     		p_BA = new BankAccount;    //points to a BankAccount object
        		p_BA->readInBankAccountFromFile( aBAFileName); //read account details from file
+			break;
+
+		case CURRENT:
+			cout << "\n-------CURRENT-------\n";
+			p_BA = new CurrentAccount;
+			p_BA->readInBankAccountFromFile( aBAFileName );
+			break;
+
+		case CHILDSAVINGS:
+			cout << "\n-------CHILD-------\n";
+			p_BA = new ChildAccount;
+			p_BA->readInBankAccountFromFile( aBAFileName );
+			break;
+
+		case ISASAVINGS:
+			cout << "\n-------ISA-------\n";
+			p_BA = new ISAAccount;
+			p_BA->readInBankAccountFromFile( aBAFileName );
 			break;
     }
 	//use dynamic memory allocation: the bank account created will have to be released in releaseBankAccount

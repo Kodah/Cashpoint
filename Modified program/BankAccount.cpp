@@ -36,6 +36,21 @@ BankAccount::~BankAccount()
 const string BankAccount::getAccountType() const {
     return accountType_;
 }
+
+const char * BankAccount::getTypeFromFile( const string accNo, const string srtCode )
+{
+	const char *fileName = (FILEPATH + "account_" + accNo + "_" + srtCode + ".txt").c_str();
+
+	FILE *file = nullptr;
+	char buffer[ 60 ];
+
+	fopen_s( &file, fileName, "r" );
+	fgets( buffer, sizeof( buffer ), file );
+	fclose( file );
+
+	return buffer;
+}
+
 const string BankAccount::getAccountNumber() const {
     return accountNumber_;
 }
@@ -85,12 +100,15 @@ void BankAccount::recordWithdrawal( double amountToWithdraw) {
     updateBalance( -amountToWithdraw);			//decrease balance_
 }
 
-void BankAccount::transferMoney( double amount, BankAccount &toAccount )
+void BankAccount::transferMoney( const double amount, BankAccount *toAccount )
 {
 	char answer = ' '; //For use with checking if the user wishes to continue
 	double balance = getBalance(); //Store the current balance of the account
 
-	if( *this != toAccount ) //Check again that the two accounts are not the same
+	string toAccNo = toAccount->getAccountNumber();
+	string toSrtCode = toAccount->getSortCode();
+
+	if( *this != *toAccount ) //Check that the two accounts are not the same
 	{
 		printf( "ACCOUNT BALANCE: \x9C%.2f\n", balance ); //Let the customer know their balance.
 
@@ -98,20 +116,20 @@ void BankAccount::transferMoney( double amount, BankAccount &toAccount )
 		{
 			printf( "The transfer can be granted.\n" );
 			printf( "Are you sure you wish to transfer %.2f to %s %s (Y/N): ",
-				amount, toAccount.getAccountNumber().c_str(), toAccount.getSortCode().c_str() );
+				amount, toAccNo.c_str(), toSrtCode.c_str() );
 			
 			cin >> answer;
 
 			if( answer == 'Y' || answer == 'y' ) //Check if the user still wishes to proceed
 			{
 				updateBalance( -amount ); //Change each account's balance
-				toAccount.updateBalance( amount );
+				toAccount->updateBalance( amount );
 				
-				recordTransfer( -amount, "Transfer_to_" + toAccount.accountNumber_ + "_" + toAccount.sortCode_ ); //Record the transfer
-				toAccount.recordTransfer( amount, "Transfer_from_" + accountNumber_ + "_" + sortCode_ );
+				recordTransfer( -amount, "Transfer_to_" + toAccNo + "_" + toSrtCode ); //Record the transfer
+				toAccount->recordTransfer( amount, "Transfer_from_" + accountNumber_ + "_" + sortCode_ );
 				
-				storeBankAccountInFile( FILEPATH + "account_" + accountNumber_ + "_" + sortCode_ + ".txt" ); //Save the accounts' current state
-				toAccount.storeBankAccountInFile( FILEPATH + "account_" + toAccount.accountNumber_ + "_" + toAccount.sortCode_ + ".txt" );
+				//storeBankAccountInFile( FILEPATH + "account_" + accountNumber_ + "_" + sortCode_ + ".txt" ); //Save the accounts' current state
+				//toAccount->storeBankAccountInFile( FILEPATH + "account_" + toAccNo + "_" + toSrtCode + ".txt" );
 				
 				cout << "Transfer success" << endl;
 			}
@@ -219,6 +237,7 @@ ostream& operator<<( ostream& os, const BankAccount& aBankAccount) {
 //put (unformatted) BankAccount details in stream
     return ( aBankAccount.putDataInStream( os));
 }
+
 istream& operator>>( istream& is, BankAccount& aBankAccount) {
 //get BankAccount details from stream
 	return ( aBankAccount.getDataFromStream( is));

@@ -28,6 +28,7 @@ public:
 
 	//getter (assessor) functions
 	const string getAccountType() const;
+	static const char * getTypeFromFile( const string accNo, const string srtCode );
     const string getAccountNumber() const;
     const string getSortCode() const;
     const Date getCreationDate() const;
@@ -36,8 +37,8 @@ public:
     bool	isEmptyTransactionList() const;
 
 	//functions to put data into and get data from streams
-	ostream& putDataInStream( ostream& os) const;
-	istream& getDataFromStream( istream& is);
+	virtual ostream& putDataInStream( ostream& os) const;
+	virtual istream& getDataFromStream( istream& is);
 
 	//other operations
 	const string prepareFormattedStatement() const;
@@ -48,14 +49,17 @@ public:
 	double borrowable() const;
 	bool canWithdraw( double amount) const;
     void recordWithdrawal( double amount);
-	void transferMoney( double amount, BankAccount &toAccount );
+
+	virtual void transferMoney( const double amount, BankAccount *toAccount );
 
 	void readInBankAccountFromFile( const string& fileName);
 	void storeBankAccountInFile( const string& fileName) const;
 	void produceAllDepositTransactions(string& str, double& total) const;
 	void produceNMostRecentTransactions(int noOfTran, string& str, double& total) const;
 
-private:
+	void updateBalance( double amount );
+
+protected:
     //data items
     string accountType_;
     string accountNumber_;
@@ -65,7 +69,7 @@ private:
     TransactionList transactions_;
  
 	//support functions
-	void updateBalance( double amount);
+	
 	const string prepareFormattedAccountDetails() const;
 
 };

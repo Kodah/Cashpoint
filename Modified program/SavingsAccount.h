@@ -7,6 +7,7 @@ class SavingsAccount : public BankAccount
 {
 public: //Public declarations
 	//Constructors/Destructors
+	SavingsAccount( const double minimumBalance = 0.0 );
 	SavingsAccount( const string& typ, const string& acctNum, const string& sCode,
                           const Date& cD, double b,
                           const TransactionList& trList, const double minimumBalance = 0.0 );
@@ -14,8 +15,11 @@ public: //Public declarations
 	//Accessor declarations
 	double								getMinimumBalance( void ) const;
 
+	ostream&							putDataInStream( ostream& os) const;
+	istream&							getDataFromStream( istream& is);
+
 protected: //Protected member instances
-	double								minimumBalance;
+	double								minimumBalance_;
 
 };
 

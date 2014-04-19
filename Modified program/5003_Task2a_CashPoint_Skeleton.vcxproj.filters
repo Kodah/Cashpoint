@@ -103,9 +103,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="data\account_001_00-44.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
     <Text Include="data\account_003_00-44.txt">
       <Filter>Resource Files</Filter>
     </Text>
@@ -119,6 +116,9 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="data\account_002_00-44.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="data\account_101_00-44.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

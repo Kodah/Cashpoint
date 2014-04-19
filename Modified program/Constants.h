@@ -11,7 +11,14 @@ using namespace std;
 const int QUIT_COMMAND( 0);
 
 //account type
-const int BANKACCOUNT_TYPE( 0); 
+enum AccountType
+{
+	BANK,
+	CURRENT,
+	SAVINGS,
+	CHILDSAVINGS,
+	ISASAVINGS
+};
 
 //card state
 enum CardState
