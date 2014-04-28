@@ -101,7 +101,7 @@
     <Text Include="data\card_01.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\..\..\..\Downloads\Microsoft.SkypeApp_kzf8qxf38zg5c!App\Questions.doc" />
+    <None Include="..\..\..\..\OOP2\Questions.doc" />
     <None Include="..\spec.doc" />
     <None Include="Answers.docx" />
   </ItemGroup>
