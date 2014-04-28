@@ -101,9 +101,9 @@
     <Text Include="data\card_01.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\OOP2\Questions.doc" />
     <None Include="..\spec.doc" />
     <None Include="Answers.docx" />
+    <None Include="Questions.doc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

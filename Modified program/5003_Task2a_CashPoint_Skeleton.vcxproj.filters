@@ -129,7 +129,7 @@
     <None Include="Answers.docx">
       <Filter>docs</Filter>
     </None>
-    <None Include="..\..\..\..\OOP2\Questions.doc">
+    <None Include="Questions.doc">
       <Filter>docs</Filter>
     </None>
   </ItemGroup>
