@@ -337,7 +337,7 @@ void CashPoint::releaseCashCard() {
 int CashPoint::checkAccountType( const string& aBAFileName) const {
     //(simply) identify type/class of account from the account number
     //start with 0 for bank account, 1 for current account, 2 for saving account, etc.
-	return( atoi( aBAFileName.substr( strlen( FILEPATH.c_str() ) + 8, 1).c_str()));
+	return( atoi( aBAFileName.substr( FILEPATH.length() + 8, 1).c_str() ));
 }
 
 BankAccount* CashPoint::activateBankAccount(  const string& aBAFileName) {
