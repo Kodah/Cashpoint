@@ -81,6 +81,64 @@ const string UserInterface::readInCardToBeProcessed( string& aCardNumber) const 
     return( FILEPATH + "card_" + aCardNumber + ".txt");
 }
 
+double UserInterface::readInAmount() const //for option 7
+{
+	double amount;
+	cout << "\nEnter amount to search: ";
+	cin >> amount;
+	return(amount);
+}
+
+string UserInterface::readInTitle() const //for option 7
+{
+	string title;
+	cout << "\nEnter a title to search: ";
+	cin >> title;
+
+	return(title);
+}
+
+Date UserInterface::readInDate() const //for option 7
+{
+	int day, month, year;
+	cout << "\nEnter date to search.";
+
+	cout << "\nEnter Day: ";
+	day = readInPositiveAmount();
+
+	cout << "\nEnter Month: ";
+	month = readInPositiveAmount();
+
+	cout << "\nEnter Yrar: ";
+	year = readInPositiveAmount();
+
+	Date date(day,month,year);
+	return(date);
+}
+
+void UserInterface::noTransactionsFound() const //for option 7
+{
+	cout << "\nNO TRANSACTION IN BANK ACCOUNT MATCH THE SEARCH CRITERION GIVEN";
+}
+
+void UserInterface::showMatchingTransactionsOnScreenAmount(double amount, int noTrans, string strTrans) const //for option 7
+{
+	cout << "\n" << noTrans << " transactions for \234" << amount << "\n";
+	cout << strTrans;
+}
+
+void UserInterface::showMatchingTransactionsOnScreenTitle(string title, int noTrans, string strTrans) const //for option 7
+{
+	cout << "\n" << noTrans << " transactions for " << title << "\n";
+	cout << strTrans;
+}
+
+void UserInterface::showMatchingTransactionsOnScreenDate(Date date, int noTrans, string strTrans) const //for option 7
+{
+	cout << "\n" << noTrans << " transactions for " << date << "\n";
+	cout << strTrans;
+}
+
 void UserInterface::showValidateCardOnScreen( int validCode, const string& cashCardNum) const {
     switch( validCode)
     {
@@ -254,4 +312,3 @@ double UserInterface::readInPositiveAmount() const {
 	}
     return amount;
 }
-

@@ -62,7 +62,10 @@ private:
 	//option 6
 	void m6_showMiniStatement();
 	//option 7
-	void m7_searchTransactions();
+	void m7_searchTransactions();//for option 7
+	void m7a_showTransactionsForAmount();//for option 7
+	void m7b_showTransactionsForTitle();//for option 7
+	void m7c_showTransactionsForDate();//for option 7
 	//option 8
 	void m8_clearTransactionsUpToDate();
 	//option 9

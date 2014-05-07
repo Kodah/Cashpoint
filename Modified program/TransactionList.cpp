@@ -80,6 +80,57 @@ TransactionList TransactionList::getMostRecentTransactions(int trans)const{
 	return ( newList);
 }
 
+TransactionList TransactionList::getTransactionsForAmount(double amount)//for option 7
+{
+	TransactionList tempList (*this);
+	TransactionList newList;
+	while (tempList.size() != 0)
+	{
+		if (tempList.newestTransaction().getAmount() == amount)
+		{
+			newList.addNewTransaction(tempList.newestTransaction());
+		}
+		tempList.deleteFirstTransaction();
+	}
+	return (newList);
+}
+
+TransactionList TransactionList::getTransactionsForTitle(string title)//for option 7
+{
+	TransactionList tempList (*this);
+	TransactionList newList;
+	while (tempList.size() != 0)
+	{
+		if (tempList.newestTransaction().getTitle() == title)
+		{
+			newList.addNewTransaction(tempList.newestTransaction());
+		}
+		tempList.deleteFirstTransaction();
+	}
+	return (newList);
+}
+
+TransactionList TransactionList::getTransactionsForDate(Date date)//for option 7
+{
+	TransactionList tempList (*this);
+	TransactionList newList;
+	while (tempList.size() != 0)
+	{
+		if (tempList.newestTransaction().getDate() == date)
+		{
+			newList.addNewTransaction(tempList.newestTransaction());
+		}
+		tempList.deleteFirstTransaction();
+	}
+	return (newList);
+}
+
+int TransactionList::getNumberOfTransactions()//for option 7
+{
+	TransactionList tempList (*this);
+	return (tempList.size());
+}
+
 
 const string TransactionList::toFormattedString() const {
 //return transaction list as a (formatted) string

@@ -37,6 +37,15 @@ public:
     double	readInWithdrawalAmount() const;
     double	readInDepositAmount() const;
 	int		readInNumberOfTransactions() const; //not sure if this is in the right group of functions	
+	
+	double	readInAmount() const; //for option 7
+	string  readInTitle() const; //for option 7
+	Date	readInDate() const; //for option 7
+	void	noTransactionsFound() const;//for option 7
+
+	void showMatchingTransactionsOnScreenAmount(double amount, int noTrans, string strTrans) const; //for option 7
+	void showMatchingTransactionsOnScreenTitle(string title, int noTrans, string strTrans) const; //for option 7
+	void showMatchingTransactionsOnScreenDate(Date date, int noTrans, string strTrans) const; //for option 7
 
 	double	readInPositiveAmount() const;
 

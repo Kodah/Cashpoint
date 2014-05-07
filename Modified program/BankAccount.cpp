@@ -209,6 +209,27 @@ void BankAccount::produceNMostRecentTransactions(int noOfTran, string& str, doub
 	str = trl.toFormattedString();
 }
 
+void BankAccount::produceTransactionsForAmount(double amount, string& strTrans, int& noTrans)//for option 7
+{
+	TransactionList trl (transactions_.getTransactionsForAmount(amount));
+	noTrans = trl.getNumberOfTransactions();
+	strTrans = trl.toFormattedString();
+}
+
+void BankAccount::produceTransactionsForTitle(string title, string& strTrans, int& noTrans)//for option 7
+{
+	TransactionList trl (transactions_.getTransactionsForTitle(title));
+	noTrans = trl.getNumberOfTransactions();
+	strTrans = trl.toFormattedString();
+}
+
+void BankAccount::produceTransactionsForDate(Date date, string& strTrans, int& noTrans)//for option 7
+{
+	TransactionList trl (transactions_.getTransactionsForDate(date));
+	noTrans = trl.getNumberOfTransactions();
+	strTrans = trl.toFormattedString();
+}
+
 //---------------------------------------------------------------------------
 //private support member functions
 //---------------------------------------------------------------------------

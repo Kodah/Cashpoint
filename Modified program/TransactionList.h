@@ -26,7 +26,14 @@ public:
 
 	TransactionList getAllDepositTransactions() const;
 	TransactionList getMostRecentTransactions(int) const;
+
+	TransactionList getTransactionsForAmount(double);//for option 7
+	TransactionList getTransactionsForDate(Date);//for option 7
+	TransactionList getTransactionsForTitle(string);//for option 7
+	int getNumberOfTransactions();//for option 7
+
 	double getTotalTransactions() const;
+	
 
 
 	const string toFormattedString() const;		//return transactionlist as a (formatted) string

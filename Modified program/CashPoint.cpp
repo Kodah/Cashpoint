@@ -205,7 +205,7 @@ void CashPoint::m6_showMiniStatement(){
 	theUI_.showMiniStatementOnScreen(noTransaction, str, total);
 }
 //---option 7
-void CashPoint::m7_searchTransactions(){
+void CashPoint::m7_searchTransactions(){//for option 7
 	bool noTransaction = p_theActiveAccount_->isEmptyTransactionList();
 
 	if (noTransaction)
@@ -220,22 +220,77 @@ void CashPoint::m7_searchTransactions(){
 		switch (option)
 		{
 		case 1: //amount
-			//m7a_showTransactionsForAmount()
+			m7a_showTransactionsForAmount();
 			break;
 		case 2: //title
-			//m7b_showTransactionsForTitle() 
+			m7b_showTransactionsForTitle();
 			break;
 		case 3: //date
-			//m7c_showTransactionsForDate() 
+			m7c_showTransactionsForDate(); 
+			break;
+		case 4: //exit
+			return;
 			break;
 		default:
 			break;
 		}
 	}
 }
-//---option 8
-void CashPoint::m8_clearTransactionsUpToDate(){
 
+void CashPoint::m7a_showTransactionsForAmount() //for option 7
+{
+	int noTrans = 0;
+	string strTrans;
+	double amount = theUI_.readInAmount();
+	p_theActiveAccount_->produceTransactionsForAmount(amount, strTrans, noTrans);
+
+	if (noTrans == 0)
+	{
+		theUI_.noTransactionsFound();
+	}
+	else
+	{
+		theUI_.showMatchingTransactionsOnScreenAmount(amount, noTrans, strTrans);
+	}
+}
+
+void CashPoint::m7b_showTransactionsForTitle()//for option 7
+{
+	int noTrans = 0;
+	string strTrans;
+	string title = theUI_.readInTitle();
+	p_theActiveAccount_->produceTransactionsForTitle(title, strTrans, noTrans);
+
+	if (noTrans == 0)
+	{
+		theUI_.noTransactionsFound();
+	}
+	else
+	{
+		theUI_.showMatchingTransactionsOnScreenTitle(title, noTrans, strTrans);
+	}
+}
+
+void CashPoint::m7c_showTransactionsForDate() //for option 7
+{
+	int noTrans = 0;
+	string strTrans;
+	Date date = theUI_.readInDate();
+	p_theActiveAccount_->produceTransactionsForDate(date, strTrans, noTrans);
+
+	if (noTrans == 0)
+	{
+		theUI_.noTransactionsFound();
+	}
+	else
+	{
+		theUI_.showMatchingTransactionsOnScreenDate(date, noTrans, strTrans);
+	}
+}
+
+//---option 8
+void CashPoint::m8_clearTransactionsUpToDate()
+{
 }
 
 //---option 9

@@ -57,6 +57,10 @@ public:
 	void produceAllDepositTransactions(string& str, double& total) const;
 	void produceNMostRecentTransactions(int noOfTran, string& str, double& total) const;
 
+	void produceTransactionsForAmount(double amount, string& strTrans, int& noTrans);//for option 7
+	void produceTransactionsForDate(Date date, string& strTrans, int& noTrans);//for option 7
+	void produceTransactionsForTitle(string title, string& strTrans, int& noTrans);//for option 7
+
 	void updateBalance( double amount );
 
 protected:
