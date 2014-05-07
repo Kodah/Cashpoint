@@ -275,7 +275,7 @@ void CashPoint::m7c_showTransactionsForDate() //for option 7
 {
 	int noTrans = 0;
 	string strTrans;
-	Date date = theUI_.readInDate();
+	Date date = theUI_.readInValidDate( p_theActiveAccount_->getCreationDate() );
 	p_theActiveAccount_->produceTransactionsForDate(date, strTrans, noTrans);
 
 	if (noTrans == 0)
@@ -289,10 +289,10 @@ void CashPoint::m7c_showTransactionsForDate() //for option 7
 }
 
 //---option 8
-void CashPoint::m8_clearTransactionsUpToDate(){
-
-}
-	}
+void CashPoint::m8_clearTransactionsUpToDate()
+{
+	// I did start this, but when i clicked on resolve conflicts, this entire method was deleted along with some sub-methods
+	// I will start again from tomorrow
 }
 
 //---option 9
