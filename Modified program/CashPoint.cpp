@@ -289,8 +289,10 @@ void CashPoint::m7c_showTransactionsForDate() //for option 7
 }
 
 //---option 8
-void CashPoint::m8_clearTransactionsUpToDate()
-{
+void CashPoint::m8_clearTransactionsUpToDate(){
+
+}
+	}
 }
 
 //---option 9

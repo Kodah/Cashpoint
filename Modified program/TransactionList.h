@@ -14,7 +14,8 @@
 #include <cassert> 	// for assert()
 #include <sstream>
 
-class TransactionList {
+class TransactionList
+{
 public:
 
 	void   addNewTransaction( const Transaction&);
@@ -33,7 +34,8 @@ public:
 	int getNumberOfTransactions();//for option 7
 
 	double getTotalTransactions() const;
-	
+	TransactionList getTransactionsUpToDate( const Date d ) const;
+
 
 
 	const string toFormattedString() const;		//return transactionlist as a (formatted) string

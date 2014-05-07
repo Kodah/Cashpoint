@@ -11,54 +11,70 @@
 
 //____constructors & destructors
 Date::Date() 						//default constructor
-: day_( 0), month_( 0), year_( 0)
 {}
+
 Date::Date( int d, int m, int y) 	//constructor
-: day_( d), month_( m), year_( y)
-{}
+{
+	dateTime_.day	= d;
+	dateTime_.month = m;
+	dateTime_.year	= y;
+}
 
 //____other public member functions
 int Date::getDay() const {
-	return day_;
+	return dateTime_.day;
 }
 int Date::getMonth() const {
-	return month_;
+	return dateTime_.month;
 }
 int Date::getYear() const {
-	return year_;
+	return dateTime_.year;
 }
+
+bool Date::isValid( const Date date )
+{
+	DateTime dateTime;
+	date >> dateTime;
+
+	return ( (dateTime.day > 0) && (dateTime.day <= 31) &&
+			 (dateTime.month > 0) && (dateTime.month <= 12) &&
+			 (dateTime.year > 1900) && (dateTime.year <= 3000) );
+}
+
 const Date Date::currentDate() {	//returns the current date
 	time_t now( time(0));
 	struct tm& t( *localtime(&now));
     return Date( t.tm_mday, t.tm_mon + 1,  t.tm_year + 1900);
 }
-void Date::setDate( int d, int m, int y) {
-	day_ = d;
-	month_ = m;
-	year_ = y;
+void Date::setDate( int d, int m, int y)
+{
+	dateTime_.day	= d;
+	dateTime_.month = m;
+	dateTime_.year	= y;
 }
+
 string Date::toFormattedString() const {
 //return date formatted output ("DD/MM/YYYY")
 	ostringstream os_date;
 	os_date << setfill('0');
-	os_date << setw(2) << day_ << "/";
-	os_date << setw(2) << month_ << "/";
-	os_date << setw(2) << year_;
+	os_date << setw(2) << dateTime_.day << "/";
+	os_date << setw(2) << dateTime_.month << "/";
+	os_date << setw(2) << dateTime_.year;
 	os_date << setfill(' ');
 	return ( os_date.str());
 }
 
 ostream& Date::putDataInStream( ostream& os) const {
 //put (unformatted) date (D/M/Y) into an output stream
-	os << setw(2) << day_ << "/";
-	os << setw(2) << month_ << "/";
-	os << setw(4) << year_;
+	os << setw(2) << dateTime_.day << "/";
+	os << setw(2) << dateTime_.month << "/";
+	os << setw(4) << dateTime_.year;
 	return os;
 }
 istream& Date::getDataFromStream( istream& is) {
 //read in date from (unformatted) input stream ("DD/MM/YY")
 	char ch;			//(any) colon field delimiter
-	is >> day_ >> ch >> month_ >> ch >> year_;
+	is >> dateTime_.day >> ch >> dateTime_.month >> ch >> dateTime_.year;
 	return is;
 }
 
@@ -68,18 +84,54 @@ istream& Date::getDataFromStream( istream& is) {
 
 bool Date::operator==( const Date& d) const { //comparison operator
 	return
-		(( day_ == d.day_) &&
-		 ( month_ == d.month_) &&
-		 ( year_ == d.year_));
+		(( dateTime_.day == d.dateTime_.day) &&
+		 ( dateTime_.month == d.dateTime_.month) &&
+		 ( dateTime_.year == d.dateTime_.year));
 }
 bool Date::operator!=( const Date& d) const {
 	return ( !( *this == d));
 }
 bool Date::operator<( const Date& d) const { //NEW
 //true if (strictly) earlier than d (i.e., *this < d)
-	return ( ( year_ < d.year_)
-	     || (( year_ == d.year_) && (month_ < d.month_) )
-	     || (( year_ == d.year_) && (month_ == d.month_) && (day_ < d.day_)));
+	return ( ( dateTime_.year < d.dateTime_.year)
+	     || (( dateTime_.year == d.dateTime_.year)
+			&& (dateTime_.month < d.dateTime_.month) )
+	     || (( dateTime_.year == d.dateTime_.year)
+			&& (dateTime_.month == d.dateTime_.month)
+			&& (dateTime_.day < d.dateTime_.day)));
+}
+
+bool Date::operator<=( const Date &d ) const
+{
+	return ( (*this < d) || (*this == d) );
+}
+
+bool Date::operator>( const Date &d ) const
+{
+	return ( ( dateTime_.year > d.dateTime_.year)
+	     || (( dateTime_.year == d.dateTime_.year)
+			&& (dateTime_.month > d.dateTime_.month) )
+	     || (( dateTime_.year == d.dateTime_.year)
+			&& (dateTime_.month == d.dateTime_.month)
+			&& (dateTime_.day > d.dateTime_.day)) );
+}
+
+bool Date::operator>=( const Date &d ) const
+{
+	return ( (*this > d) || (*this == d) );
+}
+
+DateTime& Date::operator>>( DateTime &dateTime ) const
+{
+	dateTime.day	= dateTime_.day;
+	dateTime.month	= dateTime_.month;
+	dateTime.year	= dateTime_.year;
+
+	dateTime.second = dateTime_.second;
+	dateTime.minute = dateTime_.minute;
+	dateTime.hour	= dateTime_.hour;
+
+	return dateTime;
 }
 
 //---------------------------------------------------------------------------

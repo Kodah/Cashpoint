@@ -62,6 +62,7 @@ public:
 	void produceTransactionsForTitle(string title, string& strTrans, int& noTrans);//for option 7
 
 	void updateBalance( double amount );
+	void deleteTransactionsUpToDate( const Date d );
 
 protected:
     //data items

@@ -67,6 +67,24 @@ double TransactionList::getTotalTransactions() const {
 	return ( total);
 }
 
+TransactionList TransactionList::getTransactionsUpToDate( const Date date ) const
+{
+	TransactionList trList( *this ), trList2;
+	int numTransactions = trList.size();
+
+	for( int i(0); i < numTransactions; i++ )
+	{
+		Transaction tempTransaction = trList.newestTransaction();
+		
+		if( tempTransaction.getDate() <= date )
+			trList2.addNewTransaction( tempTransaction );
+		
+		trList.deleteGivenTransaction( tempTransaction );
+	}
+
+	return trList2;
+}
+
 TransactionList TransactionList::getMostRecentTransactions(int trans)const{
 	//Returns Transaction list of user defined length
 	TransactionList tempList (*this);

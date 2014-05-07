@@ -237,6 +237,12 @@ void BankAccount::produceTransactionsForDate(Date date, string& strTrans, int& n
 void BankAccount::updateBalance( double amount) {
     balance_ += amount;   //add/take amount to/from balance_
 }
+
+void BankAccount::deleteTransactionsUpToDate( const Date d )
+{
+	//transactions_.deleteGivenTransaction
+}
+
 const string BankAccount::prepareFormattedAccountDetails() const {
 	//collect account details in string
 	ostringstream os;

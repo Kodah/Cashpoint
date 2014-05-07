@@ -15,7 +15,24 @@
 #include <sstream>
 using namespace std;
 
-class Date {
+typedef struct DateTime
+{
+	int day;
+	int month;
+	int year;
+
+	int second;
+	int minute;
+	int hour;
+
+	DateTime() : day(1), month(1), year(2000),
+		second(0), minute(0), hour(0)
+	{
+	}
+} *PDATETIME, DATETIME;
+
+class Date
+{
 public:
 	Date();								//default constructor
 	Date( int, int, int);				//constructor
@@ -25,6 +42,8 @@ public:
 	void setDate( int, int, int);		//set new values for date
     static const Date currentDate() ;   //return the current date
 
+	static bool isValid( const Date date );
+
 	string toFormattedString() const ;				//return date as formatted string ("DD/MM/YYYY")
 
 	ostream& putDataInStream( ostream& os) const;	//send Date info into an output stream
@@ -33,11 +52,14 @@ public:
 	bool operator==( const Date& d) const;  	//true if (*this == d)
 	bool operator!=( const Date& d) const;  	//true if (*this != d)
 	bool operator<( const Date& d) const;		//true if (*this < d)  (strictly earlier)
+	bool operator<=( const Date &d ) const;
+	bool operator>( const Date &d) const;
+	bool operator>=( const Date &d ) const;
+	DateTime& operator>>( DateTime &dateTime ) const;
 
 private:
-	int day_;
-	int month_;
-	int year_;
+	DateTime dateTime_;
+
 };
 
 //---------------------------------------------------------------------------

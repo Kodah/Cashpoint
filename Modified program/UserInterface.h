@@ -40,7 +40,7 @@ public:
 	
 	double	readInAmount() const; //for option 7
 	string  readInTitle() const; //for option 7
-	Date	readInDate() const; //for option 7
+	Date	readInValidDate( const Date d ) const;
 	void	noTransactionsFound() const;//for option 7
 
 	void showMatchingTransactionsOnScreenAmount(double amount, int noTrans, string strTrans) const; //for option 7

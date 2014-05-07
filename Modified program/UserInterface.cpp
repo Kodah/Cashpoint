@@ -98,22 +98,22 @@ string UserInterface::readInTitle() const //for option 7
 	return(title);
 }
 
-Date UserInterface::readInDate() const //for option 7
+Date UserInterface::readInValidDate( const Date creationDate ) const
 {
-	int day, month, year;
-	cout << "\nEnter date to search.";
+	Date chosenDate;
 
-	cout << "\nEnter Day: ";
-	day = readInPositiveAmount();
+	do
+	{
+		cout << "Enter a date later or equal to " << creationDate << " (DD/MM/YYYY): ";
+		cin >> chosenDate;
 
-	cout << "\nEnter Month: ";
-	month = readInPositiveAmount();
+		if( !Date::isValid( chosenDate ) || chosenDate < creationDate )
+			cout << "You entered an invalid date..." << endl << endl;
+		else
+			return chosenDate;
 
-	cout << "\nEnter Yrar: ";
-	year = readInPositiveAmount();
+	}while( true );
 
-	Date date(day,month,year);
-	return(date);
 }
 
 void UserInterface::noTransactionsFound() const //for option 7
