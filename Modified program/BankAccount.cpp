@@ -209,6 +209,13 @@ void BankAccount::produceNMostRecentTransactions(int noOfTran, string& str, doub
 	str = trl.toFormattedString();
 }
 
+string BankAccount::produceTransactionsUpToDate( const Date date, int &numTransactions ) const
+{
+	TransactionList trList = transactions_.getTransactionsUpToDate( date );
+	numTransactions = trList.size();
+	return trList.toFormattedString();
+}
+
 void BankAccount::produceTransactionsForAmount(double amount, string& strTrans, int& noTrans)//for option 7
 {
 	TransactionList trl (transactions_.getTransactionsForAmount(amount));
@@ -238,9 +245,23 @@ void BankAccount::updateBalance( double amount) {
     balance_ += amount;   //add/take amount to/from balance_
 }
 
-void BankAccount::deleteTransactionsUpToDate( const Date d )
+void BankAccount::deleteTransactionsUpToDate( const Date date )
 {
-	//transactions_.deleteGivenTransaction
+	TransactionList trList = transactions_.getTransactionsUpToDate( date );
+	Transaction *tempTransaction = nullptr;
+
+	while( tempTransaction = (Transaction *)&trList.newestTransaction() )
+	{
+		transactions_.deleteGivenTransaction( *tempTransaction );
+		trList.deleteGivenTransaction( *tempTransaction );
+	}
+}
+
+void BankAccount::recordDeletionOfTransactionUpToDate( const Date date )
+{
+	deleteTransactionsUpToDate( date );
+
+
 }
 
 const string BankAccount::prepareFormattedAccountDetails() const {

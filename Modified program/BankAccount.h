@@ -56,6 +56,7 @@ public:
 	void storeBankAccountInFile( const string& fileName) const;
 	void produceAllDepositTransactions(string& str, double& total) const;
 	void produceNMostRecentTransactions(int noOfTran, string& str, double& total) const;
+	string produceTransactionsUpToDate( const Date date, int &numTransactions ) const;
 
 	void produceTransactionsForAmount(double amount, string& strTrans, int& noTrans);//for option 7
 	void produceTransactionsForDate(Date date, string& strTrans, int& noTrans);//for option 7
@@ -63,6 +64,8 @@ public:
 
 	void updateBalance( double amount );
 	void deleteTransactionsUpToDate( const Date d );
+
+	void recordDeletionOfTransactionUpToDate( const Date date );
 
 protected:
     //data items

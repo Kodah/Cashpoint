@@ -139,6 +139,12 @@ void UserInterface::showMatchingTransactionsOnScreenDate(Date date, int noTrans,
 	cout << strTrans;
 }
 
+void UserInterface::showTransactionsUpToDateOnScreen( const Date date, const int numTransactions, string transactions ) const
+{
+	printf( "There are %d transactions up to %s.\n\n%s",
+		numTransactions, date.toFormattedString(), transactions );
+}
+
 void UserInterface::showValidateCardOnScreen( int validCode, const string& cashCardNum) const {
     switch( validCode)
     {
@@ -280,6 +286,19 @@ void UserInterface::showMiniStatementOnScreen(bool noTransaction, string str, do
 
 void UserInterface::showNoTransactionsOnScreen() const{
 	cout << "\n\n\n There are no transactions.";
+}
+
+bool UserInterface::readInConfirmDeletion( void ) const
+{
+	char answer = ' ';
+
+	cout << "Are you sure you wish to delete these transactions (Y/N)? ";
+	cin >> answer;
+
+	if( answer == 'Y' || answer == 'y' )
+		return true;
+
+	return false;
 }
 
 

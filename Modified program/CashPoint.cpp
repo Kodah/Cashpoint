@@ -293,6 +293,32 @@ void CashPoint::m8_clearTransactionsUpToDate()
 {
 	// I did start this, but when i clicked on resolve conflicts, this entire method was deleted along with some sub-methods
 	// I will start again from tomorrow
+	Date clearDate;
+	string transactions = "";
+	int numTransactions( 0 );
+	char answer = ' ';
+
+	if( p_theActiveAccount_->isEmptyTransactionList() )
+	{
+		cout << "There are no previous transactions stored for this account." << endl;
+		return;
+	}
+
+	clearDate = theUI_.readInValidDate( p_theActiveAccount_->getCreationDate() );
+	transactions = p_theActiveAccount_->produceTransactionsUpToDate( clearDate, numTransactions );
+
+	if( transactions.empty() )
+	{
+		printf( "There are no prior transactions up to and on %s\n", clearDate.toFormattedString() );
+		return;
+	}
+
+	theUI_.showTransactionsUpToDateOnScreen( clearDate, numTransactions, transactions );
+
+	if( !theUI_.readInConfirmDeletion() )
+		return;
+
+	p_theActiveAccount_->recordDeletionOfTransactionUpToDate( clearDate );
 }
 
 //---option 9

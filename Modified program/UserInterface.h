@@ -16,7 +16,8 @@
 #include <string>
 using namespace std;
 
-class UserInterface {
+class UserInterface
+{
 public:
 	//constructors & destructor
     void	showWelcomeScreen() const;
@@ -47,6 +48,8 @@ public:
 	void showMatchingTransactionsOnScreenTitle(string title, int noTrans, string strTrans) const; //for option 7
 	void showMatchingTransactionsOnScreenDate(Date date, int noTrans, string strTrans) const; //for option 7
 
+	void showTransactionsUpToDateOnScreen( const Date date, const int numTransactions, string transactions ) const;
+
 	double	readInPositiveAmount() const;
 
     void	showProduceBalanceOnScreen( double bal) const;
@@ -56,6 +59,8 @@ public:
 	void	showAllDepositsOnScreen(bool noTransaction, string str, double total) const;
 	void	showMiniStatementOnScreen(bool noTransaction, string str, double total) const;
 	void	showNoTransactionsOnScreen() const;
+
+	bool	readInConfirmDeletion( void ) const;
 
 private:
     //support functions
