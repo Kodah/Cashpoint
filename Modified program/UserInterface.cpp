@@ -101,10 +101,11 @@ string UserInterface::readInTitle() const //for option 7
 Date UserInterface::readInValidDate( const Date creationDate ) const
 {
 	Date chosenDate;
+	string strCreationDate = creationDate.toFormattedString();
 
 	do
 	{
-		cout << "Enter a date later or equal to " << creationDate << " (DD/MM/YYYY): ";
+		printf( "Enter a date later or equal to %s (DD/MM/YYYY): ", strCreationDate );
 		cin >> chosenDate;
 
 		if( !Date::isValid( chosenDate ) || chosenDate < creationDate )
@@ -286,6 +287,12 @@ void UserInterface::showMiniStatementOnScreen(bool noTransaction, string str, do
 
 void UserInterface::showNoTransactionsOnScreen() const{
 	cout << "\n\n\n There are no transactions.";
+}
+
+void UserInterface::showDeletionOfTransactionUpToDateOnScreen( const int numTransactions, const Date date ) const
+{
+	printf( "THE %d TRANSACTIONS UP TO DATE %s HAVE BEEN DELETED.\n",
+		numTransactions, date.toFormattedString() );
 }
 
 bool UserInterface::readInConfirmDeletion( void ) const

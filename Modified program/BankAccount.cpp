@@ -260,8 +260,6 @@ void BankAccount::deleteTransactionsUpToDate( const Date date )
 void BankAccount::recordDeletionOfTransactionUpToDate( const Date date )
 {
 	deleteTransactionsUpToDate( date );
-
-
 }
 
 const string BankAccount::prepareFormattedAccountDetails() const {

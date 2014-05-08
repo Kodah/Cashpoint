@@ -58,7 +58,8 @@ public:
     void	showStatementOnScreen( const string&) const;
 	void	showAllDepositsOnScreen(bool noTransaction, string str, double total) const;
 	void	showMiniStatementOnScreen(bool noTransaction, string str, double total) const;
-	void	showNoTransactionsOnScreen() const;
+	void	showNoTransactionsOnScreen( void ) const;
+	void	showDeletionOfTransactionUpToDateOnScreen( const int numTransactions, const Date date ) const;
 
 	bool	readInConfirmDeletion( void ) const;
 

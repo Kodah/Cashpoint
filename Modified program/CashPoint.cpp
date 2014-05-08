@@ -291,8 +291,6 @@ void CashPoint::m7c_showTransactionsForDate() //for option 7
 //---option 8
 void CashPoint::m8_clearTransactionsUpToDate()
 {
-	// I did start this, but when i clicked on resolve conflicts, this entire method was deleted along with some sub-methods
-	// I will start again from tomorrow
 	Date clearDate;
 	string transactions = "";
 	int numTransactions( 0 );
@@ -319,6 +317,7 @@ void CashPoint::m8_clearTransactionsUpToDate()
 		return;
 
 	p_theActiveAccount_->recordDeletionOfTransactionUpToDate( clearDate );
+	theUI_.showDeletionOfTransactionUpToDateOnScreen( numTransactions, clearDate );
 }
 
 //---option 9
