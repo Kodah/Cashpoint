@@ -35,7 +35,7 @@ public:
 	bool operator==( const Transaction&) const; 	//"equal" operator
 	bool operator!=( const Transaction&) const; 	//"not-equal" operator
 
-private:
+public:
     Date date_;			//transaction date
 	Time time_;			//transaction time
 	string title_;		//transaction title

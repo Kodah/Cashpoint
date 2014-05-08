@@ -101,7 +101,10 @@ string UserInterface::readInTitle() const //for option 7
 Date UserInterface::readInValidDate( const Date creationDate ) const
 {
 	Date chosenDate;
-	string strCreationDate = creationDate.toFormattedString();
+	char strCreationDate[ 16 ];
+
+	memset( strCreationDate, 0, sizeof(strCreationDate) );
+	strcpy( strCreationDate, creationDate.toFormattedString().c_str() );
 
 	do
 	{
@@ -143,7 +146,7 @@ void UserInterface::showMatchingTransactionsOnScreenDate(Date date, int noTrans,
 void UserInterface::showTransactionsUpToDateOnScreen( const Date date, const int numTransactions, string transactions ) const
 {
 	printf( "There are %d transactions up to %s.\n\n%s",
-		numTransactions, date.toFormattedString(), transactions );
+		numTransactions, date.toFormattedString().c_str(), transactions.c_str() );
 }
 
 void UserInterface::showValidateCardOnScreen( int validCode, const string& cashCardNum) const {
@@ -292,14 +295,14 @@ void UserInterface::showNoTransactionsOnScreen() const{
 void UserInterface::showDeletionOfTransactionUpToDateOnScreen( const int numTransactions, const Date date ) const
 {
 	printf( "THE %d TRANSACTIONS UP TO DATE %s HAVE BEEN DELETED.\n",
-		numTransactions, date.toFormattedString() );
+		numTransactions, date.toFormattedString().c_str() );
 }
 
 bool UserInterface::readInConfirmDeletion( void ) const
 {
 	char answer = ' ';
 
-	cout << "Are you sure you wish to delete these transactions (Y/N)? ";
+	cout << endl << "Are you sure you wish to delete these transactions (Y/N)? ";
 	cin >> answer;
 
 	if( answer == 'Y' || answer == 'y' )

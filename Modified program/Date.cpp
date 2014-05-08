@@ -61,6 +61,7 @@ string Date::toFormattedString() const {
 	os_date << setw(2) << dateTime_.month << "/";
 	os_date << setw(2) << dateTime_.year;
 	os_date << setfill(' ');
+
 	return ( os_date.str());
 }
 

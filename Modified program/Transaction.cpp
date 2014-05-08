@@ -65,6 +65,8 @@ istream& Transaction::getDataFromStream( istream& is) {
 //---------------------------------------------------------------------------
 
 bool Transaction::operator==( const Transaction& tr) const {
+	cout << "#2 this = " << *this << endl;
+
 	return
 		(( date_   == tr.date_)   &&
 		 ( time_   == tr.time_)   &&

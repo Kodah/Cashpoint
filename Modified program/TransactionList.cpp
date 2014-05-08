@@ -30,6 +30,19 @@ void TransactionList::deleteFirstTransaction() {
 void TransactionList::deleteGivenTransaction( const Transaction& tr) {
     listOfTransactions_.deleteOne( tr);
 }
+
+void TransactionList::deleteTransactionsUpToDate( const Date date )
+{
+	TransactionList trList = getTransactionsUpToDate( date );
+	Transaction *tempTransaction = nullptr;
+
+	while( (tempTransaction = (Transaction *)&trList.newestTransaction()) )
+	{
+		deleteGivenTransaction( *tempTransaction );
+		trList.deleteGivenTransaction( *tempTransaction );
+	}
+}
+
 int TransactionList::size() const {
     return (listOfTransactions_.length());
 }

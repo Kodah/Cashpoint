@@ -150,6 +150,7 @@ bool List<ITEM>::isEmpty() const {	//check empty list
 template <class ITEM>
 const ITEM List<ITEM>::first() const{	//return first item
 	assert( head_ != nullptr); 	//just to check: pre-condition
+	cout << "#2 head_->item = " << head_->item_ << endl;
 	return ( head_->item_);
 }
 template <class ITEM>
@@ -195,9 +196,15 @@ void List<ITEM>::deleteFirst() {	//delete first element
 	delete pn;
 }
 template <class ITEM>
-void List<ITEM>::deleteOne( const ITEM& item) {	// deletes item from list
+void List<ITEM>::deleteOne( const ITEM& item)
+{	// deletes item from list
+	
 	if ( ! isEmpty())
-		if ( first() == item)
+	{
+		ITEM first1 = first();
+		cout << "#1 first = " << first1 << endl;
+
+		if ( first() == item )
 			deleteFirst();
 		else
 		{
@@ -206,6 +213,7 @@ void List<ITEM>::deleteOne( const ITEM& item) {	// deletes item from list
 			temp.addInFront( first());
 			(*this) = temp;
 		}
+	}
 }
 // iterative version
 template <class ITEM>

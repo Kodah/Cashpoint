@@ -245,21 +245,9 @@ void BankAccount::updateBalance( double amount) {
     balance_ += amount;   //add/take amount to/from balance_
 }
 
-void BankAccount::deleteTransactionsUpToDate( const Date date )
-{
-	TransactionList trList = transactions_.getTransactionsUpToDate( date );
-	Transaction *tempTransaction = nullptr;
-
-	while( tempTransaction = (Transaction *)&trList.newestTransaction() )
-	{
-		transactions_.deleteGivenTransaction( *tempTransaction );
-		trList.deleteGivenTransaction( *tempTransaction );
-	}
-}
-
 void BankAccount::recordDeletionOfTransactionUpToDate( const Date date )
 {
-	deleteTransactionsUpToDate( date );
+	transactions_.deleteTransactionsUpToDate( date );
 }
 
 const string BankAccount::prepareFormattedAccountDetails() const {
