@@ -2,5 +2,8 @@ CURRENT
 102
 00-44
 10/12/2005
-200
+215
 100
+ 8/ 5/2014 13:33:51 withdrawal_from_ATM -10
+ 8/ 5/2014 13:33:48 withdrawal_from_ATM -5
+ 8/ 5/2014 13:33:35 deposit_to_ATM 30
