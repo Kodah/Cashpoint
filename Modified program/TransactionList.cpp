@@ -34,12 +34,13 @@ void TransactionList::deleteGivenTransaction( const Transaction& tr) {
 void TransactionList::deleteTransactionsUpToDate( const Date date )
 {
 	TransactionList trList = getTransactionsUpToDate( date );
-	Transaction *tempTransaction = nullptr;
+	int numTransactions = trList.size();
 
-	while( (tempTransaction = (Transaction *)&trList.newestTransaction()) )
+	for( int i(0); i < numTransactions; i++ )
 	{
-		deleteGivenTransaction( *tempTransaction );
-		trList.deleteGivenTransaction( *tempTransaction );
+		Transaction tempTransaction = trList.newestTransaction();
+		deleteGivenTransaction( tempTransaction );
+        trList.deleteGivenTransaction( tempTransaction );
 	}
 }
 

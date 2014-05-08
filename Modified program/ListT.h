@@ -200,10 +200,6 @@ void List<ITEM>::deleteOne( const ITEM& item)
 {	// deletes item from list
 	
 	if ( ! isEmpty())
-	{
-		ITEM first1 = first();
-		cout << "#1 first = " << first1 << endl;
-
 		if ( first() == item )
 			deleteFirst();
 		else
@@ -213,8 +209,8 @@ void List<ITEM>::deleteOne( const ITEM& item)
 			temp.addInFront( first());
 			(*this) = temp;
 		}
-	}
 }
+
 // iterative version
 template <class ITEM>
 int List<ITEM>::length() const {	// return number of elements
