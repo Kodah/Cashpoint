@@ -45,9 +45,8 @@ public:
 	void setDate( int, int, int);		//set new values for date
     static const Date currentDate() ;   //return the current date
 
-	//static bool isValid(const Date date, const Date dateCreated);
-	//static bool isValid(const Date date);
-	bool isValid(const Date date) const;
+	static bool isValidDate( const Date date );
+	bool isValid( const Date date ) const;
 
 	string toFormattedString() const ;				//return date as formatted string ("DD/MM/YYYY")
 

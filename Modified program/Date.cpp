@@ -33,114 +33,45 @@ int Date::getYear() const {
 
 bool Date::isValid( const Date creationDate ) const
 {
-	if( *this < creationDate || *this > Date::currentDate() )
+	if( *this < creationDate || *this > Date::currentDate()
+		|| !Date::isValidDate( *this ) )
+		return false;
+}
+
+bool Date::isValidDate( const Date date )
+{
+	if( date.dateTime_.day < 1 )
 		return false;
 
-	if( dateTime_.day < 1 )
-		return false;
-
-	switch( dateTime_.month )
+	switch( date.dateTime_.month )
 	{
 	case JAN: case MAR: case MAY:
 	case JUL: case AUG: case OCT:
 	case DEC:
-		if( dateTime_.day > 31 )
+		if( date.dateTime_.day > 31 )
 		   return false;
 
 		break;
 
 	case FEB:
-		if( dateTime_.day > 28 )
+		if( date.dateTime_.day > 28 )
 			return false;
 
 		break;
 
 	case APR: case JUN: case SEPT:
 	case NOV:
-		if( dateTime_.day > 30 )
+		if( date.dateTime_.day > 30 )
 			return false;
 
 		break;
 
 	default:
 		return false;
-	};
+	}
 
 	return true;
 }
-
-/*bool Date::isValid( const Date date, const Date dateCreation)
-{
-	DateTime dateTime;
-	date >> dateTime;
-	
-	if (date < dateCreation)
-	{
-		if (dateTime.month == 1 || dateTime.month == 3 || dateTime.month == 5 || dateTime.month == 7
-			|| dateTime.month == 8 || dateTime.month == 10 || dateTime.month == 12)
-		{
-			if (dateTime.day <= 31)
-				return(true);
-			else
-				return(false);
-		}
-		else if (dateTime.month == 6 || dateTime.month == 9 || dateTime.month == 11)
-		{
-			if (dateTime.day <= 30)
-				return(true);
-			else
-				return(false);
-		}
-		else if (dateTime.month == 2)
-		{
-			if (dateTime.day <= 28)
-				return(true);
-			else
-				return(false);
-		}
-		else
-		{
-			return(false);
-		}
-	}
-	else
-	{
-		return(false);
-	}
-}
-
-bool Date::isValid( const Date date)
-{
-	DateTime dateTime;
-	date >> dateTime;
-	
-	if (dateTime.month == 1 || dateTime.month == 3 || dateTime.month == 5 || dateTime.month == 7
-		|| dateTime.month == 8 || dateTime.month == 10 || dateTime.month == 12)
-	{
-		if (dateTime.day <= 31)
-			return(true);
-		else
-			return(false);
-	}
-	else if (dateTime.month == 6 || dateTime.month == 9 || dateTime.month == 11)
-	{
-		if (dateTime.day <= 30)
-			return(true);
-		else
-			return(false);
-	}
-	else if (dateTime.month == 2)
-	{
-		if (dateTime.day <= 28)
-			return(true);
-		else
-			return(false);
-	}
-	else
-	{
-		return(false);
-	}
-}*/
 
 const Date Date::currentDate() {	//returns the current date
 	time_t now( time(0));
