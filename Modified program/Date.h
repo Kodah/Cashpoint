@@ -43,6 +43,7 @@ public:
     static const Date currentDate() ;   //return the current date
 
 	static bool isValid(const Date date, const Date dateCreated);
+	static bool isValid(const Date date);
 
 	string toFormattedString() const ;				//return date as formatted string ("DD/MM/YYYY")
 
