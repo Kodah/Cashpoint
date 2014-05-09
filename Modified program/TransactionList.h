@@ -44,20 +44,8 @@ public:
 	ostream& putDataInStream( ostream& os) const;	//send TransactionList info into an output stream
 	istream& getDataFromStream( istream& is);	//receive TransactionList info from an input stream
 
-	TransactionList& operator +=( TransactionList trList )
-	{
-		int trListSize = trList.size();
-
-		for( int i(0); i < trListSize; i++ )
-		{
-			addNewTransaction( trList.newestTransaction() );
-			trList.deleteFirstTransaction();
-		}
-
-		return *this;
-	}
-
-
+	TransactionList& operator +=( TransactionList trList );
+	
 private:
     List<Transaction> listOfTransactions_;	//list of transactions
 };

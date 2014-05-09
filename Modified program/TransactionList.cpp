@@ -254,6 +254,18 @@ istream& TransactionList::getDataFromStream( istream& is) {
 	return is;
 }
 
+TransactionList& TransactionList::operator +=( TransactionList trList )
+{
+	int trListSize = trList.size();
+
+	for( int i(0); i < trListSize; i++ )
+	{
+		addNewTransaction( trList.newestTransaction() );
+		trList.deleteFirstTransaction();
+	}
+
+	return *this;
+}
 
 //---------------------------------------------------------------------------
 //non-member operator functions
