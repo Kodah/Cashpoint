@@ -11,7 +11,26 @@
 //public member functions
 //---------------------------------------------------------------------------
 
-//____constructors & destructors
+//____constructors & destructors & instance getter
+
+UserInterface* UserInterface::uI = nullptr;
+
+UserInterface::UserInterface()
+{
+}
+
+UserInterface::~UserInterface()
+{
+	delete uI;
+}
+
+UserInterface* UserInterface::getUserInterface( void )
+{
+	if( !uI )
+		uI = new UserInterface();
+	
+	return uI;
+}
 
 //____other public member functions
 

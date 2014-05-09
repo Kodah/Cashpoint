@@ -18,10 +18,16 @@ using namespace std;
 
 class UserInterface
 {
+private:
+	UserInterface();
+	~UserInterface();
+
+	static UserInterface *uI;
 public:
-	//constructors & destructor
     void	showWelcomeScreen() const;
     void	showByeScreen() const;
+
+	static UserInterface* getUserInterface( void );
 
 	int		readInCardIdentificationCommand() const;
 	int		readInAccountProcessingCommand() const;

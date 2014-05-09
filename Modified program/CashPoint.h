@@ -37,7 +37,7 @@ private:
 	//data items
     BankAccount* p_theActiveAccount_;
     CashCard* p_theCashCard_;
-    const UserInterface theUI_;
+    UserInterface *theUI_;
 
 	//support functions
 	void performCardCommand( int);
