@@ -31,14 +31,49 @@ int Date::getYear() const {
 	return dateTime_.year;
 }
 
-bool Date::isValid( const Date date )
+bool Date::isValid( const Date date, const Date dateCreation)
 {
 	DateTime dateTime;
 	date >> dateTime;
 
-	return ( (dateTime.day > 0) && (dateTime.day <= 31) &&
-			 (dateTime.month > 0) && (dateTime.month <= 12) &&
-			 (dateTime.year > 1900) && (dateTime.year <= 3000) );
+	DateTime dateTimeCreation;
+	dateCreation >> dateTimeCreation;
+
+	if ((dateTimeCreation.year <= dateTime.year)
+					&&(dateTimeCreation.year <= dateTime.year)
+					&&(dateTimeCreation.year <= dateTime.year))
+	{
+		if (dateTime.month == 1 || dateTime.month == 3 || dateTime.month == 5 || dateTime.month == 7
+			|| dateTime.month == 8 || dateTime.month == 10 || dateTime.month == 12)
+		{
+			if (dateTime.day <= 31)
+				return(true);
+			else
+				return(false);
+		}
+		else if (dateTime.month == 6 || dateTime.month == 9 || dateTime.month == 11)
+		{
+			if (dateTime.day <= 30)
+				return(true);
+			else
+				return(false);
+		}
+		else if (dateTime.month == 2)
+		{
+			if (dateTime.day <= 28)
+				return(true);
+			else
+				return(false);
+		}
+		else
+		{
+			return(false);
+		}
+	}
+	else
+	{
+		return(false);
+	}
 }
 
 const Date Date::currentDate() {	//returns the current date
