@@ -83,12 +83,14 @@ const string UserInterface::readInCardToBeProcessed( string& aCardNumber) const 
 
 //Template function for option 7
 template <typename T>
-T readInSearchCriterion() const
+T UserInterface::UreadInSearchCriterion( void ) const
 {
-	T returnVal;
+	T searchCriteria;
+
 	cout << "\nPlease enter search criteria: ";
-	cin >> returnVal;
-	return(returnVal);
+	cin >> searchCriteria;
+
+	return searchCriteria;
 }
 
 double UserInterface::readInAmount() const //for option 7

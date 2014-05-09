@@ -287,13 +287,9 @@ void CashPoint::m7c_showTransactionsForDate() //for option 7
 	p_theActiveAccount_->produceTransactionsForDate(date, strTrans, noTrans);
 
 	if (noTrans == 0)
-	{
 		theUI_.noTransactionsFound();
-	}
 	else
-	{
 		theUI_.showMatchingTransactionsOnScreenDate(date, noTrans, strTrans);
-	}
 }
 
 //---option 8

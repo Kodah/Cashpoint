@@ -62,6 +62,9 @@ public:
 	void produceTransactionsForDate(Date date, string& strTrans, int& noTrans);//for option 7
 	void produceTransactionsForTitle(string title, string& strTrans, int& noTrans);//for option 7
 
+	template <typename T>
+	void produceTransactionsForSearchCriterion( const T searchVal, string& strTrans, int& noTrans ) const;
+
 	void updateBalance( const double amount );
 	void deleteTransactionsUpToDate( const Date d );
 

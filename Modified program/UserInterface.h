@@ -38,6 +38,8 @@ public:
     double	readInWithdrawalAmount() const;
     double	readInDepositAmount() const;
 	int		readInNumberOfTransactions() const; //not sure if this is in the right group of functions	
+
+	template <typename T> T UreadInSearchCriterion( void ) const;
 	
 	double	readInAmount() const; //for option 7
 	string  readInTitle() const; //for option 7
