@@ -81,6 +81,16 @@ const string UserInterface::readInCardToBeProcessed( string& aCardNumber) const 
     return( FILEPATH + "card_" + aCardNumber + ".txt");
 }
 
+//Template function for option 7
+template <typename T>
+T readInSearchCriterion() const
+{
+	T returnVal;
+	cout << "\nPlease enter search criteria: ";
+	cin >> returnVal;
+	return(returnVal);
+}
+
 double UserInterface::readInAmount() const //for option 7
 {
 	double amount;

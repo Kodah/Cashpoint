@@ -144,6 +144,25 @@ TransactionList TransactionList::getMostRecentTransactions(int trans)const{
 	return ( newList);
 }
 
+//Template function for option 7
+template <typename T>
+TransactionList getTransactionsForSearchCriterion(T searchVal) const
+{
+	TransactionList tempList (*this);
+	TransactionList newList;
+	while (tempList.size() != 0)
+	{
+		if ((tempList.newestTransaction().getAmount() == searchVal)
+			||(tempList.newestTransaction().getDate() == searchVal)
+			||(tempList.newestTransaction().getTitle() == searchVal))
+		{
+			newList.addNewTransaction(tempList.newestTransaction());
+		}
+		tempList.deleteFirstTransaction();
+	}
+	return (newList);
+}
+
 TransactionList TransactionList::getTransactionsForAmount(double amount)//for option 7
 {
 	TransactionList tempList (*this);

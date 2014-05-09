@@ -191,6 +191,15 @@ string BankAccount::produceTransactionsUpToDate( const Date date, int &numTransa
 	return trList.toFormattedString();
 }
 
+//Template function for option 7
+template <typename T>
+void produceTransactionsForSearchCriterion(T searchVal, string& strTrans, int& noTrans)
+{
+	TransactionList trl (transactions_.getTransactionsForSearchCriterion(searchVal));
+	noTrans = trl.getNumberOfTransactions();
+	strTrans = trl.toFormattedString();
+}
+
 void BankAccount::produceTransactionsForAmount(double amount, string& strTrans, int& noTrans)//for option 7
 {
 	TransactionList trl (transactions_.getTransactionsForAmount(amount));

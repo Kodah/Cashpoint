@@ -221,12 +221,15 @@ void CashPoint::m7_searchTransactions(){//for option 7
 		{
 		case 1: //amount
 			m7a_showTransactionsForAmount();
+			//m7_showTransactions(1);
 			break;
 		case 2: //title
 			m7b_showTransactionsForTitle();
+			//m7_showTransactions(2);
 			break;
 		case 3: //date
 			m7c_showTransactionsForDate(); 
+			//m7_showTransactions(3);
 			break;
 		case 4: //exit
 			return;
@@ -236,6 +239,11 @@ void CashPoint::m7_searchTransactions(){//for option 7
 		}
 	}
 }
+
+//void CashPoint::m7_showTransactions(int type)
+//{
+//
+//}
 
 void CashPoint::m7a_showTransactionsForAmount() //for option 7
 {
