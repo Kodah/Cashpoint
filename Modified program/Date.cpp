@@ -31,11 +31,49 @@ int Date::getYear() const {
 	return dateTime_.year;
 }
 
-bool Date::isValid( const Date date, const Date dateCreation)
+bool Date::isValid( const Date creationDate ) const
+{
+	if( *this < creationDate || *this > Date::currentDate() )
+		return false;
+
+	if( dateTime_.day < 1 )
+		return false;
+
+	switch( dateTime_.month )
+	{
+	case JAN: case MAR: case MAY:
+	case JUL: case AUG: case OCT:
+	case DEC:
+		if( dateTime_.day > 31 )
+		   return false;
+
+		break;
+
+	case FEB:
+		if( dateTime_.day > 28 )
+			return false;
+
+		break;
+
+	case APR: case JUN: case SEPT:
+	case NOV:
+		if( dateTime_.day > 30 )
+			return false;
+
+		break;
+
+	default:
+		return false;
+	};
+
+	return true;
+}
+
+/*bool Date::isValid( const Date date, const Date dateCreation)
 {
 	DateTime dateTime;
 	date >> dateTime;
-
+	
 	if (date < dateCreation)
 	{
 		if (dateTime.month == 1 || dateTime.month == 3 || dateTime.month == 5 || dateTime.month == 7
@@ -102,7 +140,7 @@ bool Date::isValid( const Date date)
 	{
 		return(false);
 	}
-}
+}*/
 
 const Date Date::currentDate() {	//returns the current date
 	time_t now( time(0));

@@ -111,7 +111,7 @@ Date UserInterface::readInValidDate( const Date creationDate ) const
 		printf( "Enter a date later or equal to %s (DD/MM/YYYY): ", strCreationDate );
 		cin >> chosenDate;
 
-		if( !Date::isValid(chosenDate, creationDate))
+		if( !chosenDate.isValid( creationDate ) )
 			cout << "You entered an invalid date..." << endl << endl;
 		else
 			return chosenDate;

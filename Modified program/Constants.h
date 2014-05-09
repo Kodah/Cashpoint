@@ -36,6 +36,23 @@ enum AccountState
 	INACCESSIBLE_ACCOUNT
 };
 
+//month
+enum Month
+{
+	JAN = 1,
+	FEB,
+	MAR,
+	APR,
+	MAY,
+	JUN,
+	JUL,
+	AUG,
+	SEPT,
+	OCT,
+	NOV,
+	DEC
+};
+
 //ressource path
 const string FILEPATH( "data\\");
 
