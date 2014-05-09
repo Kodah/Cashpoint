@@ -33,9 +33,11 @@ int Date::getYear() const {
 
 bool Date::isValid( const Date creationDate ) const
 {
-	if( *this < creationDate || *this > Date::currentDate()
-		|| !Date::isValidDate( *this ) )
-		return false;
+	if( *this >= creationDate && *this <= Date::currentDate()
+		&& Date::isValidDate( *this ) )
+		return true;
+
+	return false;
 }
 
 bool Date::isValidDate( const Date date )
