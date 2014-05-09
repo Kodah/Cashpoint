@@ -37,8 +37,8 @@ public:
     bool	isEmptyTransactionList() const;
 
 	//functions to put data into and get data from streams
-	virtual ostream& putDataInStream( ostream& os) const;
-	virtual istream& getDataFromStream( istream& is);
+	virtual ostream& putDataInStream( ostream& os) const = 0;
+	virtual istream& getDataFromStream( istream& is) = 0;
 
 	//other operations
 	const string prepareFormattedStatement() const;
@@ -47,7 +47,7 @@ public:
 	void recordTransfer( const double amount, const string transaction );
 
 	double borrowable() const;
-	bool canWithdraw( double amount) const;
+	virtual bool canWithdraw( double amount) const;
     void recordWithdrawal( double amount);
 
 	virtual void transferMoney( const double amount, BankAccount *toAccount );
@@ -62,7 +62,7 @@ public:
 	void produceTransactionsForDate(Date date, string& strTrans, int& noTrans);//for option 7
 	void produceTransactionsForTitle(string title, string& strTrans, int& noTrans);//for option 7
 
-	void updateBalance( double amount );
+	void updateBalance( const double amount );
 	void deleteTransactionsUpToDate( const Date d );
 
 	void recordDeletionOfTransactionUpToDate( const Date date );
@@ -78,7 +78,7 @@ protected:
  
 	//support functions
 	
-	const string prepareFormattedAccountDetails() const;
+	virtual const string prepareFormattedAccountDetails() const = 0;
 
 };
 
@@ -88,7 +88,7 @@ protected:
 
 ostream& operator<<( ostream&, const BankAccount&);		//output operator
 istream& operator>>( istream&, BankAccount&);			//input operator
-bool operator !=( BankAccount bA1, BankAccount bA2 );	//Not equal comparison operator
-bool operator ==( BankAccount bA1, BankAccount bA2 );	//Equal comparison operator
+bool operator !=( BankAccount &bA1, BankAccount &bA2 );	//Not equal comparison operator
+bool operator ==( BankAccount &bA1, BankAccount &bA2 );	//Equal comparison operator
 
 #endif

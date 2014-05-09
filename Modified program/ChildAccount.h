@@ -21,6 +21,9 @@ public: //Public declarations
 
 	ostream&							putDataInStream( ostream& os) const;
 	istream&							getDataFromStream( istream& is);
+	
+protected:
+	const string prepareFormattedAccountDetails() const;
 
 private: //Private member instances
 	double								minimumPaidIn_, maximumPaidIn_;

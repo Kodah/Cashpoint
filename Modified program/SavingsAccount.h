@@ -15,8 +15,8 @@ public: //Public declarations
 	//Accessor declarations
 	double								getMinimumBalance( void ) const;
 
-	ostream&							putDataInStream( ostream& os) const;
-	istream&							getDataFromStream( istream& is);
+	virtual ostream&					putDataInStream( ostream& os) const = 0;
+	virtual istream&					getDataFromStream( istream& is) = 0;
 
 protected: //Protected member instances
 	double								minimumBalance_;

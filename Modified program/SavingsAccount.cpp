@@ -23,7 +23,7 @@ double SavingsAccount::getMinimumBalance( void ) const
 	return minimumBalance_;
 }
 
-ostream& SavingsAccount::putDataInStream( ostream& os) const
+/*ostream& SavingsAccount::putDataInStream( ostream& os) const
 {
 	//put (unformatted) BankAccount details in stream
     os << accountType_ << "\n";				//put account type
@@ -51,4 +51,4 @@ istream& SavingsAccount::getDataFromStream( istream& is)
 	is >> transactions_;					//get all transactions (if any)
 
 	return is;
-}
+}*/

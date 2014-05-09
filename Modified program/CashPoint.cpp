@@ -427,15 +427,10 @@ BankAccount* CashPoint::activateBankAccount(  const string& aBAFileName) {
 	int accType( checkAccountType( aBAFileName));
     //effectively create the active bank account instance of the appropriate class
 	//& store the appropriate data read from the file
-	BankAccount* p_BA( nullptr);
+	BankAccount* p_BA( nullptr );
+
 	switch( accType)
     {
-     	case BANK:	//NOT NEEDED WITH ABSTRACT CLASSES
-        	cout << "\n-------BANK-------\n";
-    		p_BA = new BankAccount;    //points to a BankAccount object
-       		p_BA->readInBankAccountFromFile( aBAFileName); //read account details from file
-			break;
-
 		case CURRENT:
 			cout << "\n-------CURRENT-------\n";
 			p_BA = new CurrentAccount;

@@ -64,3 +64,20 @@ istream& ChildAccount::getDataFromStream( istream& is)
 
 	return is;
 }
+
+const string ChildAccount::prepareFormattedAccountDetails() const
+{
+	//collect account details in string
+	ostringstream os;
+	//account details
+	os << "\nACCOUNT TYPE:    " << accountType_ << " ACCOUNT";						//display account type
+	os << "\nACCOUNT NUMBER:  " << accountNumber_;									//display account number
+	os << "\nSORT CODE:       " << sortCode_;										//display sort code
+	os << "\nCREATION DATE:   " << creationDate_.toFormattedString();				//display creation date
+	os << fixed << setprecision(2) << setfill(' ');
+	os << "\nBALANCE:         \234" << setw(10) << balance_;						//display balance
+	os << "\nMINIMUM PAID IN: \234" << setw(10) << minimumPaidIn_;					//display minimum paid in
+	os << "\nMAXIMUM PAID IN: \234" << setw(10) << maximumPaidIn_;					//display maximum paid in
+
+	return os.str();
+}

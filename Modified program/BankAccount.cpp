@@ -127,10 +127,7 @@ void BankAccount::transferMoney( const double amount, BankAccount *toAccount )
 				
 				recordTransfer( -amount, "Transfer_to_" + toAccNo + "_" + toSrtCode ); //Record the transfer
 				toAccount->recordTransfer( amount, "Transfer_from_" + accountNumber_ + "_" + sortCode_ );
-				
-				//storeBankAccountInFile( FILEPATH + "account_" + accountNumber_ + "_" + sortCode_ + ".txt" ); //Save the accounts' current state
-				//toAccount->storeBankAccountInFile( FILEPATH + "account_" + toAccNo + "_" + toSrtCode + ".txt" );
-				
+								
 				cout << "Transfer success" << endl;
 			}
 			else
@@ -171,28 +168,6 @@ void BankAccount::storeBankAccountInFile( const string& fileName) const {
 	else
         toFile << (*this);	//store all info to bank account file
 	toFile.close();			//close file: optional here
-}
-
-ostream& BankAccount::putDataInStream( ostream& os) const {
-//put (unformatted) BankAccount details in stream
-    os << accountType_ << "\n";				//put account type
-    os << accountNumber_ << "\n";			//put account number
-	os << sortCode_ << "\n";				//put sort code
-    os << creationDate_ << "\n";			//put creation date
-	os << balance_ << "\n";					//put balance
-	if (  ! transactions_.size() == 0)
-		os << transactions_;				//put all transactions, one per line
-	return os;
-}
-istream& BankAccount::getDataFromStream( istream& is) {
-//get BankAccount details from stream
-    is >> accountType_;						//get account type
-    is >> accountNumber_;					//get account number
-	is >> sortCode_;						//get sort code
- 	is >> creationDate_;					//get creation date
-	is >> balance_;							//get balance_
-	is >> transactions_;					//get all transactions (if any)
-	return is;
 }
 
 void BankAccount::produceAllDepositTransactions(string& str, double& total) const{
@@ -250,19 +225,6 @@ void BankAccount::recordDeletionOfTransactionUpToDate( const Date date )
 	transactions_.deleteTransactionsUpToDate( date );
 }
 
-const string BankAccount::prepareFormattedAccountDetails() const {
-	//collect account details in string
-	ostringstream os;
-	//account details
-	os << "\nACCOUNT TYPE:    " << accountType_ << " ACCOUNT";						//display account type
-	os << "\nACCOUNT NUMBER:  " << accountNumber_;									//display account number
-	os << "\nSORT CODE:       " << sortCode_;										//display sort code
-	os << "\nCREATION DATE:   " << creationDate_.toFormattedString();				//display creation date
-	os << fixed << setprecision(2) << setfill(' ');
-	os << "\nBALANCE:         \234" << setw(10) << balance_;	//display balance
-	return ( os.str());
-}
-
 //---------------------------------------------------------------------------
 //non-member operator functions
 //---------------------------------------------------------------------------
@@ -277,7 +239,7 @@ istream& operator>>( istream& is, BankAccount& aBankAccount) {
 	return ( aBankAccount.getDataFromStream( is));
 }
 
-bool operator ==( BankAccount bA1, BankAccount bA2 )
+bool operator ==( BankAccount &bA1, BankAccount &bA2 )
 {
 	if( bA1.getAccountNumber() != bA2.getAccountNumber() )
 		return false; //Account numbers are different; dealing with different accounts
@@ -288,7 +250,7 @@ bool operator ==( BankAccount bA1, BankAccount bA2 )
 	return true; //Accounts are the same
 }
 
-bool operator !=( BankAccount bA1, BankAccount bA2 )
+bool operator !=( BankAccount &bA1, BankAccount &bA2 )
 {
 	if( bA1.getAccountNumber() != bA2.getAccountNumber() )
 		return true; //Account numbers are different; dealing with different accounts
