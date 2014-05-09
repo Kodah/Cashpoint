@@ -33,15 +33,28 @@ void TransactionList::deleteGivenTransaction( const Transaction& tr) {
 
 void TransactionList::deleteTransactionsUpToDate( const Date date )
 {
-	TransactionList trList = getTransactionsUpToDate( date );
+	//TransactionList trList = getTransactionsUpToDate( date ); //Non-recursive call
+	TransactionList trList = getTransactionsUpToDate( *this, date ); //Recursive call
 	int numTransactions = trList.size();
 
-	for( int i(0); i < numTransactions; i++ )
+	// Non-recursive code
+	/*for( int i(0); i < numTransactions; i++ )
 	{
 		Transaction tempTransaction = trList.newestTransaction();
 		deleteGivenTransaction( tempTransaction );
         trList.deleteGivenTransaction( tempTransaction );
-	}
+	}*/
+
+	//Recursive version
+	if( numTransactions == 0 )
+		return;
+
+	Transaction tempTransaction = trList.newestTransaction();
+
+	deleteGivenTransaction( tempTransaction );
+    trList.deleteGivenTransaction( tempTransaction );
+
+	deleteTransactionsUpToDate( date );
 }
 
 int TransactionList::size() const {
@@ -82,7 +95,7 @@ double TransactionList::getTotalTransactions() const {
 }
 
 TransactionList TransactionList::getTransactionsUpToDate( const Date date ) const
-{
+{//NON-RECURSIVE VERSION
 	TransactionList trList( *this ), trList2;
 	int numTransactions = trList.size();
 
@@ -94,6 +107,25 @@ TransactionList TransactionList::getTransactionsUpToDate( const Date date ) cons
 			trList2.addNewTransaction( tempTransaction );
 		
 		trList.deleteGivenTransaction( tempTransaction );
+	}
+	
+	return trList2;
+}
+
+TransactionList TransactionList::getTransactionsUpToDate( TransactionList trList, const Date date ) const
+{// RECURSIVE VERSION
+	TransactionList trList2;
+	Transaction tempTransaction;
+
+	if( trList.size() > 0 )
+	{
+		tempTransaction = trList.newestTransaction();
+		
+		if( tempTransaction.getDate() <= date )
+			trList2.addNewTransaction( tempTransaction );
+
+		trList.deleteFirstTransaction();
+		trList2 += getTransactionsUpToDate( trList, date );
 	}
 
 	return trList2;

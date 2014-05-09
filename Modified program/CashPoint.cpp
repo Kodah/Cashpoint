@@ -307,7 +307,7 @@ void CashPoint::m8_clearTransactionsUpToDate()
 
 	if( transactions.empty() )
 	{
-		printf( "There are no prior transactions up to and on %s\n", clearDate.toFormattedString() );
+		printf( "There are no prior transactions up to and on %s\n", clearDate.toFormattedString().c_str() );
 		return;
 	}
 

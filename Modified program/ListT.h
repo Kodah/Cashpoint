@@ -150,7 +150,6 @@ bool List<ITEM>::isEmpty() const {	//check empty list
 template <class ITEM>
 const ITEM List<ITEM>::first() const{	//return first item
 	assert( head_ != nullptr); 	//just to check: pre-condition
-	cout << "#2 head_->item = " << head_->item_ << endl;
 	return ( head_->item_);
 }
 template <class ITEM>
