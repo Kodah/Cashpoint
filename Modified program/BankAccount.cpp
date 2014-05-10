@@ -193,14 +193,18 @@ string BankAccount::produceTransactionsUpToDate( const Date date, int &numTransa
 
 //Template function for option 7
 template <typename T>
-void BankAccount::produceTransactionsForSearchCriterion( const T searchVal, string& strTrans, int& noTrans ) const
+string BankAccount::produceTransactionsForSearchCriteria( const T searchVal, int& noTrans ) const
 {
 	TransactionList trl (transactions_.getTransactionsForSearchCriterion(searchVal));
 	noTrans = trl.getNumberOfTransactions();
-	strTrans = trl.toFormattedString();
+	return trl.toFormattedString();
 }
 
-void BankAccount::produceTransactionsForAmount(double amount, string& strTrans, int& noTrans)//for option 7
+template string BankAccount::produceTransactionsForSearchCriteria<int>( int, int & ) const;
+template string BankAccount::produceTransactionsForSearchCriteria<string>( string, int & ) const;
+template string BankAccount::produceTransactionsForSearchCriteria<Date>( Date, int & ) const;
+
+/*void BankAccount::produceTransactionsForAmount(double amount, string& strTrans, int& noTrans)//for option 7
 {
 	TransactionList trl (transactions_.getTransactionsForAmount(amount));
 	noTrans = trl.getNumberOfTransactions();
@@ -219,7 +223,7 @@ void BankAccount::produceTransactionsForDate(Date date, string& strTrans, int& n
 	TransactionList trl (transactions_.getTransactionsForDate(date));
 	noTrans	= trl.getNumberOfTransactions();
 	strTrans = trl.toFormattedString();
-}
+}*/
 
 //---------------------------------------------------------------------------
 //private support member functions

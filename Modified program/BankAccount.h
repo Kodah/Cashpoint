@@ -58,12 +58,12 @@ public:
 	void produceNMostRecentTransactions(int noOfTran, string& str, double& total) const;
 	string produceTransactionsUpToDate( const Date date, int &numTransactions ) const;
 
-	void produceTransactionsForAmount(double amount, string& strTrans, int& noTrans);//for option 7
-	void produceTransactionsForDate(Date date, string& strTrans, int& noTrans);//for option 7
-	void produceTransactionsForTitle(string title, string& strTrans, int& noTrans);//for option 7
+	//void produceTransactionsForAmount(double amount, string& strTrans, int& noTrans);//for option 7
+	//void produceTransactionsForDate(Date date, string& strTrans, int& noTrans);//for option 7
+	//void produceTransactionsForTitle(string title, string& strTrans, int& noTrans);//for option 7
 
 	template <typename T>
-	void produceTransactionsForSearchCriterion( const T searchVal, string& strTrans, int& noTrans ) const;
+	string produceTransactionsForSearchCriteria( const T searchVal, int& noTrans ) const;
 
 	void updateBalance( const double amount );
 	void deleteTransactionsUpToDate( const Date d );

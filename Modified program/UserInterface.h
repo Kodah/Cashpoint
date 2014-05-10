@@ -31,7 +31,7 @@ public:
 
 	int		readInCardIdentificationCommand() const;
 	int		readInAccountProcessingCommand() const;
-	int		readInTransactionSearchCommand() const;
+	int		readInTransactionSearchCommand( void ) const;
 
 	void	showErrorInvalidCommand() const;
     void	wait() const;
@@ -45,16 +45,17 @@ public:
     double	readInDepositAmount() const;
 	int		readInNumberOfTransactions() const; //not sure if this is in the right group of functions	
 
-	template <typename T> T UreadInSearchCriterion( void ) const;
+	template <typename T> T readInSearchCriteria( void ) const;
 	
 	double	readInAmount() const; //for option 7
 	string  readInTitle() const; //for option 7
 	Date	readInValidDate( const Date d ) const;
 	void	noTransactionsFound() const;//for option 7
 
-	void showMatchingTransactionsOnScreenAmount(double amount, int noTrans, string strTrans) const; //for option 7
-	void showMatchingTransactionsOnScreenTitle(string title, int noTrans, string strTrans) const; //for option 7
-	void showMatchingTransactionsOnScreenDate(Date date, int noTrans, string strTrans) const; //for option 7
+	//void showMatchingTransactionsOnScreenAmount( const double amount, const int noTrans, const string strTrans ) const; //for option 7
+	//void showMatchingTransactionsOnScreenTitle( const string title, const int noTrans, const string strTrans ) const; //for option 7
+	//void showMatchingTransactionsOnScreenDate( const Date date, const int noTrans, const string strTrans ) const; //for option 7
+	template <typename T> void showMatchingTransactionsOnScreen( const T criteria, const int noTrans, const string strTrans ) const;
 
 	void showTransactionsUpToDateOnScreen( const Date date, const int numTransactions, string transactions ) const;
 

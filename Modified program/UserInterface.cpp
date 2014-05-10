@@ -68,11 +68,11 @@ void UserInterface::showAccountProcessingMenu() const {
 	cout << "\n       2                Withdraw from account";
 	cout << "\n       3                 Deposit into account";
 	cout << "\n       4                       Show statement";
-	cout << "\n       5                    Show all deposits  //Implemented";
-	cout << "\n       6                  Show mini statement  //Implemented";
-	cout << "\n       7           Show transations by search  //TO BE IMPLEMENTED FOR ASS 2";
-	cout << "\n       8    Clear all transactions up to date  //TO BE IMPLEMENTED FOR ASS 2";
-	cout << "\n       9          Transfer to another account  //Implemented";
+	cout << "\n       5                    Show all deposits";
+	cout << "\n       6                  Show mini statement";
+	cout << "\n       7           Show transations by search";
+	cout << "\n       8    Clear all transactions up to date";
+	cout << "\n       9          Transfer to another account";
 	cout << "\n         ________________________________________";
 }
 
@@ -80,7 +80,8 @@ int UserInterface::readInTransactionSearchCommand() const {
 	showTransactionSearchMenu();
 	return ( readInCommand());
 }
-void UserInterface::showTransactionSearchMenu() const {
+void UserInterface::showTransactionSearchMenu( void ) const
+{
 	cout << "\n\n\n ________________________________________";
 	cout << "\n		________TRANSACTION SEARCH MENU________";
 	cout << "\n		________________________________________";
@@ -102,7 +103,7 @@ const string UserInterface::readInCardToBeProcessed( string& aCardNumber) const 
 
 //Template function for option 7
 template <typename T>
-T UserInterface::UreadInSearchCriterion( void ) const
+T UserInterface::readInSearchCriteria( void ) const
 {
 	T searchCriteria;
 
@@ -111,6 +112,9 @@ T UserInterface::UreadInSearchCriterion( void ) const
 
 	return searchCriteria;
 }
+template int UserInterface::readInSearchCriteria<int>( void ) const;
+template string UserInterface::readInSearchCriteria<string>( void ) const;
+template Date UserInterface::readInSearchCriteria<Date>( void ) const;
 
 double UserInterface::readInAmount() const //for option 7
 {
@@ -156,25 +160,32 @@ void UserInterface::noTransactionsFound() const //for option 7
 	cout << "\nNO TRANSACTION IN BANK ACCOUNT MATCH THE SEARCH CRITERION GIVEN";
 }
 
-void UserInterface::showMatchingTransactionsOnScreenAmount(double amount, int noTrans, string strTrans) const //for option 7
+/*void UserInterface::showMatchingTransactionsOnScreenAmount( const double amount, const int noTrans, const string strTrans ) const //for option 7
 {
 	cout << "\n" << noTrans << " transactions for \234" << amount << "\n";
 	cout << strTrans;
 }
 
-void UserInterface::showMatchingTransactionsOnScreenTitle(string title, int noTrans, string strTrans) const //for option 7
+void UserInterface::showMatchingTransactionsOnScreenTitle( const string title, const int noTrans, const string strTrans ) const //for option 7
 {
 	cout << "\n" << noTrans << " transactions for " << title << "\n";
 	cout << strTrans;
 }
 
-void UserInterface::showMatchingTransactionsOnScreenDate(Date date, int noTrans, string strTrans) const //for option 7
+void UserInterface::showMatchingTransactionsOnScreenDate( const Date date, const int noTrans, const string strTrans ) const //for option 7
 {
 	cout << "\n" << noTrans << " transactions for " << date << "\n";
 	cout << strTrans;
+}*/
+
+template <typename T>
+void UserInterface::showMatchingTransactionsOnScreen( const T criteria, const int noTrans, const string strTrans ) const //for option 7
+{
+	cout << "\n" << noTrans << " transactions for " << criteria << "\n";
+	cout << strTrans;
 }
 
-void UserInterface::showTransactionsUpToDateOnScreen( const Date date, const int numTransactions, string transactions ) const
+void UserInterface::showTransactionsUpToDateOnScreen( const Date date, const int numTransactions, const string transactions ) const
 {
 	printf( "There are %d transactions up to %s.\n\n%s",
 		numTransactions, date.toFormattedString().c_str(), transactions.c_str() );

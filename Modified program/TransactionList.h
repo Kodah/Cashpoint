@@ -39,7 +39,7 @@ public:
 	TransactionList getTransactionsUpToDate( const Date d ) const;
 	TransactionList TransactionList::getTransactionsUpToDate( TransactionList trList, const Date date ) const;
 
-	template <typename T> TransactionList getTransactionsForSearchCriterion( const T searchVal ) const;
+	template <typename T> TransactionList getTransactionsForSearchCriteria( const T searchVal ) const;
 
 	const string toFormattedString() const;		//return transactionlist as a (formatted) string
 	ostream& putDataInStream( ostream& os) const;	//send TransactionList info into an output stream

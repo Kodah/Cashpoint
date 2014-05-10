@@ -11,13 +11,22 @@
 
 //____constructors & destructors
 Date::Date() 						//default constructor
-{}
+{
+	instance_.insert( instance_.end(), (DWORD)this );
+}
 
 Date::Date( int d, int m, int y) 	//constructor
 {
 	dateTime_.day	= d;
 	dateTime_.month = m;
 	dateTime_.year	= y;
+
+	instance_.insert( instance_.end(), (DWORD)this );
+}
+
+Date::~Date()
+{
+	instance_.remove( (DWORD)this );
 }
 
 //____other public member functions
@@ -117,12 +126,25 @@ istream& Date::getDataFromStream( istream& is) {
 //overloaded operator functions
 //---------------------------------------------------------------------------
 
-bool Date::operator==( const Date& d) const { //comparison operator
+template <typename T> bool Date::operator ==( const T &type ) const
+{
+		if( !isInstance( (DWORD)&type ) )
+			return false;
+
+		if( *this == (Date)type )
+			return true;
+
+		return false;
+}
+
+bool Date::operator==( const Date& d) const
+{ //comparison operator
 	return
 		(( dateTime_.day == d.dateTime_.day) &&
 		 ( dateTime_.month == d.dateTime_.month) &&
 		 ( dateTime_.year == d.dateTime_.year));
 }
+
 bool Date::operator!=( const Date& d) const {
 	return ( !( *this == d));
 }
