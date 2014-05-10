@@ -34,6 +34,7 @@ void CurrentAccount::transferMoney( const double amount, BankAccount *toAccount 
 	{
 		printf( "ACCOUNT BALANCE: \x9C%.2f\n", balance ); //Let the customer know their balance.
 		printf( "ACCOUNT OVERDRAFT: \x9C%.2f\n", overdraftLimit_ ); //Let the customer know their overdraft limit.
+		printf( "AVAILABLE: \x9C%.2f\n", (balance + overdraftLimit_) ); //Let the customer know the amount available
 
 		if( (balance - amount) >= -overdraftLimit_ ) //If the transfer does not leave us beyond overdraft
 		{
@@ -105,7 +106,8 @@ const string CurrentAccount::prepareFormattedAccountDetails() const
 	os << "\nCREATION DATE:   " << creationDate_.toFormattedString();				//display creation date
 	os << fixed << setprecision(2) << setfill(' ');
 	os << "\nBALANCE:         \234" << setw(10) << balance_;						//display balance
-	os << "\nOVERDRAFT:		  \234" << setw(10) << overdraftLimit_;					//display overdraft
+	os << "\nOVERDRAFT:       \234" << setw(10) << overdraftLimit_;						//display overdraft
+	os << "\nAVAILABLE:       \234" << setw(10) << (balance_ + overdraftLimit_);			//Available balance
 
 	return os.str();
 }

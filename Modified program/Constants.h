@@ -53,11 +53,11 @@ enum Month
 	DEC
 };
 
-enum Type
+enum SEARCH_OPTS
 {
-	DATE,
-	STRING,
-	DOUBLE
+	AMOUNT = 1,
+	TITLE,
+	DATE
 };
 
 //ressource path

@@ -33,7 +33,7 @@ void TransactionList::deleteFirstTransaction()
 {
     //listOfTransactions_.deleteFirst();
 	it_ = listOfTransactions_.begin();
-	listOfTransactions_.erase( it_, it_ );
+	listOfTransactions_.erase( it_ );
 }
 
 void TransactionList::deleteGivenTransaction( const Transaction& tr)
@@ -144,10 +144,16 @@ TransactionList TransactionList::getTransactionsUpToDate( TransactionList trList
 	return trList2;
 }
 
-TransactionList TransactionList::getMostRecentTransactions(int trans)const{
+TransactionList TransactionList::getMostRecentTransactions( int trans ) const
+{
 	//Returns Transaction list of user defined length
-	TransactionList tempList (*this);
+	TransactionList tempList( *this );
 	TransactionList newList;
+
+	int numTransactions = this->size();
+
+	if( numTransactions < trans )
+		trans = numTransactions;
 
 	for (int i = 0; i < trans; i++)
 	{
@@ -172,15 +178,19 @@ TransactionList TransactionList::getTransactionsForSearchCriteria( const T searc
 	{
 		oss << tempList.newestTransaction().getDate();
 		date = oss.str();
+		oss.str( "" );
 
 		oss << tempList.newestTransaction().getAmount();
 		amount = oss.str();
+		oss.str( "" );
 
 		oss << tempList.newestTransaction().getTitle();
 		title = oss.str();
+		oss.str( "" );
 
 		oss << searchVal;
 		value = oss.str();
+		oss.str( "" );
 
 		if( date == value || amount == value || title == value )
 			newList.addNewTransaction( tempList.newestTransaction() );

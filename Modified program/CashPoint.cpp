@@ -14,15 +14,18 @@
 //____constructors & destructors
 
 CashPoint::CashPoint()
-	: p_theActiveAccount_( nullptr), p_theCashCard_( nullptr)
+	: p_theActiveAccount_( nullptr ), p_theCashCard_( nullptr )
 {
 	theUI_ = UserInterface::getUserInterface();
 }
 
 CashPoint::~CashPoint()
 {
-	assert( p_theActiveAccount_ == nullptr);
-	assert( p_theCashCard_ == nullptr);
+	if( p_theActiveAccount_ )
+		releaseBankAccount( p_theActiveAccount_, p_theActiveAccount_->getFileName() );
+
+	if( p_theCashCard_ )
+		releaseCashCard();
 }
 
 //____other public member functions
@@ -32,6 +35,7 @@ void CashPoint::activateCashPoint( void )
 	int command;
 	theUI_->showWelcomeScreen();
     command = theUI_->readInCardIdentificationCommand();
+
 	while ( command != QUIT_COMMAND)
     {
 		performCardCommand( command);
@@ -47,45 +51,36 @@ void CashPoint::activateCashPoint( void )
 
 void CashPoint::performCardCommand( int option )
 {
-    switch ( option)
+	if( option == 1 )
 	{
-		case 1:
+		string cashCardNum;
+		string cashCardFileName( theUI_->readInCardToBeProcessed( cashCardNum)); //read in card name & produce cashcard filename
+        int validCardCode( validateCard( cashCardFileName));		//check valid card
+        theUI_->showValidateCardOnScreen( validCardCode, cashCardNum);
+
+        if ( validCardCode == VALID_CARD ) //valid card
         {
-            //read in card number and check that it is valid
-            string cashCardNum;
-			string cashCardFileName( theUI_->readInCardToBeProcessed( cashCardNum));	//read in card name & produce cashcard filename
-            int validCardCode( validateCard( cashCardFileName));		//check valid card
-            theUI_->showValidateCardOnScreen( validCardCode, cashCardNum);
-            if ( validCardCode == VALID_CARD) //valid card
-            {
-				//dynamically create a cash card & store card data
-        		activateCashCard( cashCardFileName);
-				//display card data with available accounts
-				string s_card( p_theCashCard_->toFormattedString());
-				theUI_->showCardOnScreen( s_card);
-				//process all request for current card (& bank accounts)
-                processOneCustomerRequests();
-				//free memory space used by cash card
-				releaseCashCard();
-            }
-            break;
-		}
-		default:theUI_->showErrorInvalidCommand();
+			activateCashCard( cashCardFileName ); //dynamically create a cash card & store card data
+			theUI_->showCardOnScreen(  p_theCashCard_->toFormattedString() ); //display card data with available accounts
+			processOneCustomerRequests(); //process all request for current card (& bank accounts)
+			releaseCashCard(); //free memory space used by cash card
+        }
 	}
+	else
+		theUI_->showErrorInvalidCommand();
 }
 
 int CashPoint::validateCard( const string& cashCardFileName ) const
 {
 //check that the card exists (valid)
     int validCardCode;
-    if ( ! canOpenFile( cashCardFileName))   //invalid card
+
+    if ( !canOpenFile( cashCardFileName ) )   //invalid card
         return UNKNOWN_CARD;
-    else    //card empty (exist but no bank account listed on card)
-		if ( ! linkedCard( cashCardFileName))  
-			return EMPTY_CARD;
-		else
-			//card valid (exists and linked to at least one bank account)
-			return VALID_CARD;
+    else if ( !linkedCard( cashCardFileName ) )  
+		return EMPTY_CARD; //card empty (exist but no bank account listed on card)
+	else
+		return VALID_CARD; //card valid (exists and linked to at least one bank account)
 }
 
 int CashPoint::validateAccount( const string& bankAccountFileName ) const
@@ -93,16 +88,14 @@ int CashPoint::validateAccount( const string& bankAccountFileName ) const
 //check that the account is valid 
 //MORE WORK NEEDED: in case of transfer
     int validBankCode;
-    if ( ! canOpenFile( bankAccountFileName)) 
-		//account does not exist
-		validBankCode = UNKNOWN_ACCOUNT;
+
+    if ( !canOpenFile( bankAccountFileName ) ) 
+		validBankCode = UNKNOWN_ACCOUNT; //account does not exist
+	else if ( ! p_theCashCard_->onCard( bankAccountFileName ) ) //unaccessible account (exist but not listed on card)
+    	validBankCode = INACCESSIBLE_ACCOUNT;
 	else
-	  	//unaccessible account (exist but not listed on card)
-		if ( ! p_theCashCard_->onCard( bankAccountFileName))     
-    		validBankCode = INACCESSIBLE_ACCOUNT;
-		else
-			//account valid (exists and accessible)
-       		validBankCode = VALID_ACCOUNT;
+		validBankCode = VALID_ACCOUNT; //account valid (exists and accessible)
+
     return validBankCode;
 }
 
@@ -111,58 +104,76 @@ void CashPoint::processOneCustomerRequests( void )
 //process from one account
     string anAccountNumber, anAccountSortCode;
     //select active account and check that it is valid
-    string bankAccountFileName( theUI_->readInAccountToBeProcessed( anAccountNumber, anAccountSortCode));
-    int validAccountCode( validateAccount( bankAccountFileName));  //check valid account
-    theUI_->showValidateAccountOnScreen( validAccountCode, anAccountNumber, anAccountSortCode);
-    if ( validAccountCode == VALID_ACCOUNT) //valid account: exists, accessible with card & not already open
+    string bankAccountFileName( theUI_->readInAccountToBeProcessed( anAccountNumber, anAccountSortCode ) );
+    int validAccountCode( validateAccount( bankAccountFileName ) );  //check valid account
+    theUI_->showValidateAccountOnScreen( validAccountCode, anAccountNumber, anAccountSortCode );
+
+    if ( validAccountCode == VALID_ACCOUNT ) //valid account: exists, accessible with card & not already open
     {
        	//dynamically create a bank account to store data from file
-        p_theActiveAccount_ = activateBankAccount( bankAccountFileName);
+        p_theActiveAccount_ = activateBankAccount( bankAccountFileName );
 		//process all request for current card (& bank accounts)
     	processOneAccountRequests();
 		//store new state of bank account in file & free bank account memory space
-        p_theActiveAccount_ = releaseBankAccount( p_theActiveAccount_, bankAccountFileName);
+        p_theActiveAccount_ = releaseBankAccount( p_theActiveAccount_, bankAccountFileName );
     }
 }
 
 void CashPoint::processOneAccountRequests( void )
 {
-    int option;
+	int option = theUI_->readInAccountProcessingCommand();
 	//select option from account processing menu
-  	option = theUI_->readInAccountProcessingCommand();
-	while ( option != QUIT_COMMAND)
+	while ( option != QUIT_COMMAND )
 	{
-		performAccountProcessingCommand( option);   //process command for selected option
+		performAccountProcessingCommand( option );   //process command for selected option
 		theUI_->wait();
         option = theUI_->readInAccountProcessingCommand();   //select another option
 	}
 }
 
 
-void CashPoint::performAccountProcessingCommand( int option )
+void CashPoint::performAccountProcessingCommand( const int option )
 {
-	switch ( option)
+	switch ( option )
 	{
-		case 1:	m1_produceBalance();
-				break;
-		case 2: m2_withdrawFromBankAccount();
- 				break;
-		case 3:	m3_depositToBankAccount();
-				break;
-		case 4:	m4_produceStatement();
-				break;
+		case 1:
+			m1_produceBalance();
+			break;
+
+		case 2:
+			m2_withdrawFromBankAccount();
+ 			break;
+
+		case 3:
+			m3_depositToBankAccount();
+			break;
+
+		case 4:
+			m4_produceStatement();
+			break;
 				// new below
-		case 5: m5_showAllDepositsTransactions();
-				break;
-		case 6: m6_showMiniStatement();
-				break;
-		case 7: m7_searchTransactions();
-				break;
-		case 8: m8_clearTransactionsUpToDate();
-				break;
-		case 9: m9_transferCashToAnotherAccount();
-				break;
-		default:theUI_->showErrorInvalidCommand();
+		case 5:
+			m5_showAllDepositsTransactions();
+			break;
+
+		case 6:
+			m6_showMiniStatement();
+			break;
+
+		case 7:
+			m7_searchTransactions();
+			break;
+
+		case 8:
+			m8_clearTransactionsUpToDate();
+			break;
+
+		case 9:
+			m9_transferCashToAnotherAccount();
+			break;
+
+		default:
+			theUI_->showErrorInvalidCommand();
 	}
 }
 
@@ -170,59 +181,67 @@ void CashPoint::performAccountProcessingCommand( int option )
 //---option 1
 void CashPoint::m1_produceBalance( void ) const
 {
-	double balance( p_theActiveAccount_->getBalance());
-	theUI_->showProduceBalanceOnScreen( balance);
+	double balance( p_theActiveAccount_->getBalance() );
+	theUI_->showProduceBalanceOnScreen( balance );
 }
 
 //---option 2
 void CashPoint::m2_withdrawFromBankAccount( void )
 {
-    double amountToWithdraw( theUI_->readInWithdrawalAmount());
-    bool transactionAuthorised( p_theActiveAccount_->canWithdraw( amountToWithdraw));
+    double amountToWithdraw( theUI_->readInWithdrawalAmount() );
+    bool transactionAuthorised( p_theActiveAccount_->canWithdraw( amountToWithdraw ) );
+
     if ( transactionAuthorised)
     {   //transaction is accepted: money can be withdrawn from account
         p_theActiveAccount_->recordWithdrawal( amountToWithdraw);
     }   //else do nothing
+
     theUI_->showWithdrawalOnScreen( transactionAuthorised, amountToWithdraw);
 }
 
 //---option 3
 void CashPoint::m3_depositToBankAccount( void )
 {
-    double amountToDeposit( theUI_->readInDepositAmount());
-    p_theActiveAccount_->recordDeposit( amountToDeposit);
-    theUI_->showDepositOnScreen( true, amountToDeposit);
+    double amountToDeposit( theUI_->readInDepositAmount() );
+    p_theActiveAccount_->recordDeposit( amountToDeposit );
+    theUI_->showDepositOnScreen( true, amountToDeposit );
 }
 
 //---option 4
 void CashPoint::m4_produceStatement( void ) const
 {
-	theUI_->showStatementOnScreen( p_theActiveAccount_->prepareFormattedStatement());
+	theUI_->showStatementOnScreen( p_theActiveAccount_->prepareFormattedStatement() );
 }
 
 //---option 5
 void CashPoint::m5_showAllDepositsTransactions( void )
 {
-	bool noTransaction = p_theActiveAccount_->isEmptyTransactionList();
 	string str;
 	double total = 0.0;
 
-	if (!noTransaction)
-		p_theActiveAccount_->produceAllDepositTransactions(str, total);
-	theUI_->showAllDepositsOnScreen( noTransaction, str, total);
+	bool noTransaction = p_theActiveAccount_->isEmptyTransactionList();
+
+	if( !noTransaction )
+		p_theActiveAccount_->produceAllDepositTransactions(str, total );
+
+	theUI_->showAllDepositsOnScreen( noTransaction, str, total );
 
 }
 
 //---option 6
 void CashPoint::m6_showMiniStatement( void )
 {
-	bool noTransaction = p_theActiveAccount_->isEmptyTransactionList();
 	string str;
 	double total = 0.0;
-	int noOfTran = theUI_->readInNumberOfTransactions();
 
-	if (!noTransaction)
-		p_theActiveAccount_->produceNMostRecentTransactions(noOfTran, str, total);
+	bool noTransaction = p_theActiveAccount_->isEmptyTransactionList();
+	
+	if ( !noTransaction )
+	{
+		int noOfTran = theUI_->readInNumberOfTransactions();
+		p_theActiveAccount_->produceNMostRecentTransactions( noOfTran, str, total );
+	}
+
 	theUI_->showMiniStatementOnScreen(noTransaction, str, total);
 }
 //---option 7
@@ -277,38 +296,29 @@ void CashPoint::m7_searchTransactions( void )
 
 
 /*void CashPoint::m7_searchTransactions( void )
-{//for option 7
-	bool noTransaction = p_theActiveAccount_->isEmptyTransactionList();
-
-	if (noTransaction)
+{
+	if( p_theActiveAccount_->isEmptyTransactionList() )
 	{
 		theUI_->showNoTransactionsOnScreen();
-	} else {
+		return;
+	}
 
-		int option;
+	switch( theUI_->readInTransactionSearchCommand() )
+	{
+	case AMOUNT:
+		m7a_showTransactionsForAmount();
+		//m7_showTransactions(1);
+		break;
 
-		option = theUI_->readInTransactionSearchCommand();
+	case TITLE:
+		m7b_showTransactionsForTitle();
+		//m7_showTransactions(2);
+		break;
 
-		switch (option)
-		{
-		case 1: //amount
-			m7a_showTransactionsForAmount();
-			//m7_showTransactions(1);
-			break;
-		case 2: //title
-			m7b_showTransactionsForTitle();
-			//m7_showTransactions(2);
-			break;
-		case 3: //date
-			m7c_showTransactionsForDate(); 
-			//m7_showTransactions(3);
-			break;
-		case 4: //exit
-			return;
-			break;
-		default:
-			break;
-		}
+	case DATE:
+		m7c_showTransactionsForDate(); 
+		//m7_showTransactions(3);
+		break;
 	}
 }
 
@@ -321,47 +331,42 @@ void CashPoint::m7a_showTransactionsForAmount( void )
 {
 	int noTrans = 0;
 	string strTrans;
-	double amount = theUI_->readInAmount();
-	p_theActiveAccount_->produceTransactionsForAmount(amount, strTrans, noTrans);
 
-	if (noTrans == 0)
-	{
-		theUI_->noTransactionsFound();
-	}
+	double amount = theUI_->readInAmount();
+	p_theActiveAccount_->produceTransactionsForAmount( amount, strTrans, noTrans );
+
+	if( noTrans )
+		theUI_->showMatchingTransactionsOnScreenAmount( amount, noTrans, strTrans );
 	else
-	{
-		theUI_->showMatchingTransactionsOnScreenAmount(amount, noTrans, strTrans);
-	}
+		theUI_->noTransactionsFound();
 }
 
 void CashPoint::m7b_showTransactionsForTitle( void )
 {
 	int noTrans = 0;
 	string strTrans;
-	string title = theUI_->readInTitle();
-	p_theActiveAccount_->produceTransactionsForTitle(title, strTrans, noTrans);
 
-	if (noTrans == 0)
-	{
-		theUI_->noTransactionsFound();
-	}
+	string title = theUI_->readInTitle();
+	p_theActiveAccount_->produceTransactionsForTitle( title, strTrans, noTrans );
+
+	if( noTrans )
+		theUI_->showMatchingTransactionsOnScreenTitle( title, noTrans, strTrans );
 	else
-	{
-		theUI_->showMatchingTransactionsOnScreenTitle(title, noTrans, strTrans);
-	}
+		theUI_->noTransactionsFound();
 }
 
-void CashPoint::m7c_showTransactionsForDate( void ) //for option 7
+void CashPoint::m7c_showTransactionsForDate( void )
 {
 	int noTrans = 0;
 	string strTrans;
-	Date date = theUI_->readInValidDate( p_theActiveAccount_->getCreationDate() );
-	p_theActiveAccount_->produceTransactionsForDate(date, strTrans, noTrans);
 
-	if (noTrans == 0)
-		theUI_->noTransactionsFound();
+	Date date = theUI_->readInValidDate( p_theActiveAccount_->getCreationDate() );
+	p_theActiveAccount_->produceTransactionsForDate( date, strTrans, noTrans );
+
+	if( noTrans )
+		theUI_->showMatchingTransactionsOnScreenDate( date, noTrans, strTrans );
 	else
-		theUI_->showMatchingTransactionsOnScreenDate(date, noTrans, strTrans);
+		theUI_->noTransactionsFound();
 }*/
 
 //---option 8
@@ -400,7 +405,7 @@ void CashPoint::m8_clearTransactionsUpToDate( void )
 void CashPoint::m9_transferCashToAnotherAccount( void )
 {
 	//Instance declarations
-	BankAccount *pToAccount;
+	BankAccount *pToAccount = nullptr;
 	string toAccNo = "", toSrtCode = "";
 
 	//Display accounts available to receive a transfer
@@ -432,7 +437,8 @@ void CashPoint::m9_transferCashToAnotherAccount( void )
 		theUI_->showValidateAccountOnScreen( validation, toAccNo, toSrtCode );
 
 	//Destroy the pointer to prevent leaks and store bank account state
-	releaseBankAccount( pToAccount, fileName );
+	if( pToAccount )
+		releaseBankAccount( pToAccount, fileName );
 
 }
 

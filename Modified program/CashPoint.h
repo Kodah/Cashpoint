@@ -41,7 +41,7 @@ private:
 
 	//support functions
 	void performCardCommand( int );
-    void performAccountProcessingCommand( int );
+    void performAccountProcessingCommand( const int );
     int  validateCard( const string& ) const;
 	int  validateAccount( const string& ) const;
 	void processOneCustomerRequests( void );

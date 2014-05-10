@@ -107,7 +107,15 @@ T UserInterface::readInSearchCriteria( void ) const
 {
 	T searchCriteria;
 
-	cout << "\nPlease enter search criteria: ";
+	cout << endl;
+
+	if( typeid( T ) == typeid( double ) )
+		cout << "Please enter amount to search on: ";
+	else if( typeid( T ) == typeid( string ) )
+		cout << "Please enter the transaction title: ";
+	else if( typeid( T ) == typeid( Date ) )
+		cout << "Please enter the date you wish to search on: ";
+
 	cin >> searchCriteria;
 
 	return searchCriteria;
@@ -266,7 +274,7 @@ double UserInterface::readInDepositAmount() const {
 
 int UserInterface::readInNumberOfTransactions() const {
 	cout << "\nAMOUNT OF TRANSACTIONS: ";
-	return ( static_cast<int>(readInPositiveAmount()));
+	return  static_cast<int>( readInPositiveAmount() );
 }
 
 //output functions
@@ -283,7 +291,8 @@ void UserInterface::showWithdrawalOnScreen( bool trAuthorised, double amountWith
     else //not enough money
 		cout << "\nTRANSACTION IMPOSSIBLE!";
 }
-void UserInterface::showDepositOnScreen( bool trAuthorised, double amountDeposited) const {
+void UserInterface::showDepositOnScreen( bool trAuthorised, double amountDeposited) const
+{
     if ( trAuthorised)
     	cout << "\nTRANSACTION AUTHORISED!:\n\234"
              << setw(0) << amountDeposited

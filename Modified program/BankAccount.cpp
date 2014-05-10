@@ -15,25 +15,28 @@
 
 BankAccount::BankAccount()
     : accountNumber_( "null"),
-      sortCode_( "null"),
-	  balance_( 0.0)
+      sortCode_( "null" ),
+	  balance_( 0.0 ), fileName_( "null" )
 {}
 BankAccount::BankAccount( const string& typ, const string& acctNum, const string& sCode,
                           const Date& cD, double b,
                           const TransactionList& trList)
-    : accountType_(typ),
-	  accountNumber_( acctNum), sortCode_( sCode),
-      creationDate_( cD),
-      balance_( b),
-      transactions_( trList)
+    : accountType_( typ ),
+	  accountNumber_( acctNum ), sortCode_( sCode ),
+      creationDate_( cD ),
+      balance_( b ),
+      transactions_( trList ),
+	  fileName_( (FILEPATH + "account_" +  acctNum + "_" + sCode + ".txt") )
 {}
+
 BankAccount::~BankAccount()
 {}
 
 
 //____other public member functions
 
-const string BankAccount::getAccountType() const {
+const string BankAccount::getAccountType( void ) const
+{
     return accountType_;
 }
 
@@ -51,31 +54,44 @@ const char * BankAccount::getTypeFromFile( const string accNo, const string srtC
 	return buffer;
 }
 
-const string BankAccount::getAccountNumber() const {
+const string BankAccount::getAccountNumber( void ) const
+{
     return accountNumber_;
 }
-const string BankAccount::getSortCode() const {
+const string BankAccount::getSortCode( void ) const
+{
     return sortCode_;
 }
-const Date BankAccount::getCreationDate() const {
+const Date BankAccount::getCreationDate( void ) const
+{
     return creationDate_;
 }
-double BankAccount::getBalance() const {
+double BankAccount::getBalance( void ) const
+{
     return balance_;
 }
-const TransactionList BankAccount::getTransactions() const {
+const TransactionList BankAccount::getTransactions( void ) const
+{
     return transactions_;
 }
-bool BankAccount::isEmptyTransactionList() const {
+
+string BankAccount::getFileName( void ) const
+{
+	return fileName_;
+}
+
+bool BankAccount::isEmptyTransactionList( void ) const
+{
 	return transactions_.size() == 0;
 }
 
-void BankAccount::recordDeposit( double amountToDeposit) {
+void BankAccount::recordDeposit( double amountToDeposit)
+{
     //create a deposit transaction
-	Transaction aTransaction( "deposit_to_ATM", amountToDeposit);
+	Transaction aTransaction( "deposit_to_ATM", amountToDeposit );
     //update active bankaccount
-    transactions_.addNewTransaction( aTransaction);		//update transactions_
-    updateBalance( amountToDeposit);			//increase balance_
+    transactions_.addNewTransaction( aTransaction );		//update transactions_
+    updateBalance( amountToDeposit );			//increase balance_
 }
 
 void BankAccount::recordTransfer( const double amount, const string transaction )
@@ -83,21 +99,21 @@ void BankAccount::recordTransfer( const double amount, const string transaction 
 	transactions_.addNewTransaction( Transaction( transaction, amount ) );   
 }
 
-double BankAccount::borrowable() const {
-//return borrowable amount
-    return balance_;
+double BankAccount::borrowable( void ) const
+{
+    return balance_; //return borrowable amount
 }
-bool BankAccount::canWithdraw( double amountToWithdraw ) const {
+bool BankAccount::canWithdraw( double amountToWithdraw ) const
+{
 //check if enough money in account
-    return ( amountToWithdraw <= borrowable());
+    return ( amountToWithdraw <= borrowable() );
 }
 
-void BankAccount::recordWithdrawal( double amountToWithdraw) {
-	//create a withdrawal transaction
-    Transaction aTransaction( "withdrawal_from_ATM", -amountToWithdraw);
-    //update active bankaccount
-    transactions_.addNewTransaction( aTransaction);		//update transactions_
-    updateBalance( -amountToWithdraw);			//decrease balance_
+void BankAccount::recordWithdrawal( const double amountToWithdraw )
+{
+    Transaction aTransaction( "withdrawal_from_ATM", -amountToWithdraw ); //create a withdrawal transaction
+    transactions_.addNewTransaction( aTransaction ); //update transactions_
+    updateBalance( -amountToWithdraw );	//decrease balance_
 }
 
 void BankAccount::transferMoney( const double amount, BankAccount *toAccount )
@@ -138,56 +154,68 @@ void BankAccount::transferMoney( const double amount, BankAccount *toAccount )
 	}
 }
 
-const string BankAccount::prepareFormattedStatement() const {
+const string BankAccount::prepareFormattedStatement( void ) const
+{
 	ostringstream os;
-	//account details
+	
 	os << prepareFormattedAccountDetails();
 	//list of transactions (or message if empty)
-	if ( transactions_.size() > 0)
+	if ( transactions_.size() )
 		os << "\n\nLIST OF TRANSACTIONS \n"	<< transactions_.toFormattedString();	//one per line
 	else
 		os << "\n\nNO TRANSACTIONS IN BANK ACCOUNT!";
-	return ( os.str());
+	return os.str();
 }
 
-void BankAccount::readInBankAccountFromFile( const string& fileName) {
+void BankAccount::readInBankAccountFromFile( const string& fileName )
+{
 	ifstream fromFile;
+
 	fromFile.open( fileName.c_str(), ios::in); 	//open file in read mode
-	if ( fromFile.fail())
-		cout << "\nAN ERROR HAS OCCURED WHEN OPENING THE FILE.";
+
+	if ( fromFile.fail() )
+		cout << endl << "AN ERROR HAS OCCURED WHEN OPENING THE FILE.";
 	else
-        fromFile >> (*this);  	//read  all info from bank account file
+        fromFile >> *this;  	//read  all info from bank account file
+
     fromFile.close();			//close file: optional here
 }
 
-void BankAccount::storeBankAccountInFile( const string& fileName) const {
+void BankAccount::storeBankAccountInFile( const string& fileName ) const
+{
 	ofstream toFile;
-	toFile.open( fileName.c_str(), ios::out);	//open copy file in write mode
-	if ( toFile.fail())
-		cout << "\nAN ERROR HAS OCCURED WHEN OPENING THE FILE.";
+
+	toFile.open( fileName.c_str(), ios::out );	//open copy file in write mode
+
+	if ( toFile.fail() )
+		cout << endl << "AN ERROR HAS OCCURED WHEN OPENING THE FILE.";
 	else
-        toFile << (*this);	//store all info to bank account file
+        toFile << *this;	//store all info to bank account file
+
 	toFile.close();			//close file: optional here
 }
 
-void BankAccount::produceAllDepositTransactions(string& str, double& total) const{
-	TransactionList trl (transactions_.getAllDepositTransactions());
+void BankAccount::produceAllDepositTransactions( string& str, double& total ) const
+{
+	TransactionList trl( transactions_.getAllDepositTransactions() );
 
-	total = trl.getTotalTransactions();
-	str = trl.toFormattedString();
+	total	= trl.getTotalTransactions();
+	str		= trl.toFormattedString();
 }
 
-void BankAccount::produceNMostRecentTransactions(int noOfTran, string& str, double& total) const{
-	TransactionList trl (transactions_.getMostRecentTransactions(noOfTran));
+void BankAccount::produceNMostRecentTransactions( const int noOfTran, string& str, double& total ) const
+{
+	TransactionList trl( transactions_.getMostRecentTransactions( noOfTran ) );
 
-	total = trl.getTotalTransactions();
-	str = trl.toFormattedString();
+	total	= trl.getTotalTransactions();
+	str		= trl.toFormattedString();
 }
 
 string BankAccount::produceTransactionsUpToDate( const Date date, int &numTransactions ) const
 {
 	TransactionList trList = transactions_.getTransactionsUpToDate( date );
 	numTransactions = trList.size();
+
 	return trList.toFormattedString();
 }
 
@@ -204,32 +232,35 @@ template string BankAccount::produceTransactionsForSearchCriteria<double>( const
 template string BankAccount::produceTransactionsForSearchCriteria<string>( const string, int & ) const;
 template string BankAccount::produceTransactionsForSearchCriteria<Date>( const Date, int & ) const;
 
-/*void BankAccount::produceTransactionsForAmount(double amount, string& strTrans, int& noTrans)//for option 7
+/*void BankAccount::produceTransactionsForAmount( const double amount, string& strTrans, int& noTrans )
 {
-	TransactionList trl (transactions_.getTransactionsForAmount(amount));
-	noTrans = trl.getNumberOfTransactions();
-	strTrans = trl.toFormattedString();
+	TransactionList trl( transactions_.getTransactionsForAmount( amount ) );
+
+	noTrans		= trl.getNumberOfTransactions();
+	strTrans	= trl.toFormattedString();
 }
 
-void BankAccount::produceTransactionsForTitle(string title, string& strTrans, int& noTrans)//for option 7
+void BankAccount::produceTransactionsForTitle( const string title, string& strTrans, int& noTrans ) const
 {
-	TransactionList trl (transactions_.getTransactionsForTitle(title));
-	noTrans = trl.getNumberOfTransactions();
-	strTrans = trl.toFormattedString();
+	TransactionList trl( transactions_.getTransactionsForTitle( title ) );
+
+	noTrans		= trl.getNumberOfTransactions();
+	strTrans	= trl.toFormattedString();
 }
 
-void BankAccount::produceTransactionsForDate(Date date, string& strTrans, int& noTrans)//for option 7
+void BankAccount::produceTransactionsForDate( const Date date, string& strTrans, int& noTrans ) const
 {
-	TransactionList trl (transactions_.getTransactionsForDate(date));
-	noTrans	= trl.getNumberOfTransactions();
-	strTrans = trl.toFormattedString();
+	TransactionList trl( transactions_.getTransactionsForDate( date ) );
+	noTrans		= trl.getNumberOfTransactions();
+	strTrans	= trl.toFormattedString();
 }*/
 
 //---------------------------------------------------------------------------
 //private support member functions
 //---------------------------------------------------------------------------
 
-void BankAccount::updateBalance( double amount) {
+void BankAccount::updateBalance( double amount )
+{
     balance_ += amount;   //add/take amount to/from balance_
 }
 
@@ -242,13 +273,15 @@ void BankAccount::recordDeletionOfTransactionUpToDate( const Date date )
 //non-member operator functions
 //---------------------------------------------------------------------------
 
-ostream& operator<<( ostream& os, const BankAccount& aBankAccount) {
-//put (unformatted) BankAccount details in stream
-    return ( aBankAccount.putDataInStream( os));
+ostream& operator<<( ostream& os, const BankAccount& aBankAccount )
+{
+	//put (unformatted) BankAccount details in stream
+    return ( aBankAccount.putDataInStream( os ) );
 }
 
-istream& operator>>( istream& is, BankAccount& aBankAccount) {
-//get BankAccount details from stream
+istream& operator>>( istream& is, BankAccount& aBankAccount )
+{
+	//get BankAccount details from stream
 	return ( aBankAccount.getDataFromStream( is));
 }
 

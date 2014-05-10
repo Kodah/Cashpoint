@@ -17,13 +17,14 @@
 using namespace std;
 
 
-class BankAccount {
+class BankAccount
+{
 public:
     //constructors & destructor
 	BankAccount();
     BankAccount( const string& typ, const string& acctNum, const string& sCode,
                           const Date& cD, double b,
-                          const TransactionList& trList);
+                          const TransactionList& trList );
     ~BankAccount();
 
 	//getter (assessor) functions
@@ -34,11 +35,12 @@ public:
     const Date getCreationDate() const;
 	double getBalance() const;
     const TransactionList getTransactions() const;
+	string getFileName( void ) const;
     bool	isEmptyTransactionList() const;
 
 	//functions to put data into and get data from streams
-	virtual ostream& putDataInStream( ostream& os) const = 0;
-	virtual istream& getDataFromStream( istream& is) = 0;
+	virtual ostream& putDataInStream( ostream& os ) const = 0;
+	virtual istream& getDataFromStream( istream& is ) = 0;
 
 	//other operations
 	const string prepareFormattedStatement() const;
@@ -47,20 +49,20 @@ public:
 	void recordTransfer( const double amount, const string transaction );
 
 	double borrowable() const;
-	virtual bool canWithdraw( double amount) const;
-    void recordWithdrawal( double amount);
+	virtual bool canWithdraw( double amount ) const;
+    void recordWithdrawal( double amount );
 
 	virtual void transferMoney( const double amount, BankAccount *toAccount );
 
-	void readInBankAccountFromFile( const string& fileName);
-	void storeBankAccountInFile( const string& fileName) const;
-	void produceAllDepositTransactions(string& str, double& total) const;
-	void produceNMostRecentTransactions(int noOfTran, string& str, double& total) const;
+	void readInBankAccountFromFile( const string& fileName );
+	void storeBankAccountInFile( const string& fileName ) const;
+	void produceAllDepositTransactions( string& str, double& total ) const;
+	void produceNMostRecentTransactions( const int noOfTran, string& str, double& total ) const;
 	string produceTransactionsUpToDate( const Date date, int &numTransactions ) const;
 
-	//void produceTransactionsForAmount(double amount, string& strTrans, int& noTrans);//for option 7
-	//void produceTransactionsForDate(Date date, string& strTrans, int& noTrans);//for option 7
-	//void produceTransactionsForTitle(string title, string& strTrans, int& noTrans);//for option 7
+	//void produceTransactionsForAmount( const double amount, string& strTrans, int& noTrans ) const;
+	//void produceTransactionsForDate( const Date date, string& strTrans, int& noTrans ) const;
+	//void produceTransactionsForTitle( const string title, string& strTrans, int& noTrans ) const;
 
 	template <typename T>
 	string produceTransactionsForSearchCriteria( const T searchVal, int& noTrans ) const;
@@ -72,9 +74,7 @@ public:
 
 protected:
     //data items
-    string accountType_;
-    string accountNumber_;
-    string sortCode_;
+    string accountType_, accountNumber_, sortCode_, fileName_;
     Date   creationDate_;
 	double balance_;
     TransactionList transactions_;
@@ -89,8 +89,8 @@ protected:
 //non-member operator functions
 //---------------------------------------------------------------------------
 
-ostream& operator<<( ostream&, const BankAccount&);		//output operator
-istream& operator>>( istream&, BankAccount&);			//input operator
+ostream& operator<<( ostream&, const BankAccount& );		//output operator
+istream& operator>>( istream&, BankAccount& );			//input operator
 bool operator !=( BankAccount &bA1, BankAccount &bA2 );	//Not equal comparison operator
 bool operator ==( BankAccount &bA1, BankAccount &bA2 );	//Equal comparison operator
 
