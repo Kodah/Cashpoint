@@ -163,17 +163,27 @@ TransactionList TransactionList::getTransactionsForSearchCriteria( const T searc
 {
 	TransactionList tempList( *this );
 	TransactionList newList;
+	ostringstream oss;
+	string date = "", amount = "", title = "", value = "";
 
 	int numTransactions = tempList.size();
 
 	for( int i(0); i < numTransactions; i++ )
 	{
-		if ( (tempList.newestTransaction().getAmount() == searchVal) ||
-			 (tempList.newestTransaction().getDate()   == searchVal) ||
-			 (tempList.newestTransaction().getTitle()  == searchVal) )
-		{
-			newList.addNewTransaction(tempList.newestTransaction());
-		}
+		oss << tempList.newestTransaction().getDate();
+		date = oss.str();
+
+		oss << tempList.newestTransaction().getAmount();
+		amount = oss.str();
+
+		oss << tempList.newestTransaction().getTitle();
+		title = oss.str();
+
+		oss << searchVal;
+		value = oss.str();
+
+		if( date == value || amount == value || title == value )
+			newList.addNewTransaction( tempList.newestTransaction() );
 
 		tempList.deleteFirstTransaction();
 	}
@@ -181,7 +191,7 @@ TransactionList TransactionList::getTransactionsForSearchCriteria( const T searc
 	return newList;
 }
 
-template TransactionList TransactionList::getTransactionsForSearchCriteria<int>( const int ) const;
+template TransactionList TransactionList::getTransactionsForSearchCriteria<double>( const double ) const;
 template TransactionList TransactionList::getTransactionsForSearchCriteria<string>( const string ) const;
 template TransactionList TransactionList::getTransactionsForSearchCriteria<Date>( const Date ) const;
 

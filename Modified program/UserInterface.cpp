@@ -112,7 +112,7 @@ T UserInterface::readInSearchCriteria( void ) const
 
 	return searchCriteria;
 }
-template int UserInterface::readInSearchCriteria<int>( void ) const;
+template double UserInterface::readInSearchCriteria<double>( void ) const;
 template string UserInterface::readInSearchCriteria<string>( void ) const;
 template Date UserInterface::readInSearchCriteria<Date>( void ) const;
 
@@ -184,6 +184,10 @@ void UserInterface::showMatchingTransactionsOnScreen( const T criteria, const in
 	cout << "\n" << noTrans << " transactions for " << criteria << "\n";
 	cout << strTrans;
 }
+
+template void UserInterface::showMatchingTransactionsOnScreen<double>(	const double, const int, const string ) const;
+template void UserInterface::showMatchingTransactionsOnScreen<Date>(	const Date, const int, const string ) const;
+template void UserInterface::showMatchingTransactionsOnScreen<string>(	const string, const int, const string ) const;
 
 void UserInterface::showTransactionsUpToDateOnScreen( const Date date, const int numTransactions, const string transactions ) const
 {

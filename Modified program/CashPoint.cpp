@@ -235,13 +235,13 @@ void CashPoint::m7_searchTransactions( void )
 	
 	if( option == 1 )
 	{
-		int criteria = theUI_->readInSearchCriteria<int>();
-		transactions = p_theActiveAccount_->produceTransactionsForSearchCriteria<int>( criteria, numTransactions );
+		double criteria = theUI_->readInSearchCriteria<double>();
+		transactions = p_theActiveAccount_->produceTransactionsForSearchCriteria<double>( criteria, numTransactions );
 
 		if( !numTransactions )
 			theUI_->noTransactionsFound();
 		else
-			theUI_->showMatchingTransactionsOnScreen<int>( criteria, numTransactions, transactions );
+			theUI_->showMatchingTransactionsOnScreen<double>( criteria, numTransactions, transactions );
 	}
 	else if( option == 2 )
 	{

@@ -46,7 +46,7 @@ class Date
 public:
 	Date();								//default constructor
 	Date( int, int, int);				//constructor
-	~Date();
+
 	int getDay() const;					//return a data member value, day_
 	int getMonth() const;				//return a data member value, month_
 	int getYear() const;				//return a data member value, year_
@@ -61,7 +61,6 @@ public:
 	ostream& putDataInStream( ostream& os) const;	//send Date info into an output stream
 	istream& getDataFromStream( istream& is);		//receive Date info from an input stream
 
-	template <typename T> bool operator ==( const T &type ) const;
 	bool operator==( const Date& d) const;  	//true if (*this == d)
 	bool operator!=( const Date& d) const;  	//true if (*this != d)
 	bool operator<( const Date& d) const;		//true if (*this < d)  (strictly earlier)
@@ -70,21 +69,8 @@ public:
 	bool operator>=( const Date &d ) const;
 	DateTime& operator>>( DateTime &dateTime ) const;
 
-	static bool isInstance( DWORD instance )
-	{
-		list<DWORD>::iterator it = instance_.begin();
-		list<DWORD>::iterator end = instance_.end();
-
-		for( it; it != end; ++it )
-			if( instance == *it )
-				return true;
-
-		return false;
-	}
-
 private:
 	DateTime dateTime_;
-	static list<DWORD> instance_;
 
 };
 

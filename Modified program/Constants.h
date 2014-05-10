@@ -53,6 +53,13 @@ enum Month
 	DEC
 };
 
+enum Type
+{
+	DATE,
+	STRING,
+	DOUBLE
+};
+
 //ressource path
 const string FILEPATH( "data\\");
 

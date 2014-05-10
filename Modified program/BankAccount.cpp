@@ -195,14 +195,14 @@ string BankAccount::produceTransactionsUpToDate( const Date date, int &numTransa
 template <typename T>
 string BankAccount::produceTransactionsForSearchCriteria( const T searchVal, int& noTrans ) const
 {
-	TransactionList trl (transactions_.getTransactionsForSearchCriterion(searchVal));
+	TransactionList trl (transactions_.getTransactionsForSearchCriteria(searchVal));
 	noTrans = trl.getNumberOfTransactions();
 	return trl.toFormattedString();
 }
 
-template string BankAccount::produceTransactionsForSearchCriteria<int>( int, int & ) const;
-template string BankAccount::produceTransactionsForSearchCriteria<string>( string, int & ) const;
-template string BankAccount::produceTransactionsForSearchCriteria<Date>( Date, int & ) const;
+template string BankAccount::produceTransactionsForSearchCriteria<double>( const double, int & ) const;
+template string BankAccount::produceTransactionsForSearchCriteria<string>( const string, int & ) const;
+template string BankAccount::produceTransactionsForSearchCriteria<Date>( const Date, int & ) const;
 
 /*void BankAccount::produceTransactionsForAmount(double amount, string& strTrans, int& noTrans)//for option 7
 {

@@ -10,15 +10,19 @@
 //____public member functions
 
 //____constructors & destructors
-Transaction::Transaction() { 
+Transaction::Transaction()
+{ 
 }
 
 Transaction::Transaction( const Date& d, const Time& t, const string& s, double a)
 : date_( d), time_( t), title_( s), amount_( a)
-{ }
+{ 
+}
+
 Transaction::Transaction( const string& s, double a)
 : title_( s), amount_( a), date_( Date::currentDate()), time_( Time::currentTime()) //get date and time from system
-{}
+{
+}
 
 //____other public member functions
 const Date Transaction::getDate() const {

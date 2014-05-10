@@ -46,6 +46,17 @@ public:
 	istream& getDataFromStream( istream& is);	//receive TransactionList info from an input stream
 
 	TransactionList& operator +=( TransactionList trList );
+
+private:
+	template <typename T> const DWORD getTypeId( const T &type ) const
+	{
+		if( typeid( type ) == typeid( Date ) )
+			return DATE;
+		else if ( typeid( type ) == typeid( string ) )
+			return STRING;
+		else if ( typeid( type ) == typeid( double ) )
+			return DOUBLE
+	}
 	
 private:
     list<Transaction> listOfTransactions_;	//list of transactions
