@@ -13,22 +13,33 @@
 
 //____other public member functions
 
-void TransactionList::addNewTransaction( const Transaction& tr) {
-    listOfTransactions_.addInFront( tr);
+void TransactionList::addNewTransaction( const Transaction& tr)
+{
+   // listOfTransactions_.addInFront( tr);
+	it_ = listOfTransactions_.begin();
+	listOfTransactions_.insert( it_, tr );
 }
-const Transaction TransactionList::newestTransaction() const {
-    return (listOfTransactions_.first());
+const Transaction TransactionList::newestTransaction() const
+{
+    //return (listOfTransactions_.first());
+	return listOfTransactions_.front();
 }
 const TransactionList TransactionList::olderTransactions() const {
 	TransactionList trlist( *this);
     trlist.deleteFirstTransaction();
     return trlist;
 }
-void TransactionList::deleteFirstTransaction() {
-    listOfTransactions_.deleteFirst();
+void TransactionList::deleteFirstTransaction()
+{
+    //listOfTransactions_.deleteFirst();
+	it_ = listOfTransactions_.begin();
+	listOfTransactions_.erase( it_, it_ );
 }
-void TransactionList::deleteGivenTransaction( const Transaction& tr) {
-    listOfTransactions_.deleteOne( tr);
+
+void TransactionList::deleteGivenTransaction( const Transaction& tr)
+{
+    //listOfTransactions_.deleteOne( tr);
+	listOfTransactions_.remove( tr );
 }
 
 void TransactionList::deleteTransactionsUpToDate( const Date date )
@@ -57,8 +68,10 @@ void TransactionList::deleteTransactionsUpToDate( const Date date )
 	deleteTransactionsUpToDate( date );
 }
 
-int TransactionList::size() const {
-    return (listOfTransactions_.length());
+int TransactionList::size() const
+{
+    //return (listOfTransactions_.length());
+	return listOfTransactions_.size();
 }
 
 TransactionList TransactionList::getAllDepositTransactions() const{
@@ -248,7 +261,9 @@ istream& TransactionList::getDataFromStream( istream& is) {
 	is >> aTransaction;	//read first transaction
 	while ( is != 0) 	//while not end of file
 	{
-		listOfTransactions_.addAtEnd( aTransaction);   //add transaction to list of transactions
+		it_ = listOfTransactions_.end();
+		listOfTransactions_.insert( it_, aTransaction );
+		//listOfTransactions_.addAtEnd( aTransaction);   //add transaction to list of transactions
 		is >> aTransaction;	//read in next transaction
 	}
 	return is;

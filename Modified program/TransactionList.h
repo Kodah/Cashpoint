@@ -13,6 +13,7 @@
 
 #include <cassert> 	// for assert()
 #include <sstream>
+#include <list>
 
 class TransactionList
 {
@@ -47,7 +48,8 @@ public:
 	TransactionList& operator +=( TransactionList trList );
 	
 private:
-    List<Transaction> listOfTransactions_;	//list of transactions
+    list<Transaction> listOfTransactions_;	//list of transactions
+	list<Transaction>::iterator it_;
 };
 
 //---------------------------------------------------------------------------
