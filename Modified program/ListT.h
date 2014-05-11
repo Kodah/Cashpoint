@@ -231,16 +231,19 @@ int List<ITEM>::length() const {	// return number of elements
 
 // iterative version
 template <class ITEM>
-bool List<ITEM>::member( const ITEM& item) const {	// check if item is in list
-	bool isMember( false);
+bool List<ITEM>::member( const ITEM& item) const
+{	// check if item is in list
     Node<ITEM>* pn( head_);
-	while ( ( isMember == false) && (pn != nullptr))
+
+	while ( pn != nullptr )
     {
 		if ( pn ->item_ == item)
-            isMember = true;
+            return true;
+
 		pn = pn->next_;
 	}
- 	return isMember;
+
+ 	return false;
 }
 /*
 // recursive version

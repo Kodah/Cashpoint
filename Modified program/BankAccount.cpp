@@ -38,20 +38,6 @@ const string BankAccount::getAccountType( void ) const
     return accountType_;
 }
 
-const char * BankAccount::getTypeFromFile( const string accNo, const string srtCode )
-{
-	const char *fileName = (FILEPATH + "account_" + accNo + "_" + srtCode + ".txt").c_str();
-
-	FILE *file = nullptr;
-	char buffer[ 60 ];
-
-	fopen_s( &file, fileName, "r" );
-	fgets( buffer, sizeof( buffer ), file );
-	fclose( file );
-
-	return buffer;
-}
-
 const string BankAccount::getAccountNumber( void ) const
 {
     return accountNumber_;

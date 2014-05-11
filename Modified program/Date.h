@@ -8,12 +8,8 @@
 //Date: class declaration
 //---------------------------------------------------------------------------
 
-#include <ctime>	// for date functions
 #include <iomanip>
-#include <iostream>
-#include <string>
 #include <sstream>
-#include <list>
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -23,7 +19,11 @@
 
 #include "Constants.h"
 
-using namespace std;
+using std::ostream;
+using std::istream;
+using std::ostringstream;
+using std::setfill;
+using std::setw;
 
 typedef struct DateTime
 {

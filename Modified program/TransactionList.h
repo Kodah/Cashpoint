@@ -8,16 +8,17 @@
 //TransactionList: class declaration
 //---------------------------------------------------------------------------
 
-#include "Transaction.h"
-#include "Constants.h"
-
-#include <sstream>
 #include <list>
+
+#include "Transaction.h"
+
+using std::list;
+using std::endl;
 
 class TransactionList
 {
 public:
-	void   addNewTransaction( const Transaction&);
+	void   addNewTransaction( const Transaction& );
     const Transaction newestTransaction( void ) const;
     const  TransactionList olderTransactions( void ) const;
     void   deleteFirstTransaction( void );

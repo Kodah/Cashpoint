@@ -8,19 +8,19 @@
 //Transaction: class declaration
 //---------------------------------------------------------------------------
 
+#include <iostream>
+
 #include "Date.h"
 #include "Time.h"
 
-#include <iomanip>
-#include <iostream>
-#include <string>
-#include <sstream>
-using namespace std;
+using std::fixed;
+using std::setprecision;
 
-class Transaction {
+class Transaction
+{
 public:
 	Transaction();	//default constructor
-	Transaction( const Date&, const Time&, const string&, double);	//constructor
+	Transaction( const Date&, const Time&, const string&, double );	//constructor
     Transaction( const string&, double);   //constructor
 
 	const Date getDate() const;		//return transaction date_

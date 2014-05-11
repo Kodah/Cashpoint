@@ -8,24 +8,33 @@
 //Card: class declaration
 //---------------------------------------------------------------------------
 
-#include "ListT.h"
-
 #include <fstream>
-#include <iomanip>
 #include <iostream> 
 #include <string>
 #include <sstream>
-using namespace std;
+#include <list>
+
+using std::string;
+using std::ostream;
+using std::istream;
+using std::ifstream;
+using std::ios;
+using std::cout;
+using std::endl;
+using std::ostringstream;
+using std::list;
+using std::iterator;
+using std::find;
 
 class CashCard {
 public:
     //constructors & destructor
 	CashCard();
-    CashCard( const string& cardNum, const List<string>& accList);
+    CashCard( const string& cardNum, const list<string> &accList );
 
 	//getter (assessor) functions
     const string getCardNumber() const;
-    const List<string> getAccountsList() const;
+    const list<string> getAccountsList() const;
 
 	void readInCardFromFile( const string& fileName);
 	bool onCard( const string& fileName) const;
@@ -37,7 +46,8 @@ public:
 
 private:
     string cardNumber_;
-    List<string> accountsList_;
+    //List<string> accountsList_;
+	list<string> accountsList_;
 };
 
 //---------------------------------------------------------------------------

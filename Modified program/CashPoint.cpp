@@ -73,8 +73,6 @@ void CashPoint::performCardCommand( const int option )
 int CashPoint::validateCard( const string& cashCardFileName ) const
 {
 //check that the card exists (valid)
-    int validCardCode;
-
     if ( !canOpenFile( cashCardFileName ) )   //invalid card
         return UNKNOWN_CARD;
     else if ( !linkedCard( cashCardFileName ) )  
@@ -86,8 +84,7 @@ int CashPoint::validateCard( const string& cashCardFileName ) const
 const int CashPoint::validateAccount( const string& bankAccountFileName ) const
 {
 //check that the account is valid 
-//MORE WORK NEEDED: in case of transfer
-    int validBankCode;
+    int validBankCode = VALID_ACCOUNT; // default to valid.
 	BankAccount *tempAccount = activateBankAccount( bankAccountFileName );
 
     if ( !canOpenFile( bankAccountFileName ) ) 
@@ -96,8 +93,6 @@ const int CashPoint::validateAccount( const string& bankAccountFileName ) const
     	validBankCode = INACCESSIBLE_ACCOUNT;
 	else if( p_theActiveAccount_ && (*tempAccount == *p_theActiveAccount_) )
 		validBankCode = SAME_ACCOUNT;
-	else
-		validBankCode = VALID_ACCOUNT; //account valid (exists and accessible)
 
 	releaseBankAccount( tempAccount, bankAccountFileName );
 
@@ -261,7 +256,7 @@ void CashPoint::m7_searchTransactions( void ) const
 	int numTransactions = 0;
 	string transactions = "";
 	
-	if( option == 1 )
+	if( option == AMOUNT )
 	{
 		double criteria = theUI_->readInSearchCriteria<double>();
 		transactions = p_theActiveAccount_->produceTransactionsForSearchCriteria<double>( criteria, numTransactions );
@@ -271,7 +266,7 @@ void CashPoint::m7_searchTransactions( void ) const
 		else
 			theUI_->showMatchingTransactionsOnScreen<double>( criteria, numTransactions, transactions );
 	}
-	else if( option == 2 )
+	else if( option == TITLE )
 	{
 		string criteria = theUI_->readInSearchCriteria<string>();
 		transactions = p_theActiveAccount_->produceTransactionsForSearchCriteria<string>( criteria, numTransactions );
@@ -281,7 +276,7 @@ void CashPoint::m7_searchTransactions( void ) const
 		else
 			theUI_->showMatchingTransactionsOnScreen<string>( criteria, numTransactions, transactions );
 	}
-	else if( option == 3 )
+	else if( option == DATE )
 	{
 		Date criteria = theUI_->readInSearchCriteria<Date>();
 		Date creationDate = p_theActiveAccount_->getCreationDate();
@@ -316,17 +311,14 @@ void CashPoint::m7_searchTransactions( void ) const
 	{
 	case AMOUNT:
 		m7a_showTransactionsForAmount();
-		//m7_showTransactions(1);
 		break;
 
 	case TITLE:
 		m7b_showTransactionsForTitle();
-		//m7_showTransactions(2);
 		break;
 
 	case DATE:
 		m7c_showTransactionsForDate(); 
-		//m7_showTransactions(3);
 		break;
 	}
 }
@@ -577,13 +569,13 @@ BankAccount* CashPoint::releaseBankAccount( BankAccount* p_BA, const string aBAF
 
 void CashPoint::displayAssociatedAccounts( void ) const
 {
-	List <string> accountList = p_theCashCard_->getAccountsList();
+	list <string> accountList = p_theCashCard_->getAccountsList();
 	string activeAccNo = p_theActiveAccount_->getAccountNumber();
 	string activeSrtCode = p_theActiveAccount_->getSortCode();
 
-	while( !accountList.isEmpty() )
+	while( !accountList.empty() )
 	{
-		string temp = accountList.first();
+		string temp = accountList.front();
 
 		if( temp.substr( 0, 3 ).c_str() != activeAccNo ||
 			temp.substr( 4, 5 ).c_str() != activeSrtCode )
@@ -593,6 +585,6 @@ void CashPoint::displayAssociatedAccounts( void ) const
 				temp.substr( 4, 5 ).c_str() );
 		}
 
-		accountList.deleteFirst();
+		accountList.remove( temp );
 	}
 }

@@ -8,15 +8,21 @@
 //Time: class declaration
 //---------------------------------------------------------------------------
 
-#include <ctime>	// for time functions
+//#include <ctime>	// for time functions
 
 #include <iomanip>
-#include <iostream>
-#include <string>
 #include <sstream>
-using namespace std;
 
-class Time {
+using std::string;
+using std::ostringstream;
+using std::ostream;
+using std::istream;
+using std::setfill;
+using std::setw;
+
+
+class Time
+{
 public:
 	Time();						//default constructor
 	Time( const Time&);   		//copy constructor

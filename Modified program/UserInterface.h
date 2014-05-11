@@ -7,14 +7,14 @@
 //---------------------------------------------------------------------------
 //UserInterface: class declaration
 //---------------------------------------------------------------------------
+#include <iostream>
+
 #include "Time.h"
 #include "Date.h"
-#include "constants.h"
 
-#include <iomanip>
-#include <iostream>
-#include <string>
-using namespace std;
+using std::cout;
+using std::endl;
+using std::cin;
 
 class UserInterface
 {

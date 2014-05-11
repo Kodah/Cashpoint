@@ -13,6 +13,11 @@
 
 #include <fstream>
 
+using std::ifstream;
+using std::ofstream;
+using std::cout;
+using std::ios;
+
 class BankAccount
 {
 public:
@@ -25,7 +30,6 @@ public:
 
 	//getter (assessor) functions
 	const string getAccountType( void ) const;
-	static const char * getTypeFromFile( const string accNo, const string srtCode );
     const string getAccountNumber( void ) const;
     const string getSortCode( void ) const;
     const Date getCreationDate( void ) const;

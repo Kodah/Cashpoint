@@ -5,7 +5,8 @@
 #define ConstantsH
 
 #include <string>
-using namespace std;
+
+using std::string;
 
 //menu command
 const int QUIT_COMMAND( 0 );
