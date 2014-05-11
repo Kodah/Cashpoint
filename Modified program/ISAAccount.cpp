@@ -54,10 +54,10 @@ ostream& ISAAccount::putDataInStream( ostream& os) const
 	os << sortCode_ << "\n";				//put sort code
     os << creationDate_ << "\n";			//put creation date
 	os << balance_ << "\n";					//put balance
-	os << minimumBalance_ << "\n";
-	os << currentYearlyDeposit_ << "\n";
-	os << maximumYearlyDeposit_ << "\n";
-	os << endDepositPeriod_ << "\n";
+	os << minimumBalance_ << "\n";			//put min balance
+	os << currentYearlyDeposit_ << "\n";	//put current yearly deposit
+	os << maximumYearlyDeposit_ << "\n";	//put max yearly deposit
+	os << endDepositPeriod_ << "\n";		//put deposit end date
 
 	if (  ! transactions_.size() == 0)
 		os << transactions_;				//put all transactions, one per line
@@ -73,10 +73,10 @@ istream& ISAAccount::getDataFromStream( istream& is)
 	is >> sortCode_;						//get sort code
  	is >> creationDate_;					//get creation date
 	is >> balance_;							//get balance_
-	is >> minimumBalance_;
-	is >> currentYearlyDeposit_;
-	is >> maximumYearlyDeposit_;
-	is >> endDepositPeriod_;
+	is >> minimumBalance_;					//get min balance
+	is >> currentYearlyDeposit_;			//get current yearly deposit
+	is >> maximumYearlyDeposit_;			//get max yearly deposit
+	is >> endDepositPeriod_;				//get deposit end date
 	is >> transactions_;					//get all transactions (if any)
 
 	return is;
