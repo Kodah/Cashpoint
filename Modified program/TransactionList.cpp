@@ -19,24 +19,27 @@ void TransactionList::addNewTransaction( const Transaction& tr )
 	it_ = listOfTransactions_.begin();
 	listOfTransactions_.insert( it_, tr );
 }
-const Transaction TransactionList::newestTransaction() const
+
+const Transaction TransactionList::newestTransaction( void ) const
 {
     //return (listOfTransactions_.first());
 	return listOfTransactions_.front();
 }
-const TransactionList TransactionList::olderTransactions() const {
-	TransactionList trlist( *this);
+const TransactionList TransactionList::olderTransactions( void ) const
+{
+	TransactionList trlist( *this );
     trlist.deleteFirstTransaction();
+
     return trlist;
 }
-void TransactionList::deleteFirstTransaction()
+void TransactionList::deleteFirstTransaction( void )
 {
     //listOfTransactions_.deleteFirst();
 	it_ = listOfTransactions_.begin();
 	listOfTransactions_.erase( it_ );
 }
 
-void TransactionList::deleteGivenTransaction( const Transaction& tr)
+void TransactionList::deleteGivenTransaction( const Transaction& tr )
 {
     //listOfTransactions_.deleteOne( tr);
 	listOfTransactions_.remove( tr );
@@ -68,34 +71,33 @@ void TransactionList::deleteTransactionsUpToDate( const Date date )
 	deleteTransactionsUpToDate( date );
 }
 
-int TransactionList::size() const
+int TransactionList::size( void ) const
 {
     //return (listOfTransactions_.length());
 	return listOfTransactions_.size();
 }
 
-TransactionList TransactionList::getAllDepositTransactions() const{
+TransactionList TransactionList::getAllDepositTransactions( void ) const
+{
 	//Returns Transaction list of deposits
-	TransactionList tempList (*this);
-	TransactionList newList;
-	while ( ! ( tempList.size() == 0))
+	return getTransactionsForTitle( *this, DEPOSITTITLE );
+}
+
+double TransactionList::getTotalTransactions( void ) const
+{
+	//Returns count of transactions
+	TransactionList tempList( *this );
+	double total = 0.0;
+	int listSize = tempList.size();
+
+	for( int i(0); i < listSize; i++ )
 	{
-		if (tempList.newestTransaction().getAmount() > 0)
-		{
-			newList.addNewTransaction(tempList.newestTransaction());
-		}
+		total += tempList.newestTransaction().getAmount();
 		tempList.deleteFirstTransaction();
 	}
 
-	return ( newList);
-}
-
-double TransactionList::getTotalTransactions() const {
-	//Returns count of transactions
-	TransactionList tempList (*this);
-	double total = 0.0;
-
-	while ( ! ( tempList.size() == 0))
+	//
+	/*while ( ! ( tempList.size() == 0))
 		{
 			if (tempList.newestTransaction().getAmount() > 0)
 			{
@@ -103,8 +105,9 @@ double TransactionList::getTotalTransactions() const {
 				
 			}
 			tempList.deleteFirstTransaction();
-		}
-	return ( total);
+		}*/
+
+	return total;
 }
 
 TransactionList TransactionList::getTransactionsUpToDate( const Date date ) const
@@ -160,10 +163,10 @@ TransactionList TransactionList::getMostRecentTransactions( int trans ) const
 		newList.addNewTransaction(tempList.newestTransaction());
 		tempList.deleteFirstTransaction();
 	}
-	return ( newList);
+
+	return newList;
 }
 
-//Template function for option 7
 template <typename T>
 TransactionList TransactionList::getTransactionsForSearchCriteria( const T searchVal ) const
 {
@@ -205,84 +208,108 @@ template TransactionList TransactionList::getTransactionsForSearchCriteria<doubl
 template TransactionList TransactionList::getTransactionsForSearchCriteria<string>( const string ) const;
 template TransactionList TransactionList::getTransactionsForSearchCriteria<Date>( const Date ) const;
 
-TransactionList TransactionList::getTransactionsForAmount(double amount)//for option 7
+TransactionList TransactionList::getTransactionsForAmount( TransactionList trList, const double amount ) const
 {
-	TransactionList tempList (*this);
 	TransactionList newList;
-	while (tempList.size() != 0)
+	Transaction tempTransaction;
+
+	if( trList.size() > 0 )
 	{
-		if (tempList.newestTransaction().getAmount() == amount)
-		{
-			newList.addNewTransaction(tempList.newestTransaction());
-		}
-		tempList.deleteFirstTransaction();
+		tempTransaction = trList.newestTransaction();
+		
+		if( tempTransaction.getAmount() == amount )
+			newList.addNewTransaction( tempTransaction );
+
+		trList.deleteFirstTransaction();
+		newList += getTransactionsForAmount( trList, amount );
 	}
-	return (newList);
+
+	return newList;
 }
 
-TransactionList TransactionList::getTransactionsForTitle(string title)//for option 7
-{
-	TransactionList tempList (*this);
+TransactionList TransactionList::getTransactionsForTitle( TransactionList trList, const string title ) const
+{ 
 	TransactionList newList;
-	while (tempList.size() != 0)
+	Transaction tempTransaction;
+
+	if( trList.size() > 0 )
 	{
-		if (tempList.newestTransaction().getTitle() == title)
-		{
-			newList.addNewTransaction(tempList.newestTransaction());
-		}
-		tempList.deleteFirstTransaction();
+		tempTransaction = trList.newestTransaction();
+		
+		if( tempTransaction.getTitle() == title )
+			newList.addNewTransaction( tempTransaction );
+
+		trList.deleteFirstTransaction();
+		newList += getTransactionsForTitle( trList, title );
 	}
-	return (newList);
+
+	return newList;
 }
 
-TransactionList TransactionList::getTransactionsForDate(Date date)//for option 7
+TransactionList TransactionList::getTransactionsForDate( TransactionList trList, const Date date ) const
 {
-	TransactionList tempList (*this);
 	TransactionList newList;
-	while (tempList.size() != 0)
+	Transaction tempTransaction;
+
+	if( trList.size() > 0 )
 	{
-		if (tempList.newestTransaction().getDate() == date)
-		{
-			newList.addNewTransaction(tempList.newestTransaction());
-		}
-		tempList.deleteFirstTransaction();
+		tempTransaction = trList.newestTransaction();
+		
+		if( tempTransaction.getDate() == date )
+			newList.addNewTransaction( tempTransaction );
+
+		trList.deleteFirstTransaction();
+		newList += getTransactionsForDate( trList, date );
 	}
-	return (newList);
+
+	return newList;
 }
 
-int TransactionList::getNumberOfTransactions()//for option 7
+int TransactionList::getNumberOfTransactions( void ) const
 {
-	TransactionList tempList (*this);
-	return (tempList.size());
+	return size();
 }
 
 
-const string TransactionList::toFormattedString() const {
+const string TransactionList::toFormattedString( void ) const
+{
 //return transaction list as a (formatted) string
 	ostringstream os_transactionlist;
-    TransactionList tempTrList( *this);
-	while ( ! ( tempTrList.size() == 0))
-    {
+    TransactionList tempTrList( *this );
+
+	int listSize = tempTrList.size();
+
+	for( int i(0); i < listSize; i++ )
+	{
 		os_transactionlist << tempTrList.newestTransaction().toFormattedString() << endl;
         tempTrList.deleteFirstTransaction();
-    }
-	return ( os_transactionlist.str());
+	}
+
+	return os_transactionlist.str();
 }
 
-ostream& TransactionList::putDataInStream( ostream& os) const {
+ostream& TransactionList::putDataInStream( ostream& os ) const
+{
 //put (unformatted) transaction list into an output stream
-    TransactionList tempTrList( *this);
-	while ( ! ( tempTrList.size() == 0))
-    {
+    TransactionList tempTrList( *this );
+	int numTrans = tempTrList.size();
+
+	for( int i(0); i < numTrans; i++ )
+	{
 		os << tempTrList.newestTransaction() << endl;
         tempTrList.deleteFirstTransaction();
-    }
+	}
+
 	return os;
 }
-istream& TransactionList::getDataFromStream( istream& is) {
+
+istream& TransactionList::getDataFromStream( istream& is )
+{
 //read in (unformatted) transaction list from input stream
 	Transaction aTransaction;
+
 	is >> aTransaction;	//read first transaction
+
 	while ( is != 0) 	//while not end of file
 	{
 		it_ = listOfTransactions_.end();
@@ -290,6 +317,7 @@ istream& TransactionList::getDataFromStream( istream& is) {
 		//listOfTransactions_.addAtEnd( aTransaction);   //add transaction to list of transactions
 		is >> aTransaction;	//read in next transaction
 	}
+
 	return is;
 }
 
@@ -310,9 +338,12 @@ TransactionList& TransactionList::operator +=( TransactionList trList )
 //non-member operator functions
 //---------------------------------------------------------------------------
 
-ostream& operator<<( ostream& os, const TransactionList& aTransactionList) {
-    return ( aTransactionList.putDataInStream( os));
+ostream& operator<<( ostream& os, const TransactionList& aTransactionList )
+{
+    return aTransactionList.putDataInStream( os );
 }
-istream& operator>>( istream& is, TransactionList& aTransactionList) {
-	return ( aTransactionList.getDataFromStream( is));
+
+istream& operator>>( istream& is, TransactionList& aTransactionList )
+{
+	return aTransactionList.getDataFromStream( is );
 }

@@ -83,18 +83,23 @@ int CashPoint::validateCard( const string& cashCardFileName ) const
 		return VALID_CARD; //card valid (exists and linked to at least one bank account)
 }
 
-int CashPoint::validateAccount( const string& bankAccountFileName ) const
+const int CashPoint::validateAccount( const string& bankAccountFileName ) const
 {
 //check that the account is valid 
 //MORE WORK NEEDED: in case of transfer
     int validBankCode;
+	BankAccount *tempAccount = activateBankAccount( bankAccountFileName );
 
     if ( !canOpenFile( bankAccountFileName ) ) 
 		validBankCode = UNKNOWN_ACCOUNT; //account does not exist
 	else if ( ! p_theCashCard_->onCard( bankAccountFileName ) ) //unaccessible account (exist but not listed on card)
     	validBankCode = INACCESSIBLE_ACCOUNT;
+	else if( *tempAccount == *p_theActiveAccount_ )
+		validBankCode = SAME_ACCOUNT;
 	else
 		validBankCode = VALID_ACCOUNT; //account valid (exists and accessible)
+
+	releaseBankAccount( tempAccount, bankAccountFileName );
 
     return validBankCode;
 }
@@ -416,26 +421,13 @@ void CashPoint::m9_transferCashToAnotherAccount( void )
 	string fileName = theUI_->readInAccountToBeProcessed( toAccNo, toSrtCode );
 	//Get validation status of account
 	const DWORD validation = validateAccount( fileName );
+	theUI_->showValidateAccountOnScreen( validation, toAccNo, toSrtCode ); //Display validation text	 
 	
 	if( validation == VALID_ACCOUNT )
 	{	//Get a new instance of the correct account
 		pToAccount = activateBankAccount( fileName );
-
-			//Check if the account we are transferring to is the same as the active account
-		if( *p_theActiveAccount_ == *pToAccount )
-		{
-			printf( "\nTHE ACCOUNT (NUMBER: %s CODE: %s) IS ALREADY OPEN!\n",
-				toAccNo.c_str(), toSrtCode.c_str() );
-		}
-		else
-		{
-			//Display validation text		
-			theUI_->showValidateAccountOnScreen( validation, toAccNo, toSrtCode );
-			attemptTransfer( pToAccount );
-		}
-	}
-	else //Display validation text		
-		theUI_->showValidateAccountOnScreen( validation, toAccNo, toSrtCode );
+		attemptTransfer( pToAccount ); //attempt to transfer funds
+	}		
 
 	//Destroy the pointer to prevent leaks and store bank account state
 	if( pToAccount )
@@ -542,7 +534,7 @@ int CashPoint::checkAccountType( const string& aBAFileName ) const
 	return( atoi( aBAFileName.substr( FILEPATH.length() + 8, 1).c_str() ));
 }
 
-BankAccount* CashPoint::activateBankAccount(  const string& aBAFileName )
+BankAccount* CashPoint::activateBankAccount(  const string& aBAFileName ) const
 {
 	//check the type of the account (already checked for validity)
 	int accType( checkAccountType( aBAFileName));
@@ -574,10 +566,10 @@ BankAccount* CashPoint::activateBankAccount(  const string& aBAFileName )
 	return p_BA;
 }
 
-BankAccount* CashPoint::releaseBankAccount( BankAccount* p_BA, string aBAFileName )
+BankAccount* CashPoint::releaseBankAccount( BankAccount* p_BA, const string aBAFileName ) const
 {
 //store (possibly updated) data back in file
-    p_BA->storeBankAccountInFile( aBAFileName);
+    p_BA->storeBankAccountInFile( aBAFileName );
 	//effectively destroy the bank account instance
 	delete p_BA;
 	return nullptr;

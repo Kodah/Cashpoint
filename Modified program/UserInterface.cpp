@@ -270,6 +270,9 @@ void UserInterface::showValidateAccountOnScreen( const int validCode, const stri
 	else if( validCode == INACCESSIBLE_ACCOUNT ) //account exists but is not accessible with that card
         	printf( "\nERROR: INVALID ACCOUNT"
 				"\nTHE ACCOUNT (NUMBER: %s CODE: %s) IS NOT ACCESSIBLE WITH THIS CARD!", accNum.c_str(), srtCode.c_str() );
+	else if( validCode == SAME_ACCOUNT )
+			printf( "\nTHE ACCOUNT (NUMBER: %s CODE: %s) IS ALREADY OPEN!\n",
+			accNum.c_str(), srtCode.c_str() );
 }
 
 //input functions

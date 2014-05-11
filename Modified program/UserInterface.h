@@ -39,7 +39,7 @@ public:
     void	showValidateCardOnScreen( int validCode, const string& cardNum) const;
 	void	showCardOnScreen( const string& cardSt) const;
 	const string  readInAccountToBeProcessed( string& aNum, string& sCod) const;
-	void	showValidateAccountOnScreen( int valid, const string& aNum, const string& sCod) const;
+	void	showValidateAccountOnScreen( const int valid, const string& aNum, const string& sCod) const;
 
     double	readInWithdrawalAmount() const;
     double	readInDepositAmount() const;
@@ -67,7 +67,7 @@ public:
     void	showWithdrawalOnScreen( bool auth, double withdrawal) const;
     void	showStatementOnScreen( const string&) const;
 	void	showAllDepositsOnScreen(bool noTransaction, string str, double total) const;
-	void	showMiniStatementOnScreen(bool noTransaction, string str, double total) const;
+	void	showMiniStatementOnScreen( const bool noTransaction, const string str, const double total ) const;
 	void	showNoTransactionsOnScreen( void ) const;
 	void	showDeletionOfTransactionUpToDateOnScreen( const int numTransactions, const Date date ) const;
 	void	showTransferOnScreen( const bool trOutOk, const bool trInOk, const double amount ) const;

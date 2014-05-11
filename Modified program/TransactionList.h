@@ -8,42 +8,40 @@
 //TransactionList: class declaration
 //---------------------------------------------------------------------------
 
-#include "ListT.h"
 #include "Transaction.h"
+#include "Constants.h"
 
-#include <cassert> 	// for assert()
 #include <sstream>
 #include <list>
 
 class TransactionList
 {
 public:
-
 	void   addNewTransaction( const Transaction&);
-    const Transaction newestTransaction() const;
-    const  TransactionList olderTransactions() const;
-    void   deleteFirstTransaction();
+    const Transaction newestTransaction( void ) const;
+    const  TransactionList olderTransactions( void ) const;
+    void   deleteFirstTransaction( void );
     void   deleteGivenTransaction( const Transaction&);
 	void deleteTransactionsUpToDate( const Date date );
-	int    size() const;
+	int  size( void ) const;
 
-	TransactionList getAllDepositTransactions() const;
-	TransactionList getMostRecentTransactions(int) const;
+	TransactionList getAllDepositTransactions( void ) const;
+	TransactionList getMostRecentTransactions( const int numTrans ) const;
 
-	TransactionList getTransactionsForAmount(double);//for option 7
-	TransactionList getTransactionsForDate(Date);//for option 7
-	TransactionList getTransactionsForTitle(string);//for option 7
-	int getNumberOfTransactions();//for option 7
+	TransactionList getTransactionsForAmount( TransactionList trList, const double amount ) const;
+	TransactionList getTransactionsForDate( TransactionList trList, const Date date ) const;
+	TransactionList getTransactionsForTitle( TransactionList trList, const string title ) const;
+	int getNumberOfTransactions( void ) const;
 
-	double getTotalTransactions() const;
+	double getTotalTransactions( void ) const;
 	TransactionList getTransactionsUpToDate( const Date d ) const;
-	TransactionList TransactionList::getTransactionsUpToDate( TransactionList trList, const Date date ) const;
+	TransactionList getTransactionsUpToDate( TransactionList trList, const Date date ) const;
 
 	template <typename T> TransactionList getTransactionsForSearchCriteria( const T searchVal ) const;
 
-	const string toFormattedString() const;		//return transactionlist as a (formatted) string
+	const string toFormattedString( void ) const;	//return transactionlist as a (formatted) string
 	ostream& putDataInStream( ostream& os) const;	//send TransactionList info into an output stream
-	istream& getDataFromStream( istream& is);	//receive TransactionList info from an input stream
+	istream& getDataFromStream( istream& is);		//receive TransactionList info from an input stream
 
 	TransactionList& operator +=( TransactionList trList );
 

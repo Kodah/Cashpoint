@@ -33,7 +33,8 @@ enum AccountState
 {
 	VALID_ACCOUNT,
 	UNKNOWN_ACCOUNT,
-	INACCESSIBLE_ACCOUNT
+	INACCESSIBLE_ACCOUNT,
+	SAME_ACCOUNT
 };
 
 //month
@@ -62,5 +63,8 @@ enum SEARCH_OPTS
 
 //resource path
 const string FILEPATH( "data\\" );
+
+//Transaction titles
+const string DEPOSITTITLE( "deposit_to_ATM" );
 
 #endif

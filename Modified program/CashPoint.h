@@ -42,7 +42,7 @@ private:
 	void performCardCommand( const int );
     void performAccountProcessingCommand( const int );
     int  validateCard( const string& ) const;
-	int  validateAccount( const string& ) const;
+	const int  validateAccount( const string& ) const;
 	void processOneCustomerRequests( void );
 	void processOneAccountRequests( void );
 
@@ -68,8 +68,8 @@ private:
 
 	void attemptTransfer( BankAccount *pToAccount );
 
-	BankAccount* activateBankAccount( const string& );
-	BankAccount* releaseBankAccount( BankAccount*, string);
+	BankAccount* activateBankAccount( const string& ) const;
+	BankAccount* releaseBankAccount( BankAccount*, const string bAFileName ) const;
 
     void activateCashCard( const string& );
 	void releaseCashCard( void );
