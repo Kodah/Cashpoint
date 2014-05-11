@@ -36,7 +36,7 @@ void CashPoint::activateCashPoint( void )
 	theUI_->showWelcomeScreen();
     command = theUI_->readInCardIdentificationCommand();
 
-	while ( command != QUIT_COMMAND)
+	while ( command != QUIT_COMMAND )
     {
 		performCardCommand( command);
 	    theUI_->showByeScreen();
@@ -94,7 +94,7 @@ const int CashPoint::validateAccount( const string& bankAccountFileName ) const
 		validBankCode = UNKNOWN_ACCOUNT; //account does not exist
 	else if ( ! p_theCashCard_->onCard( bankAccountFileName ) ) //unaccessible account (exist but not listed on card)
     	validBankCode = INACCESSIBLE_ACCOUNT;
-	else if( *tempAccount == *p_theActiveAccount_ )
+	else if( p_theActiveAccount_ && (*tempAccount == *p_theActiveAccount_) )
 		validBankCode = SAME_ACCOUNT;
 	else
 		validBankCode = VALID_ACCOUNT; //account valid (exists and accessible)
