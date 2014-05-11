@@ -20,12 +20,13 @@ void TransactionList::addNewTransaction( const Transaction& tr )
 	listOfTransactions_.insert( it_, tr );
 }
 
-const Transaction TransactionList::newestTransaction( void ) const
+Transaction TransactionList::newestTransaction( void ) const
 {
     //return (listOfTransactions_.first());
 	return listOfTransactions_.front();
 }
-const TransactionList TransactionList::olderTransactions( void ) const
+
+TransactionList TransactionList::olderTransactions( void ) const
 {
 	TransactionList trlist( *this );
     trlist.deleteFirstTransaction();
@@ -82,7 +83,7 @@ int TransactionList::size( void ) const
 TransactionList TransactionList::getAllDepositTransactions( void ) const
 {
 	//Returns Transaction list of deposits
-	return getTransactionsForTitle( *this, DEPOSITTITLE );
+	return getTransactionsForTitle( *this, DEPOSIT_TITLE );
 }
 
 double TransactionList::getTotalTransactions( void ) const

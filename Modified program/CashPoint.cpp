@@ -227,7 +227,7 @@ void CashPoint::m5_showAllDepositsTransactions( void ) const
 
 	//if there are then produce the deposits
 	if( !noTransaction )
-		p_theActiveAccount_->produceAllDepositTransactions(str, total );
+		p_theActiveAccount_->produceAllDepositTransactions( str, total );
 
 	//show the deposits on the screen.
 	theUI_->showAllDepositsOnScreen( noTransaction, str, total );

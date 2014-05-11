@@ -2,10 +2,10 @@
 
 #ifndef SAVINGSACCOUNT_H
 #define SAVINGSACCOUNT_H
-
+//our header includes
 #include "BankAccount.h"
 
-class SavingsAccount : public BankAccount
+class SavingsAccount : public BankAccount //SavingsAccount class
 {
 public: //Public declarations
 	//Constructors/Destructors
@@ -15,15 +15,15 @@ public: //Public declarations
                           const TransactionList& trList, const double minimumBalance = 0.0 );
 	
 	//Accessor declarations
-	double								getMinimumBalance( void ) const;
+	double									getMinimumBalance( void ) const;
 
-	virtual ostream&					putDataInStream( ostream& os) const = 0;
-	virtual istream&					getDataFromStream( istream& is) = 0;
+	virtual ostream&						putDataInStream( ostream& os) const = 0;
+	virtual istream&						getDataFromStream( istream& is) = 0;
 
-	virtual const bool					canTransferOut( const double amount ) const;
+	virtual const bool						canTransferOut( const double amount ) const;
 
 protected: //Protected member instances
-	double								minimumBalance_;
+	double									minimumBalance_;
 
 };
 

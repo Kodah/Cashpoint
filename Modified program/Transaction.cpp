@@ -40,7 +40,7 @@ const string Transaction::getTitle( void ) const
 	return title_;
 }
 
-double Transaction::getAmount( void ) const
+const double Transaction::getAmount( void ) const
 {
 	return amount_;
 }

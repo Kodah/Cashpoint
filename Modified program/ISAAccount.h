@@ -2,10 +2,10 @@
 
 #ifndef ISAACCOUNT_H
 #define ISAACCOUNT_H
-
+//our header includes
 #include "SavingsAccount.h"
 
-class ISAAccount : public SavingsAccount
+class ISAAccount : public SavingsAccount //ISAAccount class
 {
 public: //Public declarations
 	//Constructors/Destructors
@@ -17,20 +17,20 @@ public: //Public declarations
 				const Date endDepositPeriod = Date(), const double currentYearlyDeposit = 0.0,
 				const double maximumYearlyDeposit = 1000.0 );
 	//Accessor declarations
-	double								getCurrentYearlyDeposit( void ) const;
-	double								getMaximumYearlyDeposit( void ) const;
+	double									getCurrentYearlyDeposit( void ) const;
+	double									getMaximumYearlyDeposit( void ) const;
 
-	Date								getEndDepositPeriod( void ) const;
+	Date									getEndDepositPeriod( void ) const;
 
-	virtual ostream&					putDataInStream( ostream& os) const;
-	virtual istream&					getDataFromStream( istream& is);
+	virtual ostream&						putDataInStream( ostream& os) const;
+	virtual istream&						getDataFromStream( istream& is);
 
-	virtual const bool					canTransferIn( const double amount ) const;
+	virtual const bool						canTransferIn( const double amount ) const;
 
-	virtual void						recordTransferIn( const double amount, const string aAN, const string aSC );
+	virtual void							recordTransferIn( const double amount, const string aAN, const string aSC );
 	
-protected:
-	const string prepareFormattedAccountDetails() const;
+protected: //protected support declarations
+	const string							prepareFormattedAccountDetails( void ) const;
 
 private: //Private method declarations
 	//Setter declarations

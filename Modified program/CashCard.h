@@ -7,13 +7,14 @@
 //---------------------------------------------------------------------------
 //Card: class declaration
 //---------------------------------------------------------------------------
-
+//microsoft library includes
 #include <fstream>
 #include <iostream> 
 #include <string>
 #include <sstream>
 #include <list>
 
+//removed using namespace std to prevent namespace pollution
 using std::string;
 using std::ostream;
 using std::istream;
@@ -26,28 +27,29 @@ using std::list;
 using std::iterator;
 using std::find;
 
-class CashCard {
+class CashCard //CashCard class
+{
 public:
     //constructors & destructor
 	CashCard();
     CashCard( const string& cardNum, const list<string> &accList );
 
 	//getter (assessor) functions
-    const string getCardNumber() const;
-    const list<string> getAccountsList() const;
+    const string						getCardNumber( void ) const;
+    const list<string>					getAccountsList( void ) const;
 
-	void readInCardFromFile( const string& fileName);
-	bool onCard( const string& fileName) const;
+	void								readInCardFromFile( const string& fileName);
+	bool								onCard( const string& fileName) const;
 
 	//functions to put data into and get data from streams
-	const string toFormattedString() const;
-	ostream& putDataInStream( ostream& os) const;
-	istream& getDataFromStream( istream& is);
+	const string						toFormattedString( void ) const;
+	ostream&							putDataInStream( ostream& os ) const;
+	istream&							getDataFromStream( istream& is );
 
-private:
-    string cardNumber_;
-    //List<string> accountsList_;
-	list<string> accountsList_;
+private: //private member instances
+    string								cardNumber_;
+    //List<string>						accountsList_;
+	list<string>						accountsList_;
 };
 
 //---------------------------------------------------------------------------

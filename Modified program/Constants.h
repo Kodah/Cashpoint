@@ -66,6 +66,6 @@ enum SEARCH_OPTS
 const string FILEPATH( "data\\" );
 
 //Transaction titles
-const string DEPOSITTITLE( "deposit_to_ATM" );
+const string DEPOSIT_TITLE( "deposit_to_ATM" );
 
 #endif

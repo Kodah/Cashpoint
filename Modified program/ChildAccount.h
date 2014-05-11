@@ -2,10 +2,10 @@
 
 #ifndef CHILDACCOUNT_H
 #define CHILDACCOUNT_H
-
+//Our header includes
 #include "SavingsAccount.h"
 
-class ChildAccount : public SavingsAccount
+class ChildAccount : public SavingsAccount //ChildAccount class
 {
 public: //Public declarations
 	//Constructors/Destructors
@@ -18,16 +18,16 @@ public: //Public declarations
 						  const double minimumPaidIn = 0.0, const double maximumPaidIn = 0.0 );
 
 	//Accessor declarations
-	double								getMinimumPaidIn( void ) const;
-	double								getMaximumPaidIn( void ) const;
+	double										getMinimumPaidIn( void ) const;
+	double										getMaximumPaidIn( void ) const;
 
-	virtual ostream&					putDataInStream( ostream& os) const;
-	virtual istream&					getDataFromStream( istream& is);
+	virtual ostream&							putDataInStream( ostream& os) const;
+	virtual istream&							getDataFromStream( istream& is);
 
-	virtual const bool					canTransferIn( const double amount ) const;
+	virtual const bool							canTransferIn( const double amount ) const;
 	
-protected:
-	const string prepareFormattedAccountDetails() const;
+protected:// protected support methods
+	virtual const string						prepareFormattedAccountDetails() const;
 
 private: //Private member instances
 	double								minimumPaidIn_, maximumPaidIn_;
