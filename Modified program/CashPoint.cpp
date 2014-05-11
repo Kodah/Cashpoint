@@ -189,7 +189,7 @@ void CashPoint::m1_produceBalance( void ) const
 void CashPoint::m2_withdrawFromBankAccount( void )
 {
     double amountToWithdraw( theUI_->readInWithdrawalAmount() );
-    bool transactionAuthorised( p_theActiveAccount_->canWithdraw( amountToWithdraw ) );
+    bool transactionAuthorised( p_theActiveAccount_->canTransferOut( amountToWithdraw ) );
 
     if ( transactionAuthorised)
     {   //transaction is accepted: money can be withdrawn from account

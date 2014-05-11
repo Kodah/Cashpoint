@@ -104,16 +104,6 @@ void BankAccount::recordTransferOut( const double amount, const string tAN, cons
 	updateBalance( -amount ); //Change account balance
 }
 
-double BankAccount::borrowable( void ) const
-{
-    return balance_; //return borrowable amount
-}
-bool BankAccount::canWithdraw( double amountToWithdraw ) const
-{
-//check if enough money in account
-    return ( amountToWithdraw <= borrowable() );
-}
-
 void BankAccount::recordWithdrawal( const double amountToWithdraw )
 {
     Transaction aTransaction( "withdrawal_from_ATM", -amountToWithdraw ); //create a withdrawal transaction

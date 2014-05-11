@@ -50,12 +50,10 @@ public:
 	const string prepareFormattedStatement( void ) const;
 
     void recordDeposit( const double amount );
-	//void recordTransfer( const double amount, const string transaction );
+
 	virtual void recordTransferIn( const double amount, const string aAN, const string aSC );
 	void recordTransferOut( const double amount, const string tAN, const string tSC );
 
-	double borrowable( void ) const;
-	virtual bool canWithdraw( double amount ) const;
     void recordWithdrawal( double amount );
 
 	void readInBankAccountFromFile( const string &fileName );
