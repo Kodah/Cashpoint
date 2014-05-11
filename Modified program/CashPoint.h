@@ -63,8 +63,6 @@ private:
 
     void activateCashCard( const string& );
 	void releaseCashCard( void );
-
-	void displayAssociatedAccounts( void ) const;
 };
 
 #endif

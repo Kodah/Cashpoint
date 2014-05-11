@@ -275,6 +275,31 @@ void UserInterface::showValidateAccountOnScreen( const int validCode, const stri
 			accNum.c_str(), srtCode.c_str() );
 }
 
+void UserInterface::displayAssociatedAccounts( list<string> accList, const BankAccount *pActiveAcc ) const
+{
+	if( !pActiveAcc || accList.empty() )
+		return;
+
+	string activeAccNo = pActiveAcc->getAccountNumber();
+	string activeSrtCode = pActiveAcc->getSortCode();
+
+	do
+	{
+		string temp = accList.front();
+
+		if( temp.substr( 0, 3 ).c_str() != activeAccNo ||
+			temp.substr( 4, 5 ).c_str() != activeSrtCode )
+		{
+			printf( "\nACCOUNT NO: %s\tSORT CODE: %s",
+				temp.substr( 0, 3 ).c_str(),
+				temp.substr( 4, 5 ).c_str() );
+		}
+
+		accList.remove( temp );
+
+	}while( !accList.empty() );
+}
+
 //input functions
 
 double UserInterface::readInWithdrawalAmount( void ) const

@@ -99,19 +99,18 @@ void ISAAccount::recordTransferIn( const double amount, const string aAN, const 
 
 const string ISAAccount::prepareFormattedAccountDetails() const
 {
-	return "Function yet to be implemented";
 	//collect account details in string
 	ostringstream os;
 	//account details
-	os << "\nACCOUNT TYPE:    " << accountType_ << " ACCOUNT";						//display account type
-	os << "\nACCOUNT NUMBER:  " << accountNumber_;									//display account number
-	os << "\nSORT CODE:       " << sortCode_;										//display sort code
-	os << "\nCREATION DATE:   " << creationDate_.toFormattedString();				//display creation date
-	os << fixed << setprecision(2) << setfill(' ');
-	os << "\nBALANCE:         \234" << setw(10) << balance_;						//display balance
-	os << "\nCURRENT YEARS DEPOSIT: \234" << setw(10) << currentYearlyDeposit_;		//display current year deposit
-	os << "\nMAX YEARS DEPOSIT: \234" << setw(10) << maximumYearlyDeposit_;			//display max year deposit
-	os << "\nDEPOSIT RENEWAL DATE: " << endDepositPeriod_.toFormattedString();		//display deposit renewal date
+	os << endl << "ACCOUNT TYPE:    " << accountType_ << " ACCOUNT"						//display account type
+	   << endl << "ACCOUNT NUMBER:  " << accountNumber_									//display account number
+	   << endl << "SORT CODE:       " << sortCode_										//display sort code
+	   << endl << "CREATION DATE:   " << creationDate_.toFormattedString()				//display creation date
+	   << fixed << setprecision(2) << setfill(' ')
+	   << endl << "BALANCE:         \234" << setw(10) << balance_						//display balance
+	   << endl << "CURRENT YEARS DEPOSIT: \234" << setw(10) << currentYearlyDeposit_	//display current year deposit
+	   << endl << "MAX YEARS DEPOSIT: \234" << setw(10) << maximumYearlyDeposit_		//display max year deposit
+	   << endl << "DEPOSIT RENEWAL DATE: " << endDepositPeriod_.toFormattedString();	//display deposit renewal date
 
 	return os.str();
 }

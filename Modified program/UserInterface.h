@@ -11,6 +11,7 @@
 
 #include "Time.h"
 #include "Date.h"
+#include "BankAccount.h"
 
 using std::cout;
 using std::endl;
@@ -40,6 +41,7 @@ public:
 	void	showCardOnScreen( const string& cardSt) const;
 	const string  readInAccountToBeProcessed( string& aNum, string& sCod) const;
 	void	showValidateAccountOnScreen( const int valid, const string& aNum, const string& sCod) const;
+	void displayAssociatedAccounts( list<string> accList, const BankAccount *pActiveAcc ) const;
 
     double	readInWithdrawalAmount() const;
     double	readInDepositAmount() const;

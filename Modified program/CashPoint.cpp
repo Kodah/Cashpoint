@@ -407,7 +407,7 @@ void CashPoint::m9_transferCashToAnotherAccount( void )
 	//display card
 	theUI_->showCardOnScreen( p_theCashCard_->toFormattedString() );
 	//Display accounts available to receive a transfer
-	displayAssociatedAccounts();
+	theUI_->displayAssociatedAccounts( p_theCashCard_->getAccountsList(), p_theActiveAccount_ );
 	printf( "\nSELECT ACCOUNT TO TRANSFER TO...\n" );
 	//Get the account from the user, and receive relevant file name
 	string fileName = theUI_->readInAccountToBeProcessed( toAccNo, toSrtCode );
@@ -565,26 +565,4 @@ BankAccount* CashPoint::releaseBankAccount( BankAccount* p_BA, const string aBAF
 	//effectively destroy the bank account instance
 	delete p_BA;
 	return nullptr;
-}
-
-void CashPoint::displayAssociatedAccounts( void ) const
-{
-	list <string> accountList = p_theCashCard_->getAccountsList();
-	string activeAccNo = p_theActiveAccount_->getAccountNumber();
-	string activeSrtCode = p_theActiveAccount_->getSortCode();
-
-	while( !accountList.empty() )
-	{
-		string temp = accountList.front();
-
-		if( temp.substr( 0, 3 ).c_str() != activeAccNo ||
-			temp.substr( 4, 5 ).c_str() != activeSrtCode )
-		{
-			printf( "ACCOUNT NO: %s\tSORT CODE: %s\n",
-				temp.substr( 0, 3 ).c_str(),
-				temp.substr( 4, 5 ).c_str() );
-		}
-
-		accountList.remove( temp );
-	}
 }
