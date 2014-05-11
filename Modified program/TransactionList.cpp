@@ -45,6 +45,7 @@ void TransactionList::deleteGivenTransaction( const Transaction& tr )
 	listOfTransactions_.remove( tr );
 }
 
+//delete the transactions up to a certain date
 void TransactionList::deleteTransactionsUpToDate( const Date date )
 {
 	//TransactionList trList = getTransactionsUpToDate( date ); //Non-recursive call
@@ -60,14 +61,15 @@ void TransactionList::deleteTransactionsUpToDate( const Date date )
 	}*/
 
 	//Recursive version
+	//check there are still transactions
 	if( numTransactions == 0 )
 		return;
-
+	//create a temp transaction of the latest transaction
 	Transaction tempTransaction = trList.newestTransaction();
-
+	//then delete it
 	deleteGivenTransaction( tempTransaction );
     trList.deleteGivenTransaction( tempTransaction );
-
+	//then call the funtion again
 	deleteTransactionsUpToDate( date );
 }
 
@@ -115,16 +117,20 @@ TransactionList TransactionList::getTransactionsUpToDate( const Date date ) cons
 	TransactionList trList( *this ), trList2;
 	int numTransactions = trList.size();
 
+	//goes through each transaction in the transaction list
 	for( int i(0); i < numTransactions; i++ )
 	{
+		//gets the latest transaction
 		Transaction tempTransaction = trList.newestTransaction();
-		
+		//checks to see if the transaction is before or equal to the date
+		//add the transaction to another list
 		if( tempTransaction.getDate() <= date )
 			trList2.addNewTransaction( tempTransaction );
 		
+		//then delete the transaction from the old list
 		trList.deleteGivenTransaction( tempTransaction );
 	}
-	
+	//return the new transaction list
 	return trList2;
 }
 
@@ -167,6 +173,7 @@ TransactionList TransactionList::getMostRecentTransactions( int trans ) const
 	return newList;
 }
 
+//template for getting the transactions depending on title, date or amount
 template <typename T>
 TransactionList TransactionList::getTransactionsForSearchCriteria( const T searchVal ) const
 {
@@ -177,33 +184,39 @@ TransactionList TransactionList::getTransactionsForSearchCriteria( const T searc
 
 	int numTransactions = tempList.size();
 
+	//go through each transaction
 	for( int i(0); i < numTransactions; i++ )
 	{
+		//put the date of the latest transaction into an ostringstream
 		oss << tempList.newestTransaction().getDate();
 		date = oss.str();
 		oss.str( "" );
-
+		//put the amount of the latest transaction into an ostringstream
 		oss << tempList.newestTransaction().getAmount();
 		amount = oss.str();
 		oss.str( "" );
-
+		//put the title of the latest transaction into an ostringstream
 		oss << tempList.newestTransaction().getTitle();
 		title = oss.str();
 		oss.str( "" );
-
+		//put the passed value into an ostringstream
 		oss << searchVal;
 		value = oss.str();
 		oss.str( "" );
 
+		//check the latest transaction against the passed value
+		//add the lastest transaction to the new list
 		if( date == value || amount == value || title == value )
 			newList.addNewTransaction( tempList.newestTransaction() );
 
+		//delete the transaction
 		tempList.deleteFirstTransaction();
 	}
 
 	return newList;
 }
 
+//templates for double, string and Date
 template TransactionList TransactionList::getTransactionsForSearchCriteria<double>( const double ) const;
 template TransactionList TransactionList::getTransactionsForSearchCriteria<string>( const string ) const;
 template TransactionList TransactionList::getTransactionsForSearchCriteria<Date>( const Date ) const;
@@ -213,13 +226,17 @@ TransactionList TransactionList::getTransactionsForAmount( TransactionList trLis
 	TransactionList newList;
 	Transaction tempTransaction;
 
+	//check there are still transactions left
 	if( trList.size() > 0 )
 	{
+		//get the latest transaction
 		tempTransaction = trList.newestTransaction();
-		
+		//check if the values match
+		//if so add the transaction the the new list
 		if( tempTransaction.getAmount() == amount )
 			newList.addNewTransaction( tempTransaction );
-
+		
+		//delete the first transaction and call the function again
 		trList.deleteFirstTransaction();
 		newList += getTransactionsForAmount( trList, amount );
 	}
@@ -231,14 +248,17 @@ TransactionList TransactionList::getTransactionsForTitle( TransactionList trList
 { 
 	TransactionList newList;
 	Transaction tempTransaction;
-
+	//check there are still transactions left
 	if( trList.size() > 0 )
 	{
+		//get the latest transaction
 		tempTransaction = trList.newestTransaction();
-		
+		//check if the values match
+		//if so add the transaction the the new list
 		if( tempTransaction.getTitle() == title )
 			newList.addNewTransaction( tempTransaction );
 
+		//delete the first transaction and call the function again
 		trList.deleteFirstTransaction();
 		newList += getTransactionsForTitle( trList, title );
 	}
@@ -250,14 +270,17 @@ TransactionList TransactionList::getTransactionsForDate( TransactionList trList,
 {
 	TransactionList newList;
 	Transaction tempTransaction;
-
+	//check there are still transactions left
 	if( trList.size() > 0 )
 	{
+		//get the latest transaction
 		tempTransaction = trList.newestTransaction();
-		
+		//check if the values match
+		//if so add the transaction the the new list
 		if( tempTransaction.getDate() == date )
 			newList.addNewTransaction( tempTransaction );
-
+		
+		//delete the first transaction and call the function again
 		trList.deleteFirstTransaction();
 		newList += getTransactionsForDate( trList, date );
 	}

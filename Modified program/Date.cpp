@@ -32,6 +32,8 @@ int Date::getYear() const {
 	return dateTime_.year;
 }
 
+//checks to see if the date is after the creation date
+//if it needs to be
 bool Date::isValid( const Date creationDate ) const
 {
 	if( Date::isValidDate( *this ) &&
@@ -41,6 +43,8 @@ bool Date::isValid( const Date creationDate ) const
 	return false;
 }
 
+//checks to see if the date is a real date
+//doesn't take leap years into account
 bool Date::isValidDate( const Date date )
 {
 	if( date.dateTime_.day < 1 )

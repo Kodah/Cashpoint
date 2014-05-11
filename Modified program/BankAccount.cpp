@@ -88,6 +88,8 @@ void BankAccount::recordDeposit( const double amountToDeposit )
     updateBalance( amountToDeposit );			//increase balance_
 }
 
+//This creates the transaction string and sends it to the "newTransaction" function to write it 
+//to the file.
 void BankAccount::recordTransferIn( const double amount, const string aAN, const string aSC )
 {
 	const string transaction = ( "Transfer_from_" + aAN + "_" + aSC ); 
@@ -95,7 +97,8 @@ void BankAccount::recordTransferIn( const double amount, const string aAN, const
 
 	updateBalance( amount ); //Change account balance
 }
-
+//This creates the transaction string and sends it to the "newTransaction" function to write it 
+//to the file.
 void BankAccount::recordTransferOut( const double amount, const string tAN, const string tSC )
 {
 	const string transaction = ( "Transfer_to_" + tAN + "_" + tSC ); 
@@ -152,6 +155,8 @@ void BankAccount::storeBankAccountInFile( const string& fileName ) const
 	toFile.close();			//close file: optional here
 }
 
+//this function returns a formatted string of deposit transactions
+//as well as the amount of transactions.
 void BankAccount::produceAllDepositTransactions( string& str, double& total ) const
 {
 	TransactionList trl( transactions_.getAllDepositTransactions() );
@@ -160,6 +165,8 @@ void BankAccount::produceAllDepositTransactions( string& str, double& total ) co
 	str		= trl.toFormattedString();
 }
 
+//this function returns a formatted string of the last N transactions
+//as well as the amount of transactions.
 void BankAccount::produceNMostRecentTransactions( const int noOfTran, string& str, double& total ) const
 {
 	TransactionList trl( transactions_.getMostRecentTransactions( noOfTran ) );
@@ -168,6 +175,8 @@ void BankAccount::produceNMostRecentTransactions( const int noOfTran, string& st
 	str		= trl.toFormattedString();
 }
 
+//this function returns a formatted string of transactions upto a certain date
+//as well as the amount of transactions.
 string BankAccount::produceTransactionsUpToDate( const Date date, int &numTransactions ) const
 {
 	TransactionList trList = transactions_.getTransactionsUpToDate( date );
@@ -177,14 +186,18 @@ string BankAccount::produceTransactionsUpToDate( const Date date, int &numTransa
 }
 
 //Template function for option 7
+//this returns a formatted string of transactions
+//as well as the amount of transactions for certain criteria.
 template <typename T>
 string BankAccount::produceTransactionsForSearchCriteria( const T searchVal, int& noTrans ) const
 {
+	//calls another template function to get the transactions depending on the type sent
 	TransactionList trl (transactions_.getTransactionsForSearchCriteria(searchVal));
 	noTrans = trl.getNumberOfTransactions();
 	return trl.toFormattedString();
 }
 
+//the three templates to accept types double, string or date.
 template string BankAccount::produceTransactionsForSearchCriteria<double>( const double, int & ) const;
 template string BankAccount::produceTransactionsForSearchCriteria<string>( const string, int & ) const;
 template string BankAccount::produceTransactionsForSearchCriteria<Date>( const Date, int & ) const;

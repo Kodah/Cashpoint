@@ -125,7 +125,7 @@ T UserInterface::readInSearchCriteria( void ) const
 	T searchCriteria;
 
 	cout << endl;
-
+	//check the type of T to print the correct request
 	if( typeid( T ) == typeid( double ) )
 		cout << "Please enter amount to search on: ";
 	else if( typeid( T ) == typeid( string ) )
@@ -141,11 +141,14 @@ template double UserInterface::readInSearchCriteria<double>( void ) const;
 template string UserInterface::readInSearchCriteria<string>( void ) const;
 template Date UserInterface::readInSearchCriteria<Date>( void ) const;
 
+
+
 double UserInterface::readInAmount( void ) const
 {
 	double amount;
-
+	//print request
 	cout << endl << "Enter amount to search: ";
+	//get the answer
 	cin >> amount;
 
 	return amount;
@@ -153,6 +156,7 @@ double UserInterface::readInAmount( void ) const
 
 const double UserInterface::readInTransferAmount( void ) const
 {
+	//print request
 	cout << endl << "ENTER AMOUNT TO TRANSFER: \x9C";
 	return readInPositiveAmount();
 }
@@ -160,10 +164,10 @@ const double UserInterface::readInTransferAmount( void ) const
 string UserInterface::readInTitle( void ) const
 {
 	string title;
-
+	//ask for a title
 	cout << endl << "Enter a title to search: ";
 	cin >> title;
-
+	//return the title
 	return title;
 }
 
@@ -178,8 +182,9 @@ Date UserInterface::readInValidDate( const Date creationDate ) const
 	do
 	{
 		printf( "Enter a date later or equal to %s (DD/MM/YYYY): ", strCreationDate );
+		//read in the date
 		cin >> chosenDate;
-
+		//check to see if the date is after the creation date
 		if( !chosenDate.isValid( creationDate ) )
 			cout << "You entered an invalid date..." << endl << endl;
 		else
@@ -188,7 +193,7 @@ Date UserInterface::readInValidDate( const Date creationDate ) const
 	}while( true );
 
 }
-
+//output no transactions found
 void UserInterface::noTransactionsFound( void ) const
 {
 	cout << endl << "NO TRANSACTION IN BANK ACCOUNT MATCH THE SEARCH CRITERION GIVEN";
@@ -209,6 +214,7 @@ void UserInterface::showMatchingTransactionsOnScreenDate( const Date date, const
 	cout << endl << noTrans << " transactions for " << date << endl << strTrans;
 }*/
 
+//template to output the transactions that meat the seach criteria
 template <typename T>
 void UserInterface::showMatchingTransactionsOnScreen( const T criteria, const int noTrans, const string strTrans ) const //for option 7
 {
@@ -219,6 +225,7 @@ template void UserInterface::showMatchingTransactionsOnScreen<double>(	const dou
 template void UserInterface::showMatchingTransactionsOnScreen<Date>( const Date, const int, const string ) const;
 template void UserInterface::showMatchingTransactionsOnScreen<string>(	const string, const int, const string ) const;
 
+//print the transactions upto chosen date
 void UserInterface::showTransactionsUpToDateOnScreen( const Date date, const int numTransactions, const string transactions ) const
 {
 	printf( "There are %d transactions up to %s.\n\n%s",
@@ -388,12 +395,16 @@ void UserInterface::showNoTransactionsOnScreen( void ) const
 	cout << endl << endl << endl << "There are no transactions.";
 }
 
+
+//print the number of transactions deleted 
 void UserInterface::showDeletionOfTransactionUpToDateOnScreen( const int numTransactions, const Date date ) const
 {
 	printf( "THE %d TRANSACTIONS UP TO DATE %s HAVE BEEN DELETED.\n",
 		numTransactions, date.toFormattedString().c_str() );
 }
 
+//show if the transfer was a success
+//if it wasn't print the appropriate reason
 void UserInterface::showTransferOnScreen( const bool trOutOk, const bool trInOk, const double amount ) const
 {
 	if( trOutOk && trInOk )
@@ -412,8 +423,9 @@ void UserInterface::showTransferOnScreen( const bool trOutOk, const bool trInOk,
 bool UserInterface::readInConfirmDeletion( void ) const
 {
 	char answer = ' ';
-
+	//check user wants to delete
 	cout << endl << "Are you sure you wish to delete these transactions (Y/N)? ";
+	//read in answer
 	cin >> answer;
 
 	if( answer == 'Y' || answer == 'y' )
