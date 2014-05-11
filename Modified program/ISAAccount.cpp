@@ -88,6 +88,15 @@ const bool ISAAccount::canTransferIn( const double amount ) const
 		(Date::currentDate() < endDepositPeriod_) && (amount >= 0.0));
 }
 
+void ISAAccount::recordTransferIn( const double amount, const string aAN, const string aSC )
+{
+	const string transaction = ( "Transfer_from_" + aAN + "_" + aSC ); 
+	transactions_.addNewTransaction( Transaction( transaction, amount ) ); 
+
+	updateCurrentYearlyDeposit( amount );
+	updateBalance( amount ); //Change account balance
+}
+
 const string ISAAccount::prepareFormattedAccountDetails() const
 {
 	return "Function yet to be implemented";

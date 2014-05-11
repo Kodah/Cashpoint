@@ -26,6 +26,8 @@ public: //Public declarations
 	virtual istream&					getDataFromStream( istream& is);
 
 	virtual const bool					canTransferIn( const double amount ) const;
+
+	virtual void						recordTransferIn( const double amount, const string aAN, const string aSC );
 	
 protected:
 	const string prepareFormattedAccountDetails() const;
