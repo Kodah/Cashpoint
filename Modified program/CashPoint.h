@@ -1,4 +1,4 @@
-//Pascale Vacher - March 14
+//Mike Orr, Luke Segaran, Tom sugarev - May 14
 //OOP Assignment Semester 2
 
 #ifndef CashPointH
@@ -9,11 +9,9 @@
 //---------------------------------------------------------------------------
 
 #include "CashCard.h"
-
 #include "CurrentAccount.h"
 #include "ChildAccount.h"
 #include "ISAAccount.h"
-
 #include "UserInterface.h"
 
 #include <fstream>
@@ -25,14 +23,15 @@
 #endif
 
 #include <Windows.h>
-using namespace std;
 
-class CashPoint {
+class CashPoint
+{
 public:
 	//constructors & destructor
 	CashPoint();	//default constructor
 	~CashPoint();	//destructor
     void activateCashPoint( void );
+
 private:
 	//data items
     BankAccount* p_theActiveAccount_;
@@ -40,36 +39,27 @@ private:
     UserInterface *theUI_;
 
 	//support functions
-	void performCardCommand( int );
+	void performCardCommand( const int );
     void performAccountProcessingCommand( const int );
     int  validateCard( const string& ) const;
 	int  validateAccount( const string& ) const;
 	void processOneCustomerRequests( void );
 	void processOneAccountRequests( void );
 
-    void performSubMenuCommand( int );
     //commands
-    //option 1
-    void m1_produceBalance( void ) const;
-    //option 2
-    void m2_withdrawFromBankAccount( void );
-    //option 3
-    void m3_depositToBankAccount( void );
-    //option 4
-    void m4_produceStatement( void ) const;
-	//option 5
-	void m5_showAllDepositsTransactions( void );
-	//option 6
-	void m6_showMiniStatement( void );
-	//option 7
-	void m7_searchTransactions( void );//for option 7
-	//void m7a_showTransactionsForAmount( void );//for option 7
-	//void m7b_showTransactionsForTitle( void );//for option 7
-	//void m7c_showTransactionsForDate( void );//for option 7
-	//option 8
-	void m8_clearTransactionsUpToDate( void );
-	//option 9
-	void m9_transferCashToAnotherAccount( void );
+    
+    void m1_produceBalance( void ) const; //option 1
+    void m2_withdrawFromBankAccount( void ); //option 2
+    void m3_depositToBankAccount( void ); //option 3
+    void m4_produceStatement( void ) const; //option 4
+	void m5_showAllDepositsTransactions( void ) const; //option 5
+	void m6_showMiniStatement( void ) const; //option 6
+	void m7_searchTransactions( void ) const; //option 7
+	//void m7a_showTransactionsForAmount( void ) const;
+	//void m7b_showTransactionsForTitle( void ) const;
+	//void m7c_showTransactionsForDate( void ) const;
+	void m8_clearTransactionsUpToDate( void ); //option 8
+	void m9_transferCashToAnotherAccount( void ); //option 9
 
     //support file handling functions & creation of dynamic objects
     bool canOpenFile( const string& ) const;

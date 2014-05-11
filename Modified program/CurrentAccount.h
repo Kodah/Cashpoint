@@ -1,3 +1,5 @@
+//Mike Orr, Luke Segaran, Tom sugarev - May 14
+
 #ifndef CURRENTACCOUNT_H
 #define CURRENTACCOUNT_H
 
@@ -15,10 +17,10 @@ public: //Public declarations
 	//Accessor declarations
 	double								getOverdraftLimit( void ) const;
 
-	void								transferMoney( const double amount, BankAccount *toAccount );
+	virtual ostream&					putDataInStream( ostream& os) const;
+	virtual istream&					getDataFromStream( istream& is);
 
-	ostream&							putDataInStream( ostream& os) const;
-	istream&							getDataFromStream( istream& is);
+	virtual const bool					canTransferOut( const double amount ) const;
 	
 protected:
 	const string prepareFormattedAccountDetails() const;

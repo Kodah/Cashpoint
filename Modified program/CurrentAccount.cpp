@@ -1,3 +1,5 @@
+//Mike Orr, Luke Segaran, Tom sugarev - May 14
+
 #include "CurrentAccount.h"
 
 //Constructor/Destructor implementations
@@ -20,49 +22,6 @@ BankAccount(  "CURRENT", acctNum, sCode, cD, b, trList ), overdraftLimit_( overd
 double CurrentAccount::getOverdraftLimit( void ) const
 {
 	return overdraftLimit_;
-}
-
-void CurrentAccount::transferMoney( const double amount, BankAccount *toAccount )
-{
-	char answer = ' '; //For use with checking if the user wishes to continue
-	double balance = getBalance(); //Store the current balance of the account
-
-	string toAccNo = toAccount->getAccountNumber();
-	string toSrtCode = toAccount->getSortCode();
-
-	if( *this != *toAccount ) //Check again that the two accounts are not the same
-	{
-		printf( "ACCOUNT BALANCE: \x9C%.2f\n", balance ); //Let the customer know their balance.
-		printf( "ACCOUNT OVERDRAFT: \x9C%.2f\n", overdraftLimit_ ); //Let the customer know their overdraft limit.
-		printf( "AVAILABLE: \x9C%.2f\n", (balance + overdraftLimit_) ); //Let the customer know the amount available
-
-		if( (balance - amount) >= -overdraftLimit_ ) //If the transfer does not leave us beyond overdraft
-		{
-			printf( "The transfer can be granted.\n" );
-			printf( "Are you sure you wish to transfer %.2f to %s %s (Y/N): ",
-				amount, toAccNo.c_str(), toSrtCode.c_str() );
-			
-			cin >> answer;
-
-			if( answer == 'Y' || answer == 'y' ) //Check if the user still wishes to proceed
-			{
-				updateBalance( -amount ); //Change each account's balance
-				toAccount->updateBalance( amount );
-				
-				recordTransfer( -amount, "Transfer_to_" + toAccNo + "_" + toSrtCode ); //Record the transfer
-				toAccount->recordTransfer( amount, "Transfer_from_" + accountNumber_ + "_" + sortCode_ );
-				
-				//storeBankAccountInFile( FILEPATH + "account_" + accountNumber_ + "_" + sortCode_ + ".txt" ); //Save the accounts' current state
-				//toAccount.storeBankAccountInFile( FILEPATH + "account_" + toAccount.getAccountNumber() + "_" + toAccount.getSortCode() + ".txt" );
-				
-				cout << "Transfer success" << endl;
-			}
-			else
-				cout << "The transfer did not take place" << endl;
-		}
-		else
-			printf( "INSUFFICIENT FUNDS TO TRANSFER \x9C%.2f\n", amount );
-	}
 }
 
 ostream& CurrentAccount::putDataInStream( ostream& os ) const
@@ -93,6 +52,11 @@ istream& CurrentAccount::getDataFromStream( istream& is )
 	is >> transactions_;					//get all transactions (if any)
 
 	return is;
+}
+
+const bool CurrentAccount::canTransferOut( const double amount ) const
+{
+	return ((amount >= 0.0) && ((balance_ - amount) >= -overdraftLimit_));
 }
 
 const string CurrentAccount::prepareFormattedAccountDetails() const

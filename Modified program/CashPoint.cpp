@@ -1,4 +1,4 @@
-//Pascale Vacher - March 14
+//Mike Orr, Luke Segaran, Tom sugarev - May 14
 //OOP Assignment Semester 2
 
 #include "CashPoint.h"
@@ -49,7 +49,7 @@ void CashPoint::activateCashPoint( void )
 //private support member functions
 //---------------------------------------------------------------------------
 
-void CashPoint::performCardCommand( int option )
+void CashPoint::performCardCommand( const int option )
 {
 	if( option == 1 )
 	{
@@ -202,9 +202,13 @@ void CashPoint::m2_withdrawFromBankAccount( void )
 //---option 3
 void CashPoint::m3_depositToBankAccount( void )
 {
-    double amountToDeposit( theUI_->readInDepositAmount() );
-    p_theActiveAccount_->recordDeposit( amountToDeposit );
-    theUI_->showDepositOnScreen( true, amountToDeposit );
+    const double amountToDeposit( theUI_->readInDepositAmount() );
+	const bool bCanTransferIn( p_theActiveAccount_->canTransferIn( amountToDeposit ) );
+
+	if( bCanTransferIn )
+		p_theActiveAccount_->recordDeposit( amountToDeposit );
+
+	theUI_->showDepositOnScreen( bCanTransferIn, amountToDeposit );
 }
 
 //---option 4
@@ -214,7 +218,7 @@ void CashPoint::m4_produceStatement( void ) const
 }
 
 //---option 5
-void CashPoint::m5_showAllDepositsTransactions( void )
+void CashPoint::m5_showAllDepositsTransactions( void ) const
 {
 	string str;
 	double total = 0.0;
@@ -229,7 +233,7 @@ void CashPoint::m5_showAllDepositsTransactions( void )
 }
 
 //---option 6
-void CashPoint::m6_showMiniStatement( void )
+void CashPoint::m6_showMiniStatement( void ) const
 {
 	string str;
 	double total = 0.0;
@@ -246,7 +250,7 @@ void CashPoint::m6_showMiniStatement( void )
 }
 //---option 7
 
-void CashPoint::m7_searchTransactions( void )
+void CashPoint::m7_searchTransactions( void ) const
 {
 	int option = theUI_->readInTransactionSearchCommand();
 	int numTransactions = 0;
@@ -295,7 +299,7 @@ void CashPoint::m7_searchTransactions( void )
 }
 
 
-/*void CashPoint::m7_searchTransactions( void )
+/*void CashPoint::m7_searchTransactions( void ) const
 {
 	if( p_theActiveAccount_->isEmptyTransactionList() )
 	{
@@ -322,12 +326,7 @@ void CashPoint::m7_searchTransactions( void )
 	}
 }
 
-//void CashPoint::m7_showTransactions(int type )
-//{
-//
-//}
-
-void CashPoint::m7a_showTransactionsForAmount( void )
+void CashPoint::m7a_showTransactionsForAmount( void ) const
 {
 	int noTrans = 0;
 	string strTrans;
@@ -341,7 +340,7 @@ void CashPoint::m7a_showTransactionsForAmount( void )
 		theUI_->noTransactionsFound();
 }
 
-void CashPoint::m7b_showTransactionsForTitle( void )
+void CashPoint::m7b_showTransactionsForTitle( void ) const
 {
 	int noTrans = 0;
 	string strTrans;
@@ -355,7 +354,7 @@ void CashPoint::m7b_showTransactionsForTitle( void )
 		theUI_->noTransactionsFound();
 }
 
-void CashPoint::m7c_showTransactionsForDate( void )
+void CashPoint::m7c_showTransactionsForDate( void ) const
 {
 	int noTrans = 0;
 	string strTrans;
@@ -408,6 +407,8 @@ void CashPoint::m9_transferCashToAnotherAccount( void )
 	BankAccount *pToAccount = nullptr;
 	string toAccNo = "", toSrtCode = "";
 
+	//display card
+	theUI_->showCardOnScreen( p_theCashCard_->toFormattedString() );
 	//Display accounts available to receive a transfer
 	displayAssociatedAccounts();
 	printf( "\nSELECT ACCOUNT TO TRANSFER TO...\n" );
@@ -481,14 +482,45 @@ bool CashPoint::linkedCard( string cashCardFileName ) const
 
 void CashPoint::attemptTransfer( BankAccount *pToAccount )
 {
-	//Get amount to transfer
-	cout << endl << "ENTER AMOUNT TO TRANSFER: \x9C";
-	double transferAmount = theUI_->readInPositiveAmount();
 	//Transfer the money
-	p_theActiveAccount_->transferMoney( transferAmount, pToAccount );
+	char answer = ' '; //For use with checking if the user wishes to continue
+	const double amount = theUI_->readInTransferAmount();
+	string tAN = "", tSC = "", aAN = "", aSC = "";
+
+	const bool trOutOk = p_theActiveAccount_->canTransferOut( amount );
+	const bool trInOk  = pToAccount->canTransferIn( amount );
+
+	if( trInOk && trOutOk )
+	{
+		tAN = pToAccount->getAccountNumber();
+		tSC = pToAccount->getSortCode();
+
+		printf( "\nThe transfer can be granted.\n"
+				"Are you sure you wish to transfer %.2f to %s %s (Y/N): ",
+				amount, tAN.c_str(), tSC.c_str() );
+			
+		cin >> answer;
+
+		if( answer == 'Y' || answer == 'y' )
+		{
+			p_theActiveAccount_->recordTransferOut( amount, tAN, tSC );
+
+			aAN = p_theActiveAccount_->getAccountNumber();
+			aSC = p_theActiveAccount_->getSortCode();
+
+			pToAccount->recordTransferIn( amount, aAN, aSC );
+		}
+		else
+		{
+			printf( "\n\nTransfer cancelled.\n" );
+			return;
+		}
+	}
+
+	theUI_->showTransferOnScreen( trOutOk, trInOk, amount );
 }
 
-void CashPoint::activateCashCard( const string& aCCFileName )
+void CashPoint::activateCashCard( const string &aCCFileName )
 {
 //dynamically create a cash card to store data from file
     //effectively create the cash card instance with the data

@@ -1,3 +1,5 @@
+//Mike Orr, Luke Segaran, Tom sugarev - May 14
+
 #include "SavingsAccount.h"
 
 //Constructor/Destructor implementations
@@ -52,3 +54,8 @@ istream& SavingsAccount::getDataFromStream( istream& is)
 
 	return is;
 }*/
+
+const bool SavingsAccount::canTransferOut( const double amount ) const
+{
+	return ((amount >= 0.0) && ((balance_ - amount) >= minimumBalance_));
+}

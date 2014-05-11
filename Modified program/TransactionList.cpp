@@ -1,4 +1,4 @@
-//Pascale Vacher - March 14
+//Mike Orr, Luke Segaran, Tom sugarev - May 14
 //OOP Assignment Semester 2
 
 #include "TransactionList.h"
@@ -13,7 +13,7 @@
 
 //____other public member functions
 
-void TransactionList::addNewTransaction( const Transaction& tr)
+void TransactionList::addNewTransaction( const Transaction& tr )
 {
    // listOfTransactions_.addInFront( tr);
 	it_ = listOfTransactions_.begin();

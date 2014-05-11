@@ -1,4 +1,4 @@
-//Pascale Vacher - March 14
+//Mike Orr, Luke Segaran, Tom sugarev - May 14
 //OOP Assignment Semester 2
 
 #ifndef BankAccountH
@@ -8,14 +8,10 @@
 //BankAccount: class declaration
 //---------------------------------------------------------------------------
 
-//#include "Date.h"
-//#include "Transaction.h"
 #include "TransactionList.h"
 #include "Constants.h"
 
 #include <fstream>
-using namespace std;
-
 
 class BankAccount
 {
@@ -23,41 +19,45 @@ public:
     //constructors & destructor
 	BankAccount();
     BankAccount( const string& typ, const string& acctNum, const string& sCode,
-                          const Date& cD, double b,
-                          const TransactionList& trList );
+                 const Date& cD, const double b, const TransactionList& trList );
+
     ~BankAccount();
 
 	//getter (assessor) functions
-	const string getAccountType() const;
+	const string getAccountType( void ) const;
 	static const char * getTypeFromFile( const string accNo, const string srtCode );
-    const string getAccountNumber() const;
-    const string getSortCode() const;
-    const Date getCreationDate() const;
-	double getBalance() const;
-    const TransactionList getTransactions() const;
+    const string getAccountNumber( void ) const;
+    const string getSortCode( void ) const;
+    const Date getCreationDate( void ) const;
+	double getBalance( void ) const;
+    const TransactionList getTransactions( void ) const;
 	string getFileName( void ) const;
-    bool	isEmptyTransactionList() const;
+
+    const bool isEmptyTransactionList( void ) const;
+	virtual const bool canTransferOut( const double amount ) const;
+	virtual const bool canTransferIn( const double amount ) const;
+
 
 	//functions to put data into and get data from streams
-	virtual ostream& putDataInStream( ostream& os ) const = 0;
-	virtual istream& getDataFromStream( istream& is ) = 0;
+	virtual ostream& putDataInStream( ostream &os ) const = 0;
+	virtual istream& getDataFromStream( istream &is ) = 0;
 
 	//other operations
-	const string prepareFormattedStatement() const;
+	const string prepareFormattedStatement( void ) const;
 
-    void recordDeposit( double amount);
+    void recordDeposit( const double amount );
 	void recordTransfer( const double amount, const string transaction );
+	void recordTransferIn( const double amount, const string aAN, const string aSC );
+	void recordTransferOut( const double amount, const string tAN, const string tSC );
 
-	double borrowable() const;
+	double borrowable( void ) const;
 	virtual bool canWithdraw( double amount ) const;
     void recordWithdrawal( double amount );
 
-	virtual void transferMoney( const double amount, BankAccount *toAccount );
-
-	void readInBankAccountFromFile( const string& fileName );
-	void storeBankAccountInFile( const string& fileName ) const;
-	void produceAllDepositTransactions( string& str, double& total ) const;
-	void produceNMostRecentTransactions( const int noOfTran, string& str, double& total ) const;
+	void readInBankAccountFromFile( const string &fileName );
+	void storeBankAccountInFile( const string &fileName ) const;
+	void produceAllDepositTransactions( string &str, double &total ) const;
+	void produceNMostRecentTransactions( const int noOfTran, string &str, double &total ) const;
 	string produceTransactionsUpToDate( const Date date, int &numTransactions ) const;
 
 	//void produceTransactionsForAmount( const double amount, string& strTrans, int& noTrans ) const;
@@ -82,15 +82,14 @@ protected:
 	//support functions
 	
 	virtual const string prepareFormattedAccountDetails() const = 0;
-
 };
 
 //---------------------------------------------------------------------------
 //non-member operator functions
 //---------------------------------------------------------------------------
 
-ostream& operator<<( ostream&, const BankAccount& );		//output operator
-istream& operator>>( istream&, BankAccount& );			//input operator
+ostream& operator<<( ostream&, const BankAccount& ); //output operator
+istream& operator>>( istream&, BankAccount& ); //input operator
 bool operator !=( BankAccount &bA1, BankAccount &bA2 );	//Not equal comparison operator
 bool operator ==( BankAccount &bA1, BankAccount &bA2 );	//Equal comparison operator
 

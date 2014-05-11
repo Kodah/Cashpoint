@@ -1,4 +1,4 @@
-//Pascale Vacher - March 14
+//Mike Orr, Luke Segaran, Tom sugarev - May 14
 //OOP Assignment Semester 2
 
 #ifndef UserInterfaceH 
@@ -48,6 +48,7 @@ public:
 	template <typename T> T readInSearchCriteria( void ) const;
 	
 	double	readInAmount() const; //for option 7
+	const double readInTransferAmount( void ) const;
 	string  readInTitle() const; //for option 7
 	Date	readInValidDate( const Date d ) const;
 	void	noTransactionsFound() const;//for option 7
@@ -62,13 +63,14 @@ public:
 	double	readInPositiveAmount() const;
 
     void	showProduceBalanceOnScreen( double bal) const;
-    void	showDepositOnScreen( bool auth, double deposit) const;
+    void	showDepositOnScreen( const bool auth, const double deposit ) const;
     void	showWithdrawalOnScreen( bool auth, double withdrawal) const;
     void	showStatementOnScreen( const string&) const;
 	void	showAllDepositsOnScreen(bool noTransaction, string str, double total) const;
 	void	showMiniStatementOnScreen(bool noTransaction, string str, double total) const;
 	void	showNoTransactionsOnScreen( void ) const;
 	void	showDeletionOfTransactionUpToDateOnScreen( const int numTransactions, const Date date ) const;
+	void	showTransferOnScreen( const bool trOutOk, const bool trInOk, const double amount ) const;
 
 	bool	readInConfirmDeletion( void ) const;
 

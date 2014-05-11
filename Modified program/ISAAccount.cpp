@@ -1,3 +1,5 @@
+//Mike Orr, Luke Segaran, Tom sugarev - May 14
+
 #include "ISAAccount.h"
 
 ISAAccount::ISAAccount( const Date, const double minimumBalance,
@@ -78,6 +80,12 @@ istream& ISAAccount::getDataFromStream( istream& is)
 	is >> transactions_;					//get all transactions (if any)
 
 	return is;
+}
+
+const bool ISAAccount::canTransferIn( const double amount ) const
+{
+	return (((currentYearlyDeposit_ + amount ) <= maximumYearlyDeposit_) &&
+		(Date::currentDate() < endDepositPeriod_) && (amount >= 0.0));
 }
 
 const string ISAAccount::prepareFormattedAccountDetails() const

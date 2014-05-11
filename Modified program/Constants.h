@@ -1,4 +1,4 @@
-//Pascale Vacher - March 14
+//Mike Orr, Luke Segaran, Tom sugarev - May 14
 //OOP Assignment Semester 2
 
 #ifndef ConstantsH
@@ -8,7 +8,7 @@
 using namespace std;
 
 //menu command
-const int QUIT_COMMAND( 0);
+const int QUIT_COMMAND( 0 );
 
 //account type
 enum AccountType
@@ -60,7 +60,7 @@ enum SEARCH_OPTS
 	DATE
 };
 
-//ressource path
-const string FILEPATH( "data\\");
+//resource path
+const string FILEPATH( "data\\" );
 
 #endif

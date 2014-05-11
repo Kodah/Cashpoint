@@ -1,4 +1,4 @@
-//Pascale Vacher - March 14
+//Mike Orr, Luke Segaran, Tom sugarev - May 14
 //OOP Assignment Semester 2
 
 #include "BankAccount.h"
@@ -13,24 +13,22 @@
 
 //____constructors & destructors
 
-BankAccount::BankAccount()
-    : accountNumber_( "null"),
-      sortCode_( "null" ),
+BankAccount::BankAccount() : accountNumber_( "null"), sortCode_( "null" ),
 	  balance_( 0.0 ), fileName_( "null" )
-{}
+{
+}
+
 BankAccount::BankAccount( const string& typ, const string& acctNum, const string& sCode,
-                          const Date& cD, double b,
-                          const TransactionList& trList)
-    : accountType_( typ ),
-	  accountNumber_( acctNum ), sortCode_( sCode ),
-      creationDate_( cD ),
-      balance_( b ),
-      transactions_( trList ),
-	  fileName_( (FILEPATH + "account_" +  acctNum + "_" + sCode + ".txt") )
-{}
+                          const Date& cD, const double b,
+                          const TransactionList& trList )
+    : accountType_( typ ), accountNumber_( acctNum ), sortCode_( sCode ), creationDate_( cD ),
+      balance_( b ), transactions_( trList ), fileName_( (FILEPATH + "account_" +  acctNum + "_" + sCode + ".txt") )
+{
+}
 
 BankAccount::~BankAccount()
-{}
+{
+}
 
 
 //____other public member functions
@@ -80,12 +78,22 @@ string BankAccount::getFileName( void ) const
 	return fileName_;
 }
 
-bool BankAccount::isEmptyTransactionList( void ) const
+const bool BankAccount::isEmptyTransactionList( void ) const
 {
 	return transactions_.size() == 0;
 }
 
-void BankAccount::recordDeposit( double amountToDeposit)
+const bool BankAccount::canTransferOut( const double amount ) const
+{
+	return ((amount >= 0.0) && ((balance_ - amount) >= 0.0));
+}
+
+const bool BankAccount::canTransferIn( const double amount ) const
+{
+	return true;
+}
+
+void BankAccount::recordDeposit( const double amountToDeposit )
 {
     //create a deposit transaction
 	Transaction aTransaction( "deposit_to_ATM", amountToDeposit );
@@ -94,9 +102,20 @@ void BankAccount::recordDeposit( double amountToDeposit)
     updateBalance( amountToDeposit );			//increase balance_
 }
 
-void BankAccount::recordTransfer( const double amount, const string transaction )
+void BankAccount::recordTransferIn( const double amount, const string aAN, const string aSC )
 {
-	transactions_.addNewTransaction( Transaction( transaction, amount ) );   
+	const string transaction = ( "Transfer_from_" + aAN + "_" + aSC ); 
+	transactions_.addNewTransaction( Transaction( transaction, amount ) ); 
+
+	updateBalance( amount ); //Change account balance
+}
+
+void BankAccount::recordTransferOut( const double amount, const string tAN, const string tSC )
+{
+	const string transaction = ( "Transfer_to_" + tAN + "_" + tSC ); 
+	transactions_.addNewTransaction( Transaction( transaction, amount ) ); 
+
+	updateBalance( -amount ); //Change account balance
 }
 
 double BankAccount::borrowable( void ) const
@@ -114,44 +133,6 @@ void BankAccount::recordWithdrawal( const double amountToWithdraw )
     Transaction aTransaction( "withdrawal_from_ATM", -amountToWithdraw ); //create a withdrawal transaction
     transactions_.addNewTransaction( aTransaction ); //update transactions_
     updateBalance( -amountToWithdraw );	//decrease balance_
-}
-
-void BankAccount::transferMoney( const double amount, BankAccount *toAccount )
-{
-	char answer = ' '; //For use with checking if the user wishes to continue
-	double balance = getBalance(); //Store the current balance of the account
-
-	string toAccNo = toAccount->getAccountNumber();
-	string toSrtCode = toAccount->getSortCode();
-
-	if( *this != *toAccount ) //Check that the two accounts are not the same
-	{
-		printf( "ACCOUNT BALANCE: \x9C%.2f\n", balance ); //Let the customer know their balance.
-
-		if( (balance - amount) >= 0 ) //If the transfer does not leave us in negative digits
-		{
-			printf( "The transfer can be granted.\n" );
-			printf( "Are you sure you wish to transfer %.2f to %s %s (Y/N): ",
-				amount, toAccNo.c_str(), toSrtCode.c_str() );
-			
-			cin >> answer;
-
-			if( answer == 'Y' || answer == 'y' ) //Check if the user still wishes to proceed
-			{
-				updateBalance( -amount ); //Change each account's balance
-				toAccount->updateBalance( amount );
-				
-				recordTransfer( -amount, "Transfer_to_" + toAccNo + "_" + toSrtCode ); //Record the transfer
-				toAccount->recordTransfer( amount, "Transfer_from_" + accountNumber_ + "_" + sortCode_ );
-								
-				cout << "Transfer success" << endl;
-			}
-			else
-				cout << "The transfer did not take place" << endl;
-		}
-		else
-			printf( "INSUFFICIENT FUNDS TO TRANSFER \x9C%.2f\n", amount );
-	}
 }
 
 const string BankAccount::prepareFormattedStatement( void ) const

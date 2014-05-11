@@ -62,7 +62,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="5003_Ass2_Main.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="BankAccount.cpp" />
     <ClCompile Include="CashCard.cpp" />
     <ClCompile Include="CashPoint.cpp" />

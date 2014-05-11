@@ -1,3 +1,5 @@
+//Mike Orr, Luke Segaran, Tom sugarev - May 14
+
 #ifndef SAVINGSACCOUNT_H
 #define SAVINGSACCOUNT_H
 
@@ -17,6 +19,8 @@ public: //Public declarations
 
 	virtual ostream&					putDataInStream( ostream& os) const = 0;
 	virtual istream&					getDataFromStream( istream& is) = 0;
+
+	virtual const bool					canTransferOut( const double amount ) const;
 
 protected: //Protected member instances
 	double								minimumBalance_;

@@ -1,3 +1,5 @@
+//Mike Orr, Luke Segaran, Tom sugarev - May 14
+
 #ifndef ISAACCOUNT_H
 #define ISAACCOUNT_H
 
@@ -20,8 +22,10 @@ public: //Public declarations
 
 	Date								getEndDepositPeriod( void ) const;
 
-	ostream&							putDataInStream( ostream& os) const;
-	istream&							getDataFromStream( istream& is);
+	virtual ostream&					putDataInStream( ostream& os) const;
+	virtual istream&					getDataFromStream( istream& is);
+
+	virtual const bool					canTransferIn( const double amount ) const;
 	
 protected:
 	const string prepareFormattedAccountDetails() const;

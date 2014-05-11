@@ -1,4 +1,4 @@
-//Pascale Vacher - March 14
+//Mike Orr, Luke Segaran, Tom sugarev - May 14
 //OOP Assignment Semester 2
 
 #include "Transaction.h"
@@ -14,30 +14,39 @@ Transaction::Transaction()
 { 
 }
 
-Transaction::Transaction( const Date& d, const Time& t, const string& s, double a)
-: date_( d), time_( t), title_( s), amount_( a)
+Transaction::Transaction( const Date& d, const Time& t, const string& s, const double a )
+: date_( d ), time_( t ), title_( s ), amount_( a )
 { 
 }
 
-Transaction::Transaction( const string& s, double a)
-: title_( s), amount_( a), date_( Date::currentDate()), time_( Time::currentTime()) //get date and time from system
+Transaction::Transaction( const string& s, const double a )
+: title_( s), amount_( a ), date_( Date::currentDate() ), time_( Time::currentTime() ) //get date and time from system
 {
 }
 
 //____other public member functions
-const Date Transaction::getDate() const {
+const Date Transaction::getDate( void ) const
+{
 	return date_;
 }
-const Time Transaction::getTime() const {
+
+const Time Transaction::getTime( void ) const
+{
 	return time_;
 }
-const string Transaction::getTitle() const {
+
+const string Transaction::getTitle( void ) const
+{
 	return title_;
 }
-double Transaction::getAmount() const {
+
+double Transaction::getAmount( void ) const
+{
 	return amount_;
 }
-const string Transaction::toFormattedString() const {
+
+const string Transaction::toFormattedString( void ) const
+{
 //return (formatted) transaction as a string ("HH:MM:SS")
 	ostringstream os_transaction;
 	os_transaction << setfill('0');

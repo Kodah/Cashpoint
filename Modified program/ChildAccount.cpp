@@ -1,3 +1,5 @@
+//Mike Orr, Luke Segaran, Tom sugarev - May 14
+
 #include "ChildAccount.h"
 
 //Constructor/Destructor implementations
@@ -63,6 +65,12 @@ istream& ChildAccount::getDataFromStream( istream& is)
 	is >> transactions_;					//get all transactions (if any)
 
 	return is;
+}
+
+const bool ChildAccount::canTransferIn( const double amount ) const
+{
+	return ((amount >= 0.0) && (amount >= minimumPaidIn_)
+		&& (amount <= maximumPaidIn_));
 }
 
 const string ChildAccount::prepareFormattedAccountDetails() const
