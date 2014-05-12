@@ -11,13 +11,9 @@
 #include <iostream>
 
 //our header includes
-#include "Time.h"
-#include "Date.h"
 #include "BankAccount.h"
 
 //removed using namespace std to prevent namespace pollution
-using std::cout;
-using std::endl;
 using std::cin;
 
 class UserInterface // UserInterface Singleton class
