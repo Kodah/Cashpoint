@@ -32,6 +32,35 @@ const list<string> CashCard::getAccountsList( void ) const
     return accountsList_; // list of accounts associated with card
 }
 
+const string CashCard::getAssociatedAccounts( BankAccount *acc ) const
+{
+	ostringstream os;
+	list<string> accList = getAccountsList();
+
+	if( !acc || accList.empty() )
+		return ""; //check account is active and there are accounts
+
+	string activeAccNo = acc->getAccountNumber(); //get account details
+	string activeSrtCode = acc->getSortCode();
+
+	do
+	{
+		string temp = accList.front(); //get first from list
+
+		if( temp.substr( 0, 3 ).c_str() != activeAccNo ||
+			temp.substr( 4, 5 ).c_str() != activeSrtCode )
+		{ //if account is not active
+			os << endl << "ACCOUNT NO: " << temp.substr( 0, 3 )
+			   << "\t" << "SORT CODE: "  << temp.substr( 4, 5 );
+		}
+
+		accList.remove( temp ); //remove from temp list
+
+	}while( !accList.empty() ); //until list is empty
+
+	return os.str();
+}
+
 bool CashCard::onCard( const string& accFileName ) const // see if account is associated with card
 {
     //e.g., data\account_001_00-44.txt

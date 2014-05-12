@@ -243,8 +243,14 @@ void UserInterface::showValidateCardOnScreen( const int validCode, const string 
 		printf( "\nERROR: EMPTY CARD\nTHE CARD (NUMBER: %s) DOES NOT LINK TO ANY ACCOUNT!\n", cashCardNum.c_str() );
 }
 
-void UserInterface::showCardOnScreen( const string& aCardDetails ) const
+void UserInterface::showCardOnScreen( const string& aCardDetails, const bool bAssociated, const string associated ) const
 {
+	if( bAssociated && associated != "" )
+	{
+		displayAssociatedAccounts( associated );
+		return;
+	}
+
     cout << "\n========================================="
 		 << "\n________ CARD DETAILS ___________________"
 		 << aCardDetails
@@ -283,29 +289,11 @@ void UserInterface::showValidateAccountOnScreen( const int validCode, const stri
 			accNum.c_str(), srtCode.c_str() );
 }
 
-void UserInterface::displayAssociatedAccounts( list<string> accList, const BankAccount *pActiveAcc ) const
+void UserInterface::displayAssociatedAccounts( const string associated ) const
 {//Displays accounts on same card as active account
-	if( !pActiveAcc || accList.empty() )
-		return; //check account is active and there are accounts
-
-	string activeAccNo = pActiveAcc->getAccountNumber(); //get account details
-	string activeSrtCode = pActiveAcc->getSortCode();
-
-	do
-	{
-		string temp = accList.front(); //get first from list
-
-		if( temp.substr( 0, 3 ).c_str() != activeAccNo ||
-			temp.substr( 4, 5 ).c_str() != activeSrtCode )
-		{ //if account is not active - display
-			printf( "\nACCOUNT NO: %s\tSORT CODE: %s",
-				temp.substr( 0, 3 ).c_str(),
-				temp.substr( 4, 5 ).c_str() );
-		}
-
-		accList.remove( temp ); //remove from temp list
-
-	}while( !accList.empty() ); //until list is empty
+	
+	printf( "%s", associated.c_str() );
+	printf( "\n\nSELECT ACCOUNT TO TRANSFER TO...\n" );
 }
 
 //input functions

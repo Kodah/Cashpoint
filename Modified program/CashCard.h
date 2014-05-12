@@ -14,6 +14,8 @@
 #include <sstream>
 #include <list>
 
+#include "BankAccount.h"
+
 //removed using namespace std to prevent namespace pollution
 using std::string;
 using std::ostream;
@@ -37,6 +39,7 @@ public:
 	//getter (assessor) functions
     const string						getCardNumber( void ) const;
     const list<string>					getAccountsList( void ) const;
+	const string						getAssociatedAccounts( BankAccount *acc ) const;
 
 	void								readInCardFromFile( const string& fileName);
 	bool								onCard( const string& fileName) const;

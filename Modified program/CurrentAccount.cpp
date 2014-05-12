@@ -27,12 +27,12 @@ double CurrentAccount::getOverdraftLimit( void ) const
 ostream& CurrentAccount::putDataInStream( ostream& os ) const
 {
 	//put (unformatted) BankAccount details in stream
-    os << accountType_ << "\n";				//put account type
-    os << accountNumber_ << "\n";			//put account number
-	os << sortCode_ << "\n";				//put sort code
-    os << creationDate_ << "\n";			//put creation date
-	os << balance_ << "\n";					//put balance
-	os << overdraftLimit_ << "\n";
+    os << accountType_ << endl			//put account type
+	   << accountNumber_ << endl		//put account number
+	   << sortCode_ << endl				//put sort code
+       << creationDate_ << endl			//put creation date
+	   << balance_ << endl				//put balance
+	   << overdraftLimit_ << endl;
 
 	if (  ! transactions_.size() == 0)
 		os << transactions_;				//put all transactions, one per line
@@ -64,14 +64,14 @@ const string CurrentAccount::prepareFormattedAccountDetails( void ) const
 		//collect account details in string
 	ostringstream os;
 	//account details
-	os << "\nACCOUNT TYPE:    " << accountType_ << " ACCOUNT"						//display account type
-	   << "\nACCOUNT NUMBER:  " << accountNumber_									//display account number
-	   << "\nSORT CODE:       " << sortCode_										//display sort code
-	   << "\nCREATION DATE:   " << creationDate_.toFormattedString()				//display creation date
+	os << endl << "ACCOUNT TYPE:    " << accountType_ << " ACCOUNT"						//display account type
+	   << endl << "ACCOUNT NUMBER:  " << accountNumber_									//display account number
+	   << endl << "SORT CODE:       " << sortCode_										//display sort code
+	   << endl << "CREATION DATE:   " << creationDate_.toFormattedString()				//display creation date
 	   << fixed << setprecision(2) << setfill(' ')
-	   << "\nBALANCE:         \234" << setw(10) << balance_						//display balance
-	   << "\nOVERDRAFT:       \234" << setw(10) << overdraftLimit_						//display overdraft
-	   << "\nAVAILABLE:       \234" << setw(10) << (balance_ + overdraftLimit_);			//Available balance
+	   << endl << "BALANCE:         \234" << setw(10) << balance_						//display balance
+	   << endl << "OVERDRAFT:       \234" << setw(10) << overdraftLimit_				//display overdraft
+	   << endl << "AVAILABLE:       \234" << setw(10) << (balance_ + overdraftLimit_);	//Available balance
 
 	return os.str();
 }

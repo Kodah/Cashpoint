@@ -52,10 +52,11 @@ public:
     void							showByeScreen( void ) const;
 	void							showErrorInvalidCommand( void ) const; //display error
     void							showValidateCardOnScreen( int validCode, const string& cardNum ) const;
-	void							showCardOnScreen( const string& cardSt ) const;
+	void							showCardOnScreen( const string& cardSt, const bool bAssociated = false, const string associated = "" ) const;
 
 	void							showValidateAccountOnScreen( const int valid, const string& aNum, const string& sCod ) const;
-	void							displayAssociatedAccounts( list<string> accList, const BankAccount *pActiveAcc ) const;
+	//void							displayAssociatedAccounts( list<string> accList, const BankAccount *pActiveAcc ) const;
+	void							displayAssociatedAccounts( const string associated = "" ) const;
 
 	void							noTransactionsFound( void ) const;//for option 7
 

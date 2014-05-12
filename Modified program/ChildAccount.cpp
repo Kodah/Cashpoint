@@ -78,14 +78,15 @@ const string ChildAccount::prepareFormattedAccountDetails( void ) const
 	//collect account details in string
 	ostringstream os;
 	//account details
-	os << "\nACCOUNT TYPE:    " << accountType_ << " ACCOUNT"						//display account type
-	   << "\nACCOUNT NUMBER:  " << accountNumber_									//display account number
-	   << "\nSORT CODE:       " << sortCode_										//display sort code
-	   << "\nCREATION DATE:   " << creationDate_.toFormattedString()				//display creation date
+	os << endl << "ACCOUNT TYPE:    " << accountType_ << " ACCOUNT"						//display account type
+	   << endl << "ACCOUNT NUMBER:  " << accountNumber_									//display account number
+	   << endl << "SORT CODE:       " << sortCode_										//display sort code
+	   << endl << "CREATION DATE:   " << creationDate_.toFormattedString()				//display creation date
 	   << fixed << setprecision(2) << setfill(' ')
-	   << "\nBALANCE:         \234" << setw(10) << balance_							//display balance
-	   << "\nMINIMUM PAID IN: \234" << setw(10) << minimumPaidIn_					//display minimum paid in
-	   << "\nMAXIMUM PAID IN: \234" << setw(10) << maximumPaidIn_;					//display maximum paid in
+	   << endl << "BALANCE:         \234" << setw(10) << balance_						//display balance
+	   << endl << "MIN BALANCE:     \234" << setw(10) << minimumBalance_				//display minimumBalance_
+	   << endl << "MINIMUM PAID IN: \234" << setw(10) << minimumPaidIn_					//display minimum paid in
+	   << endl << "MAXIMUM PAID IN: \234" << setw(10) << maximumPaidIn_;				//display maximum paid in
 
 	return os.str();
 }

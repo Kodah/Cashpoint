@@ -430,12 +430,11 @@ void CashPoint::m9_transferCashToAnotherAccount( void )
 	//Instance declarations
 	BankAccount *pToAccount = nullptr;
 	string toAccNo = "", toSrtCode = "";
-
+	string associated = p_theCashCard_->getAssociatedAccounts( p_theActiveAccount_ );
 	//display card
-	//theUI_->showCardOnScreen( p_theCashCard_->toFormattedString() );
+	theUI_->showCardOnScreen( p_theCashCard_->toFormattedString(), true, associated );
 	//Display accounts available to receive a transfer
-	theUI_->displayAssociatedAccounts( p_theCashCard_->getAccountsList(), p_theActiveAccount_ );
-	printf( "\nSELECT ACCOUNT TO TRANSFER TO...\n" );
+
 	//Get the account from the user, and receive relevant file name
 	string fileName = theUI_->readInAccountToBeProcessed( toAccNo, toSrtCode );
 	//Get validation status of account

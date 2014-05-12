@@ -108,6 +108,7 @@ const string ISAAccount::prepareFormattedAccountDetails( void ) const
 	   << endl << "CREATION DATE:   " << creationDate_.toFormattedString()				//display creation date
 	   << fixed << setprecision(2) << setfill(' ')
 	   << endl << "BALANCE:         \234" << setw(10) << balance_						//display balance
+	   << endl << "MIN BALANCE:     \234" << setw(10) << minimumBalance_
 	   << endl << "CURRENT YEARS DEPOSIT: \234" << setw(10) << currentYearlyDeposit_	//display current year deposit
 	   << endl << "MAX YEARS DEPOSIT: \234" << setw(10) << maximumYearlyDeposit_		//display max year deposit
 	   << endl << "DEPOSIT RENEWAL DATE: " << endDepositPeriod_.toFormattedString();	//display deposit renewal date
