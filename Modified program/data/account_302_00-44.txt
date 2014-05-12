@@ -2,10 +2,10 @@ CHILD
 302
 00-44
 10/12/2005
-155.64
+200
 100
 100
 2000
  8/ 5/2014 17:52:25 withdrawal_from_ATM -65
  8/ 5/2014 17:52:20 withdrawal_from_ATM -15
- 8/ 5/2014 17:52:15 deposit_to_ATM 35.64
+ 8/ 5/2014 17:52:15 deposit_to_ATM 80

@@ -1,0 +1,9 @@
+CURRENT
+103
+00-44
+10/12/2011
+1000
+500
+12/ 5/2014 11:06:43 withdrawal_from_ATM -30
+12/ 5/2014 11:06:37 withdrawal_from_ATM -20
+12/ 5/2014 11:06:30 deposit_to_ATM 50
