@@ -33,14 +33,16 @@ public:
 	const string					readInAccountToBeProcessed( string& aNum, string& sCod ) const;
 	double							readInWithdrawalAmount( void ) const;
     double							readInDepositAmount( void ) const;
-	int								readInNumberOfTransactions( void ) const; //not sure if this is in the right group of functions	
+	int								readInNumberOfTransactions( void ) const;
 
 	template <typename T> T			readInSearchCriteria( void ) const;
 	
 	double							readInAmount( void ) const;
 	const double					readInTransferAmount( void ) const;
-	string							readInTitle( void ) const; //for option 7
+	string							readInTitle( void ) const;
 	Date							readInValidDate( const Date d ) const;
+	double							readInPositiveAmount( void ) const;
+	bool							readInConfirmDeletion( void ) const;
 
     void							wait( void ) const; //hold
 									//Display declarations
@@ -51,21 +53,17 @@ public:
 	void							showCardOnScreen( const string& cardSt, const bool bAssociated = false, const string associated = "" ) const;
 
 	void							showValidateAccountOnScreen( const int valid, const string& aNum, const string& sCod ) const;
-	//void							displayAssociatedAccounts( list<string> accList, const BankAccount *pActiveAcc ) const;
 	void							displayAssociatedAccounts( const string associated = "" ) const;
 
 	void							noTransactionsFound( void ) const;//for option 7
-
+									//Before using templates
 	//void							showMatchingTransactionsOnScreenAmount( const double amount, const int noTrans, const string strTrans ) const;
 	//void							showMatchingTransactionsOnScreenTitle( const string title, const int noTrans, const string strTrans ) const;
 	//void							showMatchingTransactionsOnScreenDate( const Date date, const int noTrans, const string strTrans ) const;
-	template <typename T> void		showMatchingTransactionsOnScreen( const T criteria, const int noTrans, const string strTrans ) const;
+	template <typename T> void		showMatchingTransactionsOnScreen( const T criteria, const int noTrans, const string strTrans ) const; //replaces above 3
 
 	void							showTransactionsUpToDateOnScreen( const Date date, const int numTransactions, string transactions ) const;
-
-	double							readInPositiveAmount( void ) const;
-
-    void							showProduceBalanceOnScreen( double bal ) const;
+	void							showProduceBalanceOnScreen( double bal ) const;
     void							showDepositOnScreen( const bool auth, const double deposit ) const;
     void							showWithdrawalOnScreen( bool auth, double withdrawal ) const;
     void							showStatementOnScreen( const string& ) const;
@@ -74,8 +72,6 @@ public:
 	void							showNoTransactionsOnScreen( void ) const;
 	void							showDeletionOfTransactionUpToDateOnScreen( const int numTransactions, const Date date ) const;
 	void							showTransferOnScreen( const bool trOutOk, const bool trInOk, const double amount ) const;
-
-	bool							readInConfirmDeletion( void ) const;
 
 private: //private support declarations
 	void							showCardIdentificationMenu( void ) const;
