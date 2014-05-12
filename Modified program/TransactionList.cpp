@@ -28,7 +28,7 @@ Transaction TransactionList::newestTransaction( void ) const
 
 TransactionList TransactionList::olderTransactions( void ) const
 {
-	TransactionList trlist( *this );
+	TransactionList trlist( *this ); // remove first and pass back rest
     trlist.deleteFirstTransaction();
 
     return trlist;
@@ -140,38 +140,38 @@ TransactionList TransactionList::getTransactionsUpToDate( TransactionList trList
 	TransactionList trList2;
 	Transaction tempTransaction;
 
-	if( trList.size() > 0 )
+	if( trList.size() > 0 ) // check we have transactions
 	{
-		tempTransaction = trList.newestTransaction();
+		tempTransaction = trList.newestTransaction(); // first in list
 		
-		if( tempTransaction.getDate() <= date )
-			trList2.addNewTransaction( tempTransaction );
+		if( tempTransaction.getDate() <= date ) // compare dates
+			trList2.addNewTransaction( tempTransaction ); // add to list to pass back
 
-		trList.deleteFirstTransaction();
-		trList2 += getTransactionsUpToDate( trList, date );
+		trList.deleteFirstTransaction(); //delete from temp list to move to next
+		trList2 += getTransactionsUpToDate( trList, date ); //call this method again to traverse list
 	}
 
-	return trList2;
+	return trList2; //pass back results
 }
 
 TransactionList TransactionList::getMostRecentTransactions( int trans ) const
 {
 	//Returns Transaction list of user defined length
-	TransactionList tempList( *this );
-	TransactionList newList;
+	TransactionList tempList( *this ); //copy of instance
+	TransactionList newList; // to place new transactions
 
-	int numTransactions = this->size();
+	int numTransactions = this->size(); // get instance size
 
-	if( numTransactions < trans )
-		trans = numTransactions;
+	if( numTransactions < trans ) // check we are not asking for more than there is
+		trans = numTransactions; // change requested amount
 
 	for (int i = 0; i < trans; i++)
 	{
-		newList.addNewTransaction(tempList.newestTransaction());
-		tempList.deleteFirstTransaction();
+		newList.addNewTransaction(tempList.newestTransaction()); //get most recent
+		tempList.deleteFirstTransaction(); //remove from temp list
 	}
 
-	return newList;
+	return newList; //return results
 }
 
 //template for getting the transactions depending on title, date or amount
@@ -363,11 +363,11 @@ TransactionList& TransactionList::operator +=( TransactionList trList )
 //---------------------------------------------------------------------------
 
 ostream& operator<<( ostream& os, const TransactionList& aTransactionList )
-{
+{//overloaded stream <<
     return aTransactionList.putDataInStream( os );
 }
 
 istream& operator>>( istream& is, TransactionList& aTransactionList )
-{
+{//overloaded stream >>
 	return aTransactionList.getDataFromStream( is );
 }

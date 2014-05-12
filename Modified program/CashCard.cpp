@@ -24,15 +24,16 @@ CashCard::CashCard( const string& cardNum, const list<string> &accList )
 
 const string CashCard::getCardNumber( void ) const
 {
-    return cardNumber_;
+    return cardNumber_; // return the card identifier
 }
 
 const list<string> CashCard::getAccountsList( void ) const
 {
-    return accountsList_;
+    return accountsList_; // list of accounts associated with card
 }
 
-bool CashCard::onCard( const string& accFileName) const {
+bool CashCard::onCard( const string& accFileName ) const // see if account is associated with card
+{
     //e.g., data\account_001_00-44.txt
 	string accName = accFileName.substr( 13, 9);	//account identifier
 
@@ -44,7 +45,9 @@ bool CashCard::onCard( const string& accFileName) const {
 	return true;
 	//return ( accountsList_.member( accName)); //check if member of the card account list
 }
-void CashCard::readInCardFromFile( const string& accFileName) {
+
+void CashCard::readInCardFromFile( const string& accFileName )
+{
 	ifstream fromFile;
 	fromFile.open( accFileName.c_str(), ios::in); 	//open file in read mode
 	if ( fromFile.fail())
@@ -71,11 +74,14 @@ const string CashCard::toFormattedString( void ) const
 		while ( ! ( tempAccList.empty()))
    		{
       		os_card << endl;
+
 			string s = tempAccList.front();     //account details (e.g., "001_00-44")
 			string s_accNum = s.substr( 0, 3);	//account number (e.g., "001")
 			string s_srtCod = s.substr( 4, 5);	//sort code (e.g., "00-44")
+
 			os_card << "  ACCOUNT NUMBER: " << s_accNum;
 			os_card << "  SORT CODE: " << s_srtCod;
+
        		tempAccList.remove( s );
 		}
     }
@@ -117,7 +123,7 @@ istream& CashCard::getDataFromStream( istream& is )
 //non-member operator functions
 //---------------------------------------------------------------------------
 
-ostream& operator<<( ostream& os, const CashCard& aCashCard)
+ostream& operator<<( ostream& os, const CashCard& aCashCard )
 {
 						//Card formatted output
     return ( aCashCard.putDataInStream( os ) );

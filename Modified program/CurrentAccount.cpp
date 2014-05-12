@@ -59,7 +59,7 @@ const bool CurrentAccount::canTransferOut( const double amount ) const
 	return ((amount >= 0.0) && ((balance_ - amount) >= -overdraftLimit_));
 }
 
-const string CurrentAccount::prepareFormattedAccountDetails() const
+const string CurrentAccount::prepareFormattedAccountDetails( void ) const
 {
 		//collect account details in string
 	ostringstream os;

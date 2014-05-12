@@ -27,47 +27,52 @@ Transaction::Transaction( const string& s, const double a )
 //____other public member functions
 const Date Transaction::getDate( void ) const
 {
-	return date_;
+	return date_; //pass transaction's date
 }
 
 const Time Transaction::getTime( void ) const
 {
-	return time_;
+	return time_;//pass transaction's time
 }
 
 const string Transaction::getTitle( void ) const
 {
-	return title_;
+	return title_; //pass transaction's title
 }
 
 const double Transaction::getAmount( void ) const
 {
-	return amount_;
+	return amount_; //pass transaction's amount
 }
 
 const string Transaction::toFormattedString( void ) const
 {
 //return (formatted) transaction as a string ("HH:MM:SS")
 	ostringstream os_transaction;
-	os_transaction << setfill('0');
-	os_transaction << date_ << " ";
-	os_transaction << time_ << " ";
-	os_transaction << setfill('-');
-	os_transaction << setw(30) << title_ << " ";
-	os_transaction << setfill(' ') << fixed << setprecision(2);
-    os_transaction << "\234" << setw(8) << amount_;
-	return ( os_transaction.str());
+
+	os_transaction << setfill('0')
+	<< os_transaction << date_ << " "
+	<< os_transaction << time_ << " "
+	<< os_transaction << setfill('-')
+	<< os_transaction << setw(30) << title_ << " "
+	<< os_transaction << setfill(' ') << fixed << setprecision(2)
+    << os_transaction << "\234" << setw(8) << amount_;
+
+	return os_transaction.str();
 }
 
-ostream& Transaction::putDataInStream( ostream& os) const {
+ostream& Transaction::putDataInStream( ostream& os ) const
+{
 //put (unformatted) transaction into an output stream
-	os << date_ << " ";
-	os << time_ << " ";
-	os << title_ << " ";
-    os << amount_;
+	os << date_ << " "
+	   << time_ << " "
+	   << title_ << " "
+       << amount_;
+
 	return os;
 }
-istream& Transaction::getDataFromStream( istream& is) {
+istream& Transaction::getDataFromStream( istream& is )
+{
 //read in (unformatted) transaction from input stream
 	is >> date_ >> time_ >> title_ >> amount_;
 	return is;
@@ -77,7 +82,7 @@ istream& Transaction::getDataFromStream( istream& is) {
 //overloaded operator functions
 //---------------------------------------------------------------------------
 
-bool Transaction::operator==( const Transaction& tr) const
+bool Transaction::operator==( const Transaction& tr ) const
 {
 	return
 		(( date_   == tr.date_)   &&
@@ -85,17 +90,22 @@ bool Transaction::operator==( const Transaction& tr) const
 		 ( title_  == tr.title_)  &&
 		 ( amount_ == tr.amount_));
 }
-bool Transaction::operator!=( const Transaction& tr) const {
-	return (! (*this == tr));
+
+bool Transaction::operator!=( const Transaction& tr ) const
+{
+	return ( !(*this == tr) );
 }
 
 //---------------------------------------------------------------------------
 //non-member operator functions
 //---------------------------------------------------------------------------
 
-ostream& operator<<( ostream& os, const Transaction& aTransaction) {
-    return ( aTransaction.putDataInStream( os));
+ostream& operator<<( ostream& os, const Transaction& aTransaction )
+{
+    return ( aTransaction.putDataInStream( os ));
 }
-istream& operator>>( istream& is, Transaction& aTransaction) {
+
+istream& operator>>( istream& is, Transaction& aTransaction )
+{
 	return ( aTransaction.getDataFromStream( is));
 }

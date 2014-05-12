@@ -35,48 +35,48 @@ BankAccount::~BankAccount()
 
 const string BankAccount::getAccountType( void ) const
 {
-    return accountType_;
+    return accountType_; //return account type as string
 }
 
 const string BankAccount::getAccountNumber( void ) const
 {
-    return accountNumber_;
+    return accountNumber_; //return account number as string
 }
 const string BankAccount::getSortCode( void ) const
 {
-    return sortCode_;
+    return sortCode_; // return sort code as string
 }
 const Date BankAccount::getCreationDate( void ) const
 {
-    return creationDate_;
+    return creationDate_; // return date created as Date
 }
 double BankAccount::getBalance( void ) const
 {
-    return balance_;
+    return balance_; // returns the balance of the account
 }
 const TransactionList BankAccount::getTransactions( void ) const
 {
-    return transactions_;
+    return transactions_; // returns the list of transactions
 }
 
 string BankAccount::getFileName( void ) const
 {
-	return fileName_;
+	return fileName_; // returns the account file name
 }
 
 const bool BankAccount::isEmptyTransactionList( void ) const
 {
-	return transactions_.size() == 0;
+	return transactions_.size() == 0; // checks if the transaction list is empty
 }
 
 const bool BankAccount::canTransferOut( const double amount ) const
 {
-	return ((amount >= 0.0) && ((balance_ - amount) >= 0.0));
+	return ((amount >= 0.0) && ((balance_ - amount) >= 0.0)); // virtual standard method
 }
 
 const bool BankAccount::canTransferIn( const double amount ) const
 {
-	return true;
+	return true;// virtual standard method
 }
 
 void BankAccount::recordDeposit( const double amountToDeposit )

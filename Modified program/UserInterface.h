@@ -78,6 +78,8 @@ public:
 	void							showDeletionOfTransactionUpToDateOnScreen( const int numTransactions, const Date date ) const;
 	void							showTransferOnScreen( const bool trOutOk, const bool trInOk, const double amount ) const;
 
+	int								displayMessage( const char *format, ... ) const;
+
 	bool							readInConfirmDeletion( void ) const;
 
 private: //private support declarations

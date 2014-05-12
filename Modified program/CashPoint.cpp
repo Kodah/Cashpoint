@@ -132,48 +132,48 @@ void CashPoint::processOneAccountRequests( void )
 }
 
 
-void CashPoint::performAccountProcessingCommand( const int option )
+void CashPoint::performAccountProcessingCommand( const int option ) // option chosen by user on functionality
 {
 	switch ( option )
 	{
 		case 1:
-			m1_produceBalance();
+			m1_produceBalance(); // displays their account balance
 			break;
 
 		case 2:
-			m2_withdrawFromBankAccount();
+			m2_withdrawFromBankAccount(); // take money out
  			break;
 
 		case 3:
-			m3_depositToBankAccount();
+			m3_depositToBankAccount(); // place money in account
 			break;
 
 		case 4:
-			m4_produceStatement();
+			m4_produceStatement(); // show statement
 			break;
 				// new below
 		case 5:
-			m5_showAllDepositsTransactions();
+			m5_showAllDepositsTransactions(); // see all money deposited
 			break;
 
 		case 6:
-			m6_showMiniStatement();
+			m6_showMiniStatement(); // show small version of statement
 			break;
 
 		case 7:
-			m7_searchTransactions();
+			m7_searchTransactions(); // search on user specified category
 			break;
 
 		case 8:
-			m8_clearTransactionsUpToDate();
+			m8_clearTransactionsUpToDate(); // remove transactions to user specified date
 			break;
 
 		case 9:
-			m9_transferCashToAnotherAccount();
+			m9_transferCashToAnotherAccount(); // transfer money from one account to another on same card
 			break;
 
 		default:
-			theUI_->showErrorInvalidCommand();
+			theUI_->showErrorInvalidCommand(); // invalid input
 	}
 }
 
@@ -181,40 +181,40 @@ void CashPoint::performAccountProcessingCommand( const int option )
 //---option 1
 void CashPoint::m1_produceBalance( void ) const
 {
-	double balance( p_theActiveAccount_->getBalance() );
-	theUI_->showProduceBalanceOnScreen( balance );
+	double balance( p_theActiveAccount_->getBalance() ); // get balance
+	theUI_->showProduceBalanceOnScreen( balance ); // show it
 }
 
 //---option 2
 void CashPoint::m2_withdrawFromBankAccount( void )
 {
-    double amountToWithdraw( theUI_->readInWithdrawalAmount() );
-    bool transactionAuthorised( p_theActiveAccount_->canTransferOut( amountToWithdraw ) );
+    double amountToWithdraw( theUI_->readInWithdrawalAmount() ); // get amount from user
+    bool transactionAuthorised( p_theActiveAccount_->canTransferOut( amountToWithdraw ) ); // true if authed
 
     if ( transactionAuthorised)
     {   //transaction is accepted: money can be withdrawn from account
         p_theActiveAccount_->recordWithdrawal( amountToWithdraw);
     }   //else do nothing
 
-    theUI_->showWithdrawalOnScreen( transactionAuthorised, amountToWithdraw);
+    theUI_->showWithdrawalOnScreen( transactionAuthorised, amountToWithdraw); // display relevant text on screen
 }
 
 //---option 3
 void CashPoint::m3_depositToBankAccount( void )
 {
-    const double amountToDeposit( theUI_->readInDepositAmount() );
-	const bool bCanTransferIn( p_theActiveAccount_->canTransferIn( amountToDeposit ) );
+    const double amountToDeposit( theUI_->readInDepositAmount() ); // deposit from user
+	const bool bCanTransferIn( p_theActiveAccount_->canTransferIn( amountToDeposit ) ); // true if can place in account
 
 	if( bCanTransferIn )
-		p_theActiveAccount_->recordDeposit( amountToDeposit );
+		p_theActiveAccount_->recordDeposit( amountToDeposit ); // record deposit if taken place
 
-	theUI_->showDepositOnScreen( bCanTransferIn, amountToDeposit );
+	theUI_->showDepositOnScreen( bCanTransferIn, amountToDeposit ); // display on screen
 }
 
 //---option 4
-void CashPoint::m4_produceStatement( void ) const
+void CashPoint::m4_produceStatement( void ) const // full statement
 {
-	theUI_->showStatementOnScreen( p_theActiveAccount_->prepareFormattedStatement() );
+	theUI_->showStatementOnScreen( p_theActiveAccount_->prepareFormattedStatement() ); // prepare and display
 }
 
 //---option 5
@@ -300,7 +300,7 @@ void CashPoint::m7_searchTransactions( void ) const
 		//check to make sure the date is valid.
 		if( !criteria.isValid( creationDate ) )
 		{
-			printf( "The date entered is invalid format <DD/MM/YYYY>, "
+			theUI_->displayMessage( "The date entered is invalid format <DD/MM/YYYY>, "
 				"date must be on or after %s.\n", criteria.toFormattedString().c_str() );
 
 			return;
@@ -320,15 +320,15 @@ void CashPoint::m7_searchTransactions( void ) const
 }
 
 
-/*void CashPoint::m7_searchTransactions( void ) const
+/*void CashPoint::m7_searchTransactions( void ) const // non-recursive
 {
-	if( p_theActiveAccount_->isEmptyTransactionList() )
+	if( p_theActiveAccount_->isEmptyTransactionList() ) // have no transactions
 	{
-		theUI_->showNoTransactionsOnScreen();
-		return;
+		theUI_->showNoTransactionsOnScreen(); // tell user
+		return; // return
 	}
 
-	switch( theUI_->readInTransactionSearchCommand() )
+	switch( theUI_->readInTransactionSearchCommand() ) // amount, title or date
 	{
 	case AMOUNT:
 		m7a_showTransactionsForAmount();
@@ -344,16 +344,16 @@ void CashPoint::m7_searchTransactions( void ) const
 	}
 }
 
-void CashPoint::m7a_showTransactionsForAmount( void ) const
+void CashPoint::m7a_showTransactionsForAmount( void ) const // before recursion
 {
 	int noTrans = 0;
 	string strTrans;
 
-	double amount = theUI_->readInAmount();
-	p_theActiveAccount_->produceTransactionsForAmount( amount, strTrans, noTrans );
+	double amount = theUI_->readInAmount(); // read amount to search on
+	p_theActiveAccount_->produceTransactionsForAmount( amount, strTrans, noTrans ); // collect results
 
 	if( noTrans )
-		theUI_->showMatchingTransactionsOnScreenAmount( amount, noTrans, strTrans );
+		theUI_->showMatchingTransactionsOnScreenAmount( amount, noTrans, strTrans ); // show user
 	else
 		theUI_->noTransactionsFound();
 }
@@ -363,11 +363,11 @@ void CashPoint::m7b_showTransactionsForTitle( void ) const
 	int noTrans = 0;
 	string strTrans;
 
-	string title = theUI_->readInTitle();
-	p_theActiveAccount_->produceTransactionsForTitle( title, strTrans, noTrans );
+	string title = theUI_->readInTitle(); // read title from user
+	p_theActiveAccount_->produceTransactionsForTitle( title, strTrans, noTrans ); //collect data
 
 	if( noTrans )
-		theUI_->showMatchingTransactionsOnScreenTitle( title, noTrans, strTrans );
+		theUI_->showMatchingTransactionsOnScreenTitle( title, noTrans, strTrans ); // show user
 	else
 		theUI_->noTransactionsFound();
 }
@@ -377,31 +377,32 @@ void CashPoint::m7c_showTransactionsForDate( void ) const
 	int noTrans = 0;
 	string strTrans;
 
-	Date date = theUI_->readInValidDate( p_theActiveAccount_->getCreationDate() );
-	p_theActiveAccount_->produceTransactionsForDate( date, strTrans, noTrans );
+	Date date = theUI_->readInValidDate( p_theActiveAccount_->getCreationDate() ); // read in from user
+	p_theActiveAccount_->produceTransactionsForDate( date, strTrans, noTrans ); // collect results
 
 	if( noTrans )
-		theUI_->showMatchingTransactionsOnScreenDate( date, noTrans, strTrans );
+		theUI_->showMatchingTransactionsOnScreenDate( date, noTrans, strTrans ); // show user
 	else
 		theUI_->noTransactionsFound();
 }*/
 
 //---option 8
-void CashPoint::m8_clearTransactionsUpToDate( void )
+void CashPoint::m8_clearTransactionsUpToDate( void ) // clear to user specified date
 {
-	Date clearDate;
+	Date clearDate; // locals
 	string transactions = "";
 	int numTransactions( 0 );
 	char answer = ' ';
 
 	//check to see if there are any transactions in the account
-	if( p_theActiveAccount_->isEmptyTransactionList() )
+	if( p_theActiveAccount_->isEmptyTransactionList() ) // if there are no transactions
 	{
-		//if not print appropriate responce and return
-		cout << "There are no previous transactions stored for this account." << endl;
+		//if not print appropriate response and return
+		theUI_->displayMessage( "\nThere are no previous transactions stored for this account.\n" );
 		return;
 	}
 
+	theUI_->displayMessage( "\n%d\n", numTransactions );
 	//read in a valid date to check the date is real and not before the creation date
 	clearDate = theUI_->readInValidDate( p_theActiveAccount_->getCreationDate() );
 	//get all the transactions before that date.
@@ -410,7 +411,7 @@ void CashPoint::m8_clearTransactionsUpToDate( void )
 	//make sure there are transactions returned.
 	if( transactions.empty() )
 	{
-		printf( "There are no prior transactions up to and on %s\n", clearDate.toFormattedString().c_str() );
+		theUI_->displayMessage( "\nThere are no prior transactions up to and on %s\n", clearDate.toFormattedString().c_str() );
 		return;
 	}
 
@@ -436,7 +437,7 @@ void CashPoint::m9_transferCashToAnotherAccount( void )
 	theUI_->showCardOnScreen( p_theCashCard_->toFormattedString() );
 	//Display accounts available to receive a transfer
 	theUI_->displayAssociatedAccounts( p_theCashCard_->getAccountsList(), p_theActiveAccount_ );
-	printf( "\nSELECT ACCOUNT TO TRANSFER TO...\n" );
+	theUI_->displayMessage( "\nSELECT ACCOUNT TO TRANSFER TO...\n" );
 	//Get the account from the user, and receive relevant file name
 	string fileName = theUI_->readInAccountToBeProcessed( toAccNo, toSrtCode );
 	//Get validation status of account
@@ -511,7 +512,7 @@ void CashPoint::attemptTransfer( BankAccount *pToAccount )
 		tSC = pToAccount->getSortCode();
 		
 		//check the user definately wants to transfer the money
-		printf( "\nThe transfer can be granted.\n"
+		theUI_->displayMessage( "\nThe transfer can be granted.\n"
 				"Are you sure you wish to transfer %.2f to %s %s (Y/N): ",
 				amount, tAN.c_str(), tSC.c_str() );
 			
@@ -530,7 +531,7 @@ void CashPoint::attemptTransfer( BankAccount *pToAccount )
 		else
 		{
 			//else cancel the transfer
-			printf( "\n\nTransfer cancelled.\n" );
+			theUI_->displayMessage( "\n\nTransfer cancelled.\n" );
 			return;
 		}
 	}

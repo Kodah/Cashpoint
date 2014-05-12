@@ -97,7 +97,7 @@ void ISAAccount::recordTransferIn( const double amount, const string aAN, const 
 	updateBalance( amount ); //Change account balance
 }
 
-const string ISAAccount::prepareFormattedAccountDetails() const
+const string ISAAccount::prepareFormattedAccountDetails( void ) const
 {
 	//collect account details in string
 	ostringstream os;
