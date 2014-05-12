@@ -97,4 +97,7 @@ istream& operator>>( istream&, BankAccount& ); //input operator
 bool operator !=( BankAccount &bA1, BankAccount &bA2 );	//Not equal comparison operator
 bool operator ==( BankAccount &bA1, BankAccount &bA2 );	//Equal comparison operator
 
+inline const string& operator -( const string &s ){ return s; } //just for compilation purposes
+inline const Date& operator -( const Date &d ){ return d; }
+
 #endif

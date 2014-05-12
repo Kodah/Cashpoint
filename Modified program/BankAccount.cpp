@@ -193,7 +193,15 @@ template <typename T>
 string BankAccount::produceTransactionsForSearchCriteria( const T searchVal, int& noTrans ) const
 {
 	//calls another template function to get the transactions depending on the type sent
-	TransactionList trl (transactions_.getTransactionsForSearchCriteria(searchVal));
+
+	TransactionList trl = transactions_.getTransactionsForSearchCriteria(searchVal);
+
+	if( typeid(double) == typeid(T) )
+	{ //if searching on amount, get negated searchVal as well as positive
+		TransactionList trl2 = transactions_.getTransactionsForSearchCriteria(-searchVal);
+		trl += trl2;
+	}
+
 	noTrans = trl.getNumberOfTransactions();
 	return trl.toFormattedString();
 }
