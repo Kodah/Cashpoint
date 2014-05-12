@@ -40,7 +40,7 @@ void UserInterface::wait( void ) const
 {
 	char ch = ' ';
 
-	displayMessage( "\n\nPress RETURN to go back to menu\n" );
+	printf( "\n\nPress RETURN to go back to menu\n" );
 
 	cin.get( ch );
 	cin.get( ch );
@@ -109,12 +109,12 @@ void UserInterface::showTransactionSearchMenu( void ) const
 
 const string UserInterface::readInCardToBeProcessed( string& aCardNumber) const
 {
-	displayMessage( "\n SELECT THE CARD ...\n" );
+	printf( "\n SELECT THE CARD ...\n" );
 
-	displayMessage( "   CARD NUMBER:  " );         //ask for card number
+	printf( "   CARD NUMBER:  " );         //ask for card number
     cin >> aCardNumber;
 
-    displayMessage( "=========================================" );
+    printf( "=========================================" );
     //create card file name
     return ( FILEPATH + "card_" + aCardNumber + ".txt" );
 }
@@ -127,11 +127,11 @@ T UserInterface::readInSearchCriteria( void ) const
 
 	//check the type of T to print the correct request
 	if( typeid( T ) == typeid( double ) )
-		displayMessage( "\nPlease enter amount to search on: " );
+		printf( "\nPlease enter amount to search on: " );
 	else if( typeid( T ) == typeid( string ) )
-		displayMessage( "\nPlease enter the transaction title: " );
+		printf( "\nPlease enter the transaction title: " );
 	else if( typeid( T ) == typeid( Date ) )
-		displayMessage( "\nPlease enter the date you wish to search on: " );
+		printf( "\nPlease enter the date you wish to search on: " );
 
 	cin >> searchCriteria;
 
@@ -147,7 +147,7 @@ double UserInterface::readInAmount( void ) const
 {
 	double amount;
 	//print request
-	displayMessage( "\nEnter amount to search: " );
+	printf( "\nEnter amount to search: " );
 	//get the answer
 	cin >> amount;
 
@@ -157,7 +157,7 @@ double UserInterface::readInAmount( void ) const
 const double UserInterface::readInTransferAmount( void ) const
 {
 	//print request
-	displayMessage( "\nENTER AMOUNT TO TRANSFER: \x9C" );
+	printf( "\nENTER AMOUNT TO TRANSFER: \x9C" );
 	return readInPositiveAmount();
 }
 
@@ -165,7 +165,7 @@ string UserInterface::readInTitle( void ) const
 {
 	string title;
 	//ask for a title
-	displayMessage( "\nEnter a title to search: " );
+	printf( "\nEnter a title to search: " );
 	cin >> title;
 	//return the title
 	return title;
@@ -181,12 +181,12 @@ Date UserInterface::readInValidDate( const Date creationDate ) const
 
 	do
 	{
-		displayMessage( "\nEnter a date later or equal to %s (DD/MM/YYYY): ", strCreationDate );
+		printf( "\nEnter a date later or equal to %s (DD/MM/YYYY): ", strCreationDate );
 		//read in the date
 		cin >> chosenDate;
 		//check to see if the date is after the creation date
 		if( !chosenDate.isValid( creationDate ) )
-			displayMessage( "You entered an invalid date...\n\n" );
+			printf( "You entered an invalid date...\n\n" );
 		else
 			return chosenDate;
 
@@ -196,7 +196,7 @@ Date UserInterface::readInValidDate( const Date creationDate ) const
 //output no transactions found
 void UserInterface::noTransactionsFound( void ) const
 {
-	displayMessage( "\nNO TRANSACTION IN BANK ACCOUNT MATCH THE SEARCH CRITERION GIVEN" );
+	printf( "\nNO TRANSACTION IN BANK ACCOUNT MATCH THE SEARCH CRITERION GIVEN" );
 }
 
 //BEFORE RECURSION
@@ -229,18 +229,18 @@ template void UserInterface::showMatchingTransactionsOnScreen<string>(	const str
 //print the transactions upto chosen date
 void UserInterface::showTransactionsUpToDateOnScreen( const Date date, const int numTransactions, const string transactions ) const
 {
-	displayMessage( "\nThere are %d transactions up to %s.\n\n%s",
+	printf( "\nThere are %d transactions up to %s.\n\n%s",
 		numTransactions, date.toFormattedString().c_str(), transactions.c_str() );
 }
 
 void UserInterface::showValidateCardOnScreen( const int validCode, const string &cashCardNum ) const
 {
 	if( validCode == VALID_CARD ) //card valid: it exists, is accessible with that card (and not already open)
-		displayMessage( "\nTHE CARD (NUMBER: %s) EXISTS!\n", cashCardNum.c_str() );
+		printf( "\nTHE CARD (NUMBER: %s) EXISTS!\n", cashCardNum.c_str() );
 	else if( validCode == UNKNOWN_CARD ) //card does not exist
-		displayMessage( "\nERROR: INVALID CARD\n\nTHE CARD (NUMBER: %s) DOES NOT EXIST!\n", cashCardNum.c_str() );
+		printf( "\nERROR: INVALID CARD\n\nTHE CARD (NUMBER: %s) DOES NOT EXIST!\n", cashCardNum.c_str() );
 	else if( validCode == EMPTY_CARD ) //account exists but is not accessible with that card
-		displayMessage( "\nERROR: EMPTY CARD\nTHE CARD (NUMBER: %s) DOES NOT LINK TO ANY ACCOUNT!\n", cashCardNum.c_str() );
+		printf( "\nERROR: EMPTY CARD\nTHE CARD (NUMBER: %s) DOES NOT LINK TO ANY ACCOUNT!\n", cashCardNum.c_str() );
 }
 
 void UserInterface::showCardOnScreen( const string& aCardDetails ) const
@@ -254,15 +254,15 @@ void UserInterface::showCardOnScreen( const string& aCardDetails ) const
 
 const string UserInterface::readInAccountToBeProcessed( string &anAccountNumber, string &aSortCode ) const
 {
-    displayMessage( "\n SELECT THE ACCOUNT ...\n" );
+    printf( "\n SELECT THE ACCOUNT ...\n" );
 
-	displayMessage( "   ACCOUNT NUMBER:  " );	//ask for account number
+	printf( "   ACCOUNT NUMBER:  " );	//ask for account number
     cin >> anAccountNumber;
 
-	displayMessage( "   SORT CODE:       " );	//ask for sort code
+	printf( "   SORT CODE:       " );	//ask for sort code
     cin >> aSortCode;
 
-    displayMessage( "\n=========================================" );
+    printf( "\n=========================================" );
 
     //create account file name
     return ( FILEPATH + "account_" + anAccountNumber + "_" + aSortCode + ".txt" );
@@ -271,15 +271,15 @@ const string UserInterface::readInAccountToBeProcessed( string &anAccountNumber,
 void UserInterface::showValidateAccountOnScreen( const int validCode, const string &accNum, const string &srtCode ) const
 {
     if( validCode == VALID_ACCOUNT ) //account valid: it exists, is accessible with that card (and not already open: TO BE IMPLEMENTED)
-        	displayMessage( "\nTHE ACCOUNT (NUMBER: %s CODE: %s) IS NOW OPEN!\n", accNum.c_str(), srtCode.c_str() );
+        	printf( "\nTHE ACCOUNT (NUMBER: %s CODE: %s) IS NOW OPEN!\n", accNum.c_str(), srtCode.c_str() );
 	else if( validCode == UNKNOWN_ACCOUNT )	//account does not exist
-        	displayMessage( "\nERROR: INVALID ACCOUNT"
+        	printf( "\nERROR: INVALID ACCOUNT"
 			"\nTHE ACCOUNT (NUMBER: %s CODE: %s) DOES NOT EXIST!", accNum.c_str(), srtCode.c_str() );
 	else if( validCode == INACCESSIBLE_ACCOUNT ) //account exists but is not accessible with that card
-        	displayMessage( "\nERROR: INVALID ACCOUNT"
+        	printf( "\nERROR: INVALID ACCOUNT"
 				"\nTHE ACCOUNT (NUMBER: %s CODE: %s) IS NOT ACCESSIBLE WITH THIS CARD!", accNum.c_str(), srtCode.c_str() );
 	else if( validCode == SAME_ACCOUNT )
-			displayMessage( "\nTHE ACCOUNT (NUMBER: %s CODE: %s) IS ALREADY OPEN!\n",
+			printf( "\nTHE ACCOUNT (NUMBER: %s CODE: %s) IS ALREADY OPEN!\n",
 			accNum.c_str(), srtCode.c_str() );
 }
 
@@ -298,7 +298,7 @@ void UserInterface::displayAssociatedAccounts( list<string> accList, const BankA
 		if( temp.substr( 0, 3 ).c_str() != activeAccNo ||
 			temp.substr( 4, 5 ).c_str() != activeSrtCode )
 		{ //if account is not active - display
-			displayMessage( "\nACCOUNT NO: %s\tSORT CODE: %s",
+			printf( "\nACCOUNT NO: %s\tSORT CODE: %s",
 				temp.substr( 0, 3 ).c_str(),
 				temp.substr( 4, 5 ).c_str() );
 		}
@@ -313,19 +313,19 @@ void UserInterface::displayAssociatedAccounts( list<string> accList, const BankA
 double UserInterface::readInWithdrawalAmount( void ) const
 {
     //ask for the amount to withdraw
-    displayMessage( "\nAMOUNT TO WITHDRAW: \234" );
+    printf( "\nAMOUNT TO WITHDRAW: \234" );
 	return readInPositiveAmount();
 }
 double UserInterface::readInDepositAmount( void ) const
 {
     //ask for the amount to deposit
-    displayMessage( "\nAMOUNT TO DEPOSIT: \234" );
+    printf( "\nAMOUNT TO DEPOSIT: \234" );
 	return readInPositiveAmount();
 }
 
 int UserInterface::readInNumberOfTransactions( void ) const
 {
-	displayMessage( "\nAMOUNT OF TRANSACTIONS: " );
+	printf( "\nAMOUNT OF TRANSACTIONS: " );
 	return  static_cast<int>( readInPositiveAmount() );
 }
 
@@ -333,28 +333,28 @@ int UserInterface::readInNumberOfTransactions( void ) const
 
 void UserInterface::showProduceBalanceOnScreen( const double balance ) const
 {
-	displayMessage( "\nTHE CURRENT BALANCE IS: \234%12.2f", balance );
+	printf( "\nTHE CURRENT BALANCE IS: \234%12.2f", balance );
 }
 
 void UserInterface::showWithdrawalOnScreen( const bool trAuthorised, const double amountWithdrawn ) const
 {
     if ( trAuthorised )
-		displayMessage( "\nTRANSACTION AUTHORISED!: \n\234%.2f WITHDRAWN FROM ACCOUNT\n", amountWithdrawn );
+		printf( "\nTRANSACTION AUTHORISED!: \n\234%.2f WITHDRAWN FROM ACCOUNT\n", amountWithdrawn );
     else //not enough money
-		displayMessage( "\nTRANSACTION IMPOSSIBLE!\n" );
+		printf( "\nTRANSACTION IMPOSSIBLE!\n" );
 }
 
 void UserInterface::showDepositOnScreen( const bool trAuthorised, const double amountDeposited ) const
 {
     if ( trAuthorised )
-    	displayMessage( "\nTRANSACTION AUTHORISED!:\n\234%.2f DEPOSITED INTO ACCOUNT\n", amountDeposited );
+    	printf( "\nTRANSACTION AUTHORISED!:\n\234%.2f DEPOSITED INTO ACCOUNT\n", amountDeposited );
     else //too much to deposit
-		displayMessage( "\nTRANSACTION IMPOSSIBLE!\n" );
+		printf( "\nTRANSACTION IMPOSSIBLE!\n" );
 }
 
 void UserInterface::showStatementOnScreen( const string &statement ) const
 {
-    displayMessage( "\nPREPARING STATEMENT..."
+    printf( "\nPREPARING STATEMENT..."
 			"\n________ ACCOUNT STATEMENT _____%s"
 			"\n________ END ACCOUNT STATEMENT _____\n", statement.c_str() );
 }
@@ -364,15 +364,15 @@ void UserInterface::showAllDepositsOnScreen( const bool noTransaction, const str
 
 	if ( !noTransaction )
 	{
-		cout << "ALL DEPOSIT TRANSACTIONS REQUESTED AT "
+		cout << endl << "ALL DEPOSIT TRANSACTIONS REQUESTED AT "
 			 << Time::currentTime()
 			 << " ON "
-			 << Date::currentDate() << endl
-			 << str
-			 << "Total: \234" << total;
+			 << Date::currentDate() << endl << endl
+			 << str << endl
+			 << "Total: \234" << total << endl << endl;
 	} 
 	else
-		cout << "NO TRANSACTIONS IN BANK ACCOUNT";
+		cout << endl << "NO TRANSACTIONS IN BANK ACCOUNT" << endl;
 }
 
 void UserInterface::showMiniStatementOnScreen( const bool noTransaction, const string str, const double total ) const
@@ -382,8 +382,8 @@ void UserInterface::showMiniStatementOnScreen( const bool noTransaction, const s
 		cout << "RECENT TRANSACTIONS REQUESTED AT "
 			 << Time::currentTime()
 			 << " ON "
-			 << Date::currentDate() << endl
-			 << str
+			 << Date::currentDate() << endl << endl
+			 << str << endl
 			 << "Total: \234" << total;
 	}
 	else
@@ -393,14 +393,14 @@ void UserInterface::showMiniStatementOnScreen( const bool noTransaction, const s
 
 void UserInterface::showNoTransactionsOnScreen( void ) const
 {
-	displayMessage( "\n\n\nThere are no transactions." );
+	printf( "\n\n\nThere are no transactions." );
 }
 
 
 //print the number of transactions deleted 
 void UserInterface::showDeletionOfTransactionUpToDateOnScreen( const int numTransactions, const Date date ) const
 {
-	displayMessage( "THE %d TRANSACTIONS UP TO DATE %s HAVE BEEN DELETED.\n",
+	printf( "THE %d TRANSACTIONS UP TO DATE %s HAVE BEEN DELETED.\n",
 		numTransactions, date.toFormattedString().c_str() );
 }
 
@@ -409,23 +409,23 @@ void UserInterface::showDeletionOfTransactionUpToDateOnScreen( const int numTran
 void UserInterface::showTransferOnScreen( const bool trOutOk, const bool trInOk, const double amount ) const
 {
 	if( trOutOk && trInOk )
-		displayMessage( "\n\nTransfer of \x9C%.2f was a success\n", amount );
+		printf( "\n\nTransfer of \x9C%.2f was a success\n", amount );
 
 	if( !trOutOk )
 	{
-		displayMessage( "\n\nINSUFFICIENT FUNDS TO TRANSFER \x9C%.2f\n", amount );
+		printf( "\n\nINSUFFICIENT FUNDS TO TRANSFER \x9C%.2f\n", amount );
 		return;
 	}
 
 	if( !trInOk )
-		displayMessage( "\n\nACCOUNT CANNOT RECEIVE FUNDS \x9C%.2f\n", amount );
+		printf( "\n\nACCOUNT CANNOT RECEIVE FUNDS \x9C%.2f\n", amount );
 }
 
 bool UserInterface::readInConfirmDeletion( void ) const
 {
 	char answer = ' ';
 	//check user wants to delete
-	displayMessage( "\nAre you sure you wish to delete these transactions (Y/N)? " );
+	printf( "\nAre you sure you wish to delete these transactions (Y/N)? " );
 	//read in answer
 	cin >> answer;
 
@@ -453,22 +453,11 @@ void UserInterface::showByeScreen( void ) const
 		 << endl << endl;
 }
 
-int UserInterface::displayMessage( const char *format, ... ) const
-{
-#ifndef NDEBUG // to display formatted messages
-	va_list args; //argument list
-	va_start( args, format ); //matches and passes
-	return printf( format, args ); //passes to printf
-#else
-	return 0;
-#endif
-}
-
 int UserInterface::readInCommand( void ) const
 {
 	int com( 0 );
 
-	displayMessage( "\n          ENTER YOUR COMMAND: " );
+	printf( "\n          ENTER YOUR COMMAND: " );
 	cin >> com;
 
 	return com;
@@ -476,7 +465,7 @@ int UserInterface::readInCommand( void ) const
 
 void UserInterface::showErrorInvalidCommand( void ) const
 {
-	displayMessage( "\nINVALID COMMAND CHOICE, TRY AGAIN" );
+	printf( "\nINVALID COMMAND CHOICE, TRY AGAIN" );
 }
 
 double UserInterface::readInPositiveAmount( void ) const
@@ -488,7 +477,7 @@ double UserInterface::readInPositiveAmount( void ) const
 		cin >> amount;
 
 		if( amount <= 0.0 )
-			displayMessage( "\nAMOUNT SHOULD BE A POSITIVE AMOUNT, TRY AGAIN: " );
+			printf( "\nAMOUNT SHOULD BE A POSITIVE AMOUNT, TRY AGAIN: " );
 		else
 			return amount;
 		

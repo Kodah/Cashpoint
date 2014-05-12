@@ -64,14 +64,14 @@ const string CurrentAccount::prepareFormattedAccountDetails( void ) const
 		//collect account details in string
 	ostringstream os;
 	//account details
-	os << "\nACCOUNT TYPE:    " << accountType_ << " ACCOUNT";						//display account type
-	os << "\nACCOUNT NUMBER:  " << accountNumber_;									//display account number
-	os << "\nSORT CODE:       " << sortCode_;										//display sort code
-	os << "\nCREATION DATE:   " << creationDate_.toFormattedString();				//display creation date
-	os << fixed << setprecision(2) << setfill(' ');
-	os << "\nBALANCE:         \234" << setw(10) << balance_;						//display balance
-	os << "\nOVERDRAFT:       \234" << setw(10) << overdraftLimit_;						//display overdraft
-	os << "\nAVAILABLE:       \234" << setw(10) << (balance_ + overdraftLimit_);			//Available balance
+	os << "\nACCOUNT TYPE:    " << accountType_ << " ACCOUNT"						//display account type
+	   << "\nACCOUNT NUMBER:  " << accountNumber_									//display account number
+	   << "\nSORT CODE:       " << sortCode_										//display sort code
+	   << "\nCREATION DATE:   " << creationDate_.toFormattedString()				//display creation date
+	   << fixed << setprecision(2) << setfill(' ')
+	   << "\nBALANCE:         \234" << setw(10) << balance_						//display balance
+	   << "\nOVERDRAFT:       \234" << setw(10) << overdraftLimit_						//display overdraft
+	   << "\nAVAILABLE:       \234" << setw(10) << (balance_ + overdraftLimit_);			//Available balance
 
 	return os.str();
 }

@@ -51,12 +51,12 @@ const string Transaction::toFormattedString( void ) const
 	ostringstream os_transaction;
 
 	os_transaction << setfill('0')
-	<< os_transaction << date_ << " "
-	<< os_transaction << time_ << " "
-	<< os_transaction << setfill('-')
-	<< os_transaction << setw(30) << title_ << " "
-	<< os_transaction << setfill(' ') << fixed << setprecision(2)
-    << os_transaction << "\234" << setw(8) << amount_;
+	<< date_ << " "
+	<< time_ << " "
+	<< setfill('-')
+	<< setw(30) << title_ << " "
+	<< setfill(' ') << fixed << setprecision(2)
+    << "\234" << setw(8) << amount_;
 
 	return os_transaction.str();
 }

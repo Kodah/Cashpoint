@@ -124,6 +124,7 @@ const string BankAccount::prepareFormattedStatement( void ) const
 		os << "\n\nLIST OF TRANSACTIONS \n"	<< transactions_.toFormattedString();	//one per line
 	else
 		os << "\n\nNO TRANSACTIONS IN BANK ACCOUNT!";
+
 	return os.str();
 }
 

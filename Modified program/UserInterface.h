@@ -72,13 +72,11 @@ public:
     void							showDepositOnScreen( const bool auth, const double deposit ) const;
     void							showWithdrawalOnScreen( bool auth, double withdrawal ) const;
     void							showStatementOnScreen( const string& ) const;
-	void							showAllDepositsOnScreen(bool noTransaction, string str, double total ) const;
+	void							showAllDepositsOnScreen( const bool noTransaction, const string str, const double total ) const;
 	void							showMiniStatementOnScreen( const bool noTransaction, const string str, const double total ) const;
 	void							showNoTransactionsOnScreen( void ) const;
 	void							showDeletionOfTransactionUpToDateOnScreen( const int numTransactions, const Date date ) const;
 	void							showTransferOnScreen( const bool trOutOk, const bool trInOk, const double amount ) const;
-
-	int								displayMessage( const char *format, ... ) const;
 
 	bool							readInConfirmDeletion( void ) const;
 

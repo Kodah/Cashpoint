@@ -94,7 +94,8 @@ const int CashPoint::validateAccount( const string& bankAccountFileName ) const
 	else if( p_theActiveAccount_ && (*tempAccount == *p_theActiveAccount_) )
 		validBankCode = SAME_ACCOUNT;//Same account, so you can't transfer to same account. 
 
-	releaseBankAccount( tempAccount, bankAccountFileName );
+	if( tempAccount )
+		releaseBankAccount( tempAccount, bankAccountFileName );
 
     return validBankCode;
 }
@@ -191,12 +192,10 @@ void CashPoint::m2_withdrawFromBankAccount( void )
     double amountToWithdraw( theUI_->readInWithdrawalAmount() ); // get amount from user
     bool transactionAuthorised( p_theActiveAccount_->canTransferOut( amountToWithdraw ) ); // true if authed
 
-    if ( transactionAuthorised)
-    {   //transaction is accepted: money can be withdrawn from account
-        p_theActiveAccount_->recordWithdrawal( amountToWithdraw);
-    }   //else do nothing
+    if ( transactionAuthorised )//transaction is accepted: money can be withdrawn from account
+        p_theActiveAccount_->recordWithdrawal( amountToWithdraw );
 
-    theUI_->showWithdrawalOnScreen( transactionAuthorised, amountToWithdraw); // display relevant text on screen
+    theUI_->showWithdrawalOnScreen( transactionAuthorised, amountToWithdraw ); // display relevant text on screen
 }
 
 //---option 3
@@ -300,7 +299,7 @@ void CashPoint::m7_searchTransactions( void ) const
 		//check to make sure the date is valid.
 		if( !criteria.isValid( creationDate ) )
 		{
-			theUI_->displayMessage( "The date entered is invalid format <DD/MM/YYYY>, "
+			printf( "The date entered is invalid format <DD/MM/YYYY>, "
 				"date must be on or after %s.\n", criteria.toFormattedString().c_str() );
 
 			return;
@@ -398,11 +397,10 @@ void CashPoint::m8_clearTransactionsUpToDate( void ) // clear to user specified 
 	if( p_theActiveAccount_->isEmptyTransactionList() ) // if there are no transactions
 	{
 		//if not print appropriate response and return
-		theUI_->displayMessage( "\nThere are no previous transactions stored for this account.\n" );
+		printf( "\nThere are no previous transactions stored for this account.\n" );
 		return;
 	}
 
-	theUI_->displayMessage( "\n%d\n", numTransactions );
 	//read in a valid date to check the date is real and not before the creation date
 	clearDate = theUI_->readInValidDate( p_theActiveAccount_->getCreationDate() );
 	//get all the transactions before that date.
@@ -411,7 +409,7 @@ void CashPoint::m8_clearTransactionsUpToDate( void ) // clear to user specified 
 	//make sure there are transactions returned.
 	if( transactions.empty() )
 	{
-		theUI_->displayMessage( "\nThere are no prior transactions up to and on %s\n", clearDate.toFormattedString().c_str() );
+		printf( "\nThere are no prior transactions up to and on %s\n", clearDate.toFormattedString().c_str() );
 		return;
 	}
 
@@ -434,10 +432,10 @@ void CashPoint::m9_transferCashToAnotherAccount( void )
 	string toAccNo = "", toSrtCode = "";
 
 	//display card
-	theUI_->showCardOnScreen( p_theCashCard_->toFormattedString() );
+	//theUI_->showCardOnScreen( p_theCashCard_->toFormattedString() );
 	//Display accounts available to receive a transfer
 	theUI_->displayAssociatedAccounts( p_theCashCard_->getAccountsList(), p_theActiveAccount_ );
-	theUI_->displayMessage( "\nSELECT ACCOUNT TO TRANSFER TO...\n" );
+	printf( "\nSELECT ACCOUNT TO TRANSFER TO...\n" );
 	//Get the account from the user, and receive relevant file name
 	string fileName = theUI_->readInAccountToBeProcessed( toAccNo, toSrtCode );
 	//Get validation status of account
@@ -460,16 +458,15 @@ void CashPoint::m9_transferCashToAnotherAccount( void )
 
 bool CashPoint::canOpenFile( const string& st ) const
 {
-//check if a file already exist
-	ifstream inFile;
-	inFile.open( st.c_str(), ios::in); 	//open file
-	//if does not exist fail, otherwise open file but do nothing to it
-	bool exist;
-    if ( inFile.fail())
-        exist = false;
-    else
-        exist = true;
-    inFile.close();			//close file: optional here
+	FILE *file = nullptr;
+	bool exist = false;
+
+    if( !fopen_s( &file, st.c_str(), "r" ) ) // open file
+	{
+        exist = true; // returned 0 - file exists
+		fclose( file ); // close the file
+	}
+
     return exist;
 }
 
@@ -512,7 +509,7 @@ void CashPoint::attemptTransfer( BankAccount *pToAccount )
 		tSC = pToAccount->getSortCode();
 		
 		//check the user definately wants to transfer the money
-		theUI_->displayMessage( "\nThe transfer can be granted.\n"
+		printf( "\nThe transfer can be granted.\n"
 				"Are you sure you wish to transfer %.2f to %s %s (Y/N): ",
 				amount, tAN.c_str(), tSC.c_str() );
 			
@@ -531,7 +528,7 @@ void CashPoint::attemptTransfer( BankAccount *pToAccount )
 		else
 		{
 			//else cancel the transfer
-			theUI_->displayMessage( "\n\nTransfer cancelled.\n" );
+			printf( "\n\nTransfer cancelled.\n" );
 			return;
 		}
 	}
