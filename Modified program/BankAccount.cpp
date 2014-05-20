@@ -102,7 +102,7 @@ void BankAccount::recordTransferIn( const double amount, const string aAN, const
 void BankAccount::recordTransferOut( const double amount, const string tAN, const string tSC )
 {
 	const string transaction = ( "Transfer_to_" + tAN + "_" + tSC ); 
-	transactions_.addNewTransaction( Transaction( transaction, amount ) ); 
+	transactions_.addNewTransaction( Transaction( transaction, -amount ) ); 
 
 	updateBalance( -amount ); //Change account balance
 }

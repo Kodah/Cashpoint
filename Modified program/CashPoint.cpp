@@ -258,6 +258,12 @@ void CashPoint::m7_searchTransactions( void ) const
 	int option = theUI_->readInTransactionSearchCommand();
 	int numTransactions = 0;
 	string transactions = "";
+
+	if( !p_theActiveAccount_->getTransactions().size() )
+	{
+		theUI_->noTransactionsFound();
+		return;
+	}
 	
 	if( option == AMOUNT )
 	{
